@@ -168,7 +168,7 @@ export default function HackathonPage() {
   }
 
   return (
-    <div className="flex h-screen bg-neutral-50 dark:bg-neutral-900">
+    <div className="flex h-screen bg-neutral-50 dark:bg-neutral-900 mt-16">
       <Sidebar />
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isShrunk ? "ml-16" : "ml-64"}`}>
         <Topbar />

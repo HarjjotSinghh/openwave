@@ -299,3 +299,42 @@ export const project_votes = pgTable("project_votes", {
      unique('project_votes_project_voter_unique_idx').on(t.project_id, t.voter_id)
 ]);
 
+export const project_split_payments = pgTable("project_split_payments", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  project_id: varchar("project_id", { length: 256 }).references(() => hack_projects.id),
+  total_amount: varchar("total_amount", { length: 256 }).notNull(),
+  contributor_share: varchar("contributor_share", { length: 256 }).notNull(),
+  maintainer_share: varchar("maintainer_share", { length: 256 }).notNull(),
+  transaction_hash: varchar("transaction_hash", { length: 256 }),
+  status: varchar("status", { length: 50 }).default("pending"),
+  created_at: timestamp("created_at").defaultNow()
+});
+
+export const hackathon_results = pgTable("hackathon_results", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  hackathon_id: varchar("hackathon_id", { length: 256 }).references(() => hackathons.id),
+  project_id: varchar("project_id", { length: 256 }).references(() => hack_projects.id),
+  final_rank: integer("final_rank"),
+  total_votes: integer("total_votes").default(0),
+  yes_votes: integer("yes_votes").default(0),
+  no_votes: integer("no_votes").default(0),
+  approval_percentage: decimal("approval_percentage", { precision: 5, scale: 2 }),
+  voting_status: varchar("voting_status", { length: 50 }).default("pending"), // pending, approved, rejected
+  total_funding: decimal("total_funding", { precision: 36, scale: 18 }).default("0"),
+  contributors_funding: decimal("contributors_funding", { precision: 36, scale: 18 }).default("0"),
+  maintainers_funding: decimal("maintainers_funding", { precision: 36, scale: 18 }).default("0"),
+  award_category: varchar("award_category", { length: 100 }), // "winner", "runner-up", "innovation", etc.
+  judge_feedback: text("judge_feedback"),
+  demo_url: varchar("demo_url", { length: 512 }),
+  presentation_url: varchar("presentation_url", { length: 512 }),
+  final_score: decimal("final_score", { precision: 5, scale: 2 }),
+  metrics: jsonb("metrics"), // Custom metrics like code quality, innovation, etc.
+  created_at: timestamp("created_at").default(sql`now()`),
+  updated_at: timestamp("updated_at").default(sql`now()`)
+}, (t) => [
+  unique('hackathon_results_hackathon_project_unique').on(t.hackathon_id, t.project_id)
+]);

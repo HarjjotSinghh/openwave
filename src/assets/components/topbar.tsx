@@ -38,7 +38,7 @@ export default function Topbar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [visible, setVisible] = useState(false);
-  const [image, updateImage] = useState("");
+  const [image, updateImage] = useState("/NeowareLogo2.png");
   const { isShrunk, setIsShrunk } = useSidebarContext();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -52,7 +52,7 @@ export default function Topbar() {
     status,
   } = useEnsName({
     address,
-    enabled: !!address, // Only query when address exists
+    // enabled: !!address, // Only query when address exists
   });
 
   // Memoize balance queries with proper enabled conditions
@@ -62,7 +62,7 @@ export default function Topbar() {
     isLoading: isBalanceLoading,
   } = useBalance({
     address: address,
-    enabled: !!address && isConnected, // Only query when connected
+    // enabled: !!address && isConnected, // Only query when connected
   });
 
   const {
@@ -71,7 +71,7 @@ export default function Topbar() {
     isLoading,
   } = useBalance({
     address: address,
-    enabled: !!address && isConnected, // Only query when connected
+    // enabled: !!address && isConnected, // Only query when connected
   });
 
   // Memoize expensive computations
@@ -341,7 +341,7 @@ export default function Topbar() {
                           <div className="text-[14px] flex px-4 mt-1">
                             Balance:
                             <span>
-                              <img src="AVAX_small.png" className="w-5 h-5" />
+                              <img src="/AVAX_small.png" className="w-5 h-5" />
                             </span>
                             {formattedBalance}
                           </div>
@@ -612,7 +612,7 @@ export default function Topbar() {
                                   />
                                 </svg>
                               </div>
-                              {truncateAddress(address as string)}
+                              {truncatedAddress}
                             </div>
                           </div>
                         ) : (

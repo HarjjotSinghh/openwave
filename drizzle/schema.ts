@@ -62,3 +62,30 @@ export const project_split_payments = pgTable("project_split_payments", {
   status: varchar({ length: 50 }).default("pending"),
   created_at: timestamp().defaultNow(),
 });
+
+export const hackathon_results = pgTable("hackathon_results", {
+  id: uuid().primaryKey().notNull(),
+  hackathon_id: uuid()
+    .references(() => hackathons.id)
+    .notNull(),
+  project_id: uuid()
+    .references(() => hack_projects.id)
+    .notNull(),
+  final_rank: integer(),
+  total_votes: integer().default(0),
+  yes_votes: integer().default(0),
+  no_votes: integer().default(0),
+  approval_percentage: varchar({ length: 10 }),
+  voting_status: varchar({ length: 50 }).default("pending"),
+  total_funding: varchar({ length: 256 }).default("0"),
+  contributors_funding: varchar({ length: 256 }).default("0"),
+  maintainers_funding: varchar({ length: 256 }).default("0"),
+  award_category: varchar({ length: 100 }),
+  judge_feedback: text(),
+  demo_url: varchar({ length: 512 }),
+  presentation_url: varchar({ length: 512 }),
+  final_score: varchar({ length: 10 }),
+  metrics: jsonb(),
+  created_at: timestamp().defaultNow(),
+  updated_at: timestamp().defaultNow(),
+});

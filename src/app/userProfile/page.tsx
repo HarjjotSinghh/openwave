@@ -780,17 +780,17 @@ function Component() {
 
     // Count rewards per day
     rewardData.forEach((reward) => {
-      if (!reward.date) return;
+      if (!reward.rewardedAt) return;
 
       try {
-        const rewardDate = new Date(reward.date);
+        const rewardDate = new Date(reward.rewardedAt);
         if (isNaN(rewardDate.getTime())) return;
 
         const dateStr = rewardDate.toISOString().split("T")[0];
         const day = result.find((d) => d.date === dateStr);
         if (day) day.rewards += 1;
       } catch (e) {
-        console.error("Invalid reward date format:", reward.date);
+        console.error("Invalid reward date format:", reward.rewardedAt);
       }
     });
     return result;
@@ -1720,13 +1720,13 @@ const UserProfilePage: NextPage = () => {
                         </span>
                         <span className="flex items-center">
                           <CalendarDays className="w-3 h-3 mr-1" /> Joined{" "}
-                          {userData.joinedDate}
+                          {userData?.joinedDate}
                         </span>
                         <a
                           href={
                             users[0]?.id
                               ? `https://github.com/${users[0].id as string}`
-                              : userData.githubProfileUrl
+                              : userData?.githubProfileUrl
                           }
                           className="flex items-center hover:text-blue-600 dark:hover:text-blue-400"
                         >

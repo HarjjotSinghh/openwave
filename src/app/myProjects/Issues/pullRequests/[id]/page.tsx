@@ -148,6 +148,7 @@ import Link from "next/link";
 import { Session } from "next-auth"; // Import Session type
 import { Suspense } from "react";
 import { ContextOptionsModelFromJSON } from "@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch/assistant_data";
+import { User } from "@/db/types";
 
 export default function PullRequestDetails() {
   const {
@@ -175,11 +176,11 @@ export default function PullRequestDetails() {
   const [contributer, setContributer] = useState();
   const [contributerId, setContributerId] = useState();
   const { address, isConnected } = useAccount();
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState<User | null>(null);
   const [ai, setAi] = useState<boolean>(false);
   const { data: session } = useSession();
   const [repoData, setRepoData] = useState<any>(null);
-  const [contributorData, setContributorData] = useState();
+  const [contributorData, setContributorData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isMerging, setIsMerging] = useState(false);
@@ -214,7 +215,7 @@ export default function PullRequestDetails() {
       );
 
       const responseData = await res.json();
-      setUserData(responseData.user);
+      setUserData(responseData);
     };
     userData();
   }, [session]);
@@ -230,9 +231,9 @@ export default function PullRequestDetails() {
       );
 
       const responseData = await res.json();
-      setContributorData(responseData.user);
-      setContributerId(responseData.user[0].id.toString());
-      setContributer(responseData.user[0].fullName.toString());
+      setContributorData(responseData);
+      setContributerId(responseData.id.toString());
+      setContributer(responseData.fullName.toString());
     };
     contributorData();
   }, [repoData]);
@@ -242,15 +243,14 @@ export default function PullRequestDetails() {
       return;
     }
     // Add type-safe null checks
-    if (!userData || userData.length === 0 || !userData[0].maintainerWallet) {
+    if (!userData || !userData?.maintainerWallet) {
       alert("User wallet information is missing");
       return;
     }
 
     if (
       !contributorData ||
-      contributorData.length === 0 ||
-      !contributorData[0].metaMask
+      !contributorData?.metaMask
     ) {
       alert("Contributor wallet information is missing");
       return;
@@ -260,10 +260,10 @@ export default function PullRequestDetails() {
     try {
       // Add await since writeContract is async
       await writeContract({
-        address: userData[0].maintainerWallet,
+        address: userData?.maintainerWallet as `0x${string}`,
         abi,
         functionName: "forwardFunds",
-        args: [contributorData[0].metaMask, amountInWei],
+        args: [contributorData?.metaMask as `0x${string}`, amountInWei],
       });
     } catch (error) {
       console.error("Transaction failed:", error);

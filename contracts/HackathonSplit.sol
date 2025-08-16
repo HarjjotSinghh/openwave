@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 /**
  * @title HackathonSplit
  * @dev Handles splitting payments among contributors and maintainers for hackathon projects.
- */
+ */ 
 contract HackathonSplit {
     struct Split {
         uint256 totalAmount;
