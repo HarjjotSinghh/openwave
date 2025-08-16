@@ -162,6 +162,13 @@
       "when": 1755352522034,
       "tag": "0022_aspiring_robbie_robertson",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1755360135578,
+      "tag": "0023_condemned_maestro",
+      "breakpoints": true
     }
   ]
 }

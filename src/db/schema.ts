@@ -239,7 +239,7 @@ export const projectEmbeddings = pgTable("project_embeddings", {
   description: text("description").notNull(),
   languages: text("languages"), // JSON string of languages
   owner: varchar("owner", { length: 256 }),
-  embedding: vector("embedding", { dimensions: 384 }).notNull(),
+  // embedding: vector("embedding", { dimensions: 384 }).notNull(),
   createdAt: timestamp("created_at").default(sql`now()`),
   updatedAt: timestamp("updated_at").default(sql`now()`),
 });
