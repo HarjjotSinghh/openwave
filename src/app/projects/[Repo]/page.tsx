@@ -19,11 +19,72 @@ import { Suspense } from "react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import ContributorApplicationForm from "./contributor-form";
+import {
+  useAccount,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+import { useWalletClient, usePublicClient } from "wagmi";
+import { parseEther } from "viem";
 export const ThemeModalContext = createContext({
   isOpen: false,
   setIsOpen: (value: boolean) => {},
 });
-
+const abi = [
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "Transferred",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address payable",
+        name: "addr1",
+        type: "address",
+      },
+      {
+        internalType: "address payable",
+        name: "addr2",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "percent1",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "percent2",
+        type: "uint256",
+      },
+    ],
+    name: "splitTransfer",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+];
 interface User {
   username?: string;
   email?: string;
@@ -93,8 +154,36 @@ export default function Project() {
   const [modals, setModal] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [contributorsData, setContributorsData] = useState<any>([]);
-
+  const [donationAmount, setDonationAmount] = useState<string>(0);
   const totalSteps = 6;
+  const {
+    data: writeData,
+    writeContract,
+    isPending: isWritePending,
+    error: writeError,
+  } = useWriteContract();
+
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+    error: confirmationError,
+  } = useWaitForTransactionReceipt({
+    hash: writeData,
+  });
+
+  const walletAddress = "0x1366a1449DdafB24767b95C15735F1FFb3386Ea0";
+  writeContract({
+    address: walletAddress,
+    abi: abi,
+    functionName: "splitTransfer",
+    args: [
+      "0x1366a1449DdafB24767b95C15735F1FFb3386Ea0",
+      "0x1366a1449DdafB24767b95C15735F1FFb3386Ea0",
+      50, // 50% to addr1
+      50, // 50% to addr2
+    ],
+    value: parseEther(donationAmount), // 0.01 AVAX in wei
+  });
 
   // Create octokit instance with timeout
   const octokit = useMemo(() => {
