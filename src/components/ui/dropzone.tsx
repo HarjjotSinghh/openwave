@@ -18,8 +18,8 @@ type DropzoneContextType = {
 };
 
 type S3UploadProps = {
-  contributorWallet: string;
-  maintainerWallet: string;
+  contributorUsername: string;
+  maintainerUsername: string;
   onUploadComplete?: (urls: string[]) => void;
   onUploadError?: (error: string) => void;
 };
@@ -51,7 +51,7 @@ export type DropzoneProps = Omit<DropzoneOptions, 'onDrop'> & {
   s3Upload?: S3UploadProps;
 };
 
-const uploadToS3 = async (file: File, contributorWallet: string, maintainerWallet: string) => {
+const uploadToS3 = async (file: File, contributorUsername: string, maintainerUsername: string) => {
   try {
     // Get signed URL from our API
     const response = await fetch('/api/s3chat', {
@@ -62,8 +62,8 @@ const uploadToS3 = async (file: File, contributorWallet: string, maintainerWalle
       body: JSON.stringify({
         fileName: file.name,
         fileType: file.type,
-        contributorWallet,
-        maintainerWallet,
+        contributorUsername,
+        maintainerUsername,
       }),
     });
 
@@ -123,7 +123,7 @@ export const Dropzone = ({
       setUploadStatus('uploading');
       try {
         const uploadPromises = acceptedFiles.map(file => 
-          uploadToS3(file, s3Upload.contributorWallet, s3Upload.maintainerWallet)
+          uploadToS3(file, s3Upload.contributorUsername, s3Upload.maintainerUsername)
         );
         
         const urls = await Promise.all(uploadPromises);
