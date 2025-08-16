@@ -2,13 +2,13 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { motion } from "framer-motion";
-
+import Link from "next/link";
 const DURATION = 0.4;
 
 const FlipLink = ({ children, size, color, font, onClick }) => {
     return (
         <div className="flex items-center justify-center gap-5">
-            <motion.a
+            <motion.div
                 initial="initial"
                 whileHover="hovered"
                 onClick={onClick}
@@ -46,7 +46,7 @@ const FlipLink = ({ children, size, color, font, onClick }) => {
                 >
                     {children}
                 </motion.span>
-            </motion.a>
+            </motion.div>
         </div>
     );
 };

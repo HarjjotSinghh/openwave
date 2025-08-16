@@ -230,8 +230,8 @@ export default function MultiStepSignup() {
           setPublicProfile(userData);
 
           if (userData) {
-            setSShowSignup(!userData.formFilled);
-            setContextShowSignup(!userData.formFilled);
+            setSShowSignup(!userData?.formFilled);
+            setContextShowSignup(!userData?.formFilled);
           } else {
             // If no user data, show signup form
             setSShowSignup(true);

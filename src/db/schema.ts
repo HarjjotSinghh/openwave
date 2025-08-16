@@ -11,11 +11,10 @@ import {
   numeric,
   decimal,
   vector,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import { sql, relations } from "drizzle-orm";
 import { Tag } from "lucide-react";
-
-
 
 // Users Table
 export const users = pgTable("users", {
@@ -43,6 +42,25 @@ export const wallet = pgTable("wallet", {
     scale: 18,
   }).notNull(),
 });
+export const maintainerWallet = pgTable("maintainerWallet", {
+  id: varchar("id", { length: 256 }).primaryKey(),
+  walletBalance: decimal("maintainerWalletBalance", {
+    precision: 36,
+    scale: 18,
+  }).notNull(),
+});
+export const MaintainerWalletTransactions = pgTable(
+  "maintainerWallet_transactions",
+  {
+    id: varchar("id", { length: 256 })
+      .primaryKey()
+      .default(sql`gen_random_uuid()`),
+    username: varchar("username", { length: 256 }),
+    amount: decimal("amount", { precision: 36, scale: 18 }).notNull(),
+    transactionType: varchar("transactionType", { length: 256 }).notNull(),
+    timestamp: timestamp("timestamp").default(sql`now()`),
+  }
+);
 export const walletTransactions = pgTable("wallet_transactions", {
   id: varchar("id", { length: 256 })
     .primaryKey()
@@ -63,8 +81,6 @@ export const messages = pgTable("messages", {
   reciever_id: varchar("reciever_id", { length: 256 }),
   sender_id: varchar("sender_id", { length: 256 }),
 });
-
-
 
 // Issues Table
 export const issues = pgTable("issues", {
@@ -113,14 +129,12 @@ export const likes = pgTable("likes", {
   likedAt: timestamp("likedAt").default(sql`now()`),
 });
 
-
-
 // Contributor Requests Table
 export const contributorRequests = pgTable("contributorRequests", {
   id: varchar("id", { length: 256 })
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  fullName:varchar("Full Name (User)",{length:256}),
+  fullName: varchar("Full Name (User)", { length: 256 }),
   projectName: varchar("projectName", { length: 256 }),
   Contributor_id: varchar("Contributor", { length: 256 }),
   contributor_email: varchar("contributor_email", { length: 256 }),
@@ -134,47 +148,49 @@ export const contributorRequests = pgTable("contributorRequests", {
   status: varchar("status", { length: 256 }),
 });
 
-
-
 // Contributor Applications Table
-export const contributorApplications = pgTable("contributorApplications", {
-  id: varchar("id", { length: 256 })
-    .primaryKey()
-    .default(sql`gen_random_uuid()`),
-  username: varchar("username", { length: 256 }).notNull(), // Auto-filled from session
-  projectName: varchar("projectName", { length: 256 }),
-  name: varchar("name", { length: 256 }).notNull(),
-  email: varchar("email", { length: 256 }).notNull(),
-  bio: text("bio"),
-  whyContribute: text("whyContribute"),
-  exampleProjects: text("exampleProjects"),
-  languages: json("languages"), // Array of strings
-  frameworks: json("frameworks"), // Array of strings
-  tools: json("tools"), // Array of strings
-  otherSkills: text("otherSkills"),
-  experienceMatrix: json("experienceMatrix"), // Object with language experience data
-  resumeUrl: varchar("resumeUrl", { length: 512 }), // File upload URL
-  samplePatchesUrl: varchar("samplePatchesUrl", { length: 512 }), // File upload URL
-  sshPublicKey: text("sshPublicKey"),
-  prLinks: text("prLinks"),
-  accessLevel: varchar("accessLevel", { length: 100 }),
-  ndaAgreement: boolean("ndaAgreement").default(false),
-  twoFactorEnabled: boolean("twoFactorEnabled").default(false),
-  earliestStartDate: varchar("earliestStartDate", { length: 50 }),
-  codeOfConductAgreed: boolean("codeOfConductAgreed").default(false),
-  contributionGuidelinesAgreed: boolean("contributionGuidelinesAgreed").default(false),
-  fullName: varchar("fullName", { length: 256 }),
-  signatureDate: varchar("signatureDate", { length: 50 }),
-  status: varchar("status", { length: 50 }).default("pending"), // pending, approved, rejected
-  submittedAt: timestamp("submittedAt").default(sql`now()`),
-},(table) => {
-  return {
-    // Add unique constraint on username + projectName combination
-    usernameProjectUnique: unique().on(table.username, table.projectName),
+export const contributorApplications = pgTable(
+  "contributorApplications",
+  {
+    id: varchar("id", { length: 256 })
+      .primaryKey()
+      .default(sql`gen_random_uuid()`),
+    username: varchar("username", { length: 256 }).notNull(), // Auto-filled from session
+    projectName: varchar("projectName", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
+    email: varchar("email", { length: 256 }).notNull(),
+    bio: text("bio"),
+    whyContribute: text("whyContribute"),
+    exampleProjects: text("exampleProjects"),
+    languages: json("languages"), // Array of strings
+    frameworks: json("frameworks"), // Array of strings
+    tools: json("tools"), // Array of strings
+    otherSkills: text("otherSkills"),
+    experienceMatrix: json("experienceMatrix"), // Object with language experience data
+    resumeUrl: varchar("resumeUrl", { length: 512 }), // File upload URL
+    samplePatchesUrl: varchar("samplePatchesUrl", { length: 512 }), // File upload URL
+    sshPublicKey: text("sshPublicKey"),
+    prLinks: text("prLinks"),
+    accessLevel: varchar("accessLevel", { length: 100 }),
+    ndaAgreement: boolean("ndaAgreement").default(false),
+    twoFactorEnabled: boolean("twoFactorEnabled").default(false),
+    earliestStartDate: varchar("earliestStartDate", { length: 50 }),
+    codeOfConductAgreed: boolean("codeOfConductAgreed").default(false),
+    contributionGuidelinesAgreed: boolean(
+      "contributionGuidelinesAgreed"
+    ).default(false),
+    fullName: varchar("fullName", { length: 256 }),
+    signatureDate: varchar("signatureDate", { length: 50 }),
+    status: varchar("status", { length: 50 }).default("pending"), // pending, approved, rejected
+    submittedAt: timestamp("submittedAt").default(sql`now()`),
+  },
+  (table) => {
+    return {
+      // Add unique constraint on username + projectName combination
+      usernameProjectUnique: unique().on(table.username, table.projectName),
+    };
   }
-});
-
-
+);
 
 // The rest of your tables (pullRequests, assignIssues, assignedIssues, pendingReview, completedIssues, Rewards) remain unchanged, as they do not have foreign key constraints or relations that need correction.
 export const payments = pgTable("Payments", {
@@ -186,7 +202,6 @@ export const payments = pgTable("Payments", {
   createdAt: timestamp("createdAt").default(sql`now()`),
 });
 
-
 export const assignedIssues = pgTable("assignedIssues", {
   projectName: varchar("projectName", { length: 256 }),
   projectOwner: varchar("projectOwner", { length: 256 }),
@@ -196,8 +211,6 @@ export const assignedIssues = pgTable("assignedIssues", {
   name: varchar("name", { length: 256 }),
   description: text("description"),
 });
-
-
 
 export const Rewards = pgTable("rewards", {
   id: varchar("id", { length: 256 })
@@ -216,6 +229,7 @@ export const Rewards = pgTable("rewards", {
   issue: varchar("issue", { length: 256 }),
   date: timestamp("date").default(sql`now()`),
 });
+
 // Project Embeddings Table for RAG
 export const projectEmbeddings = pgTable("project_embeddings", {
   id: varchar("id", { length: 256 })
@@ -225,7 +239,102 @@ export const projectEmbeddings = pgTable("project_embeddings", {
   description: text("description").notNull(),
   languages: text("languages"), // JSON string of languages
   owner: varchar("owner", { length: 256 }),
-  embedding: vector("embedding", { dimensions: 384 }).notNull(),
+  // embedding: vector("embedding", { dimensions: 384 }).notNull(),
   createdAt: timestamp("created_at").default(sql`now()`),
   updatedAt: timestamp("updated_at").default(sql`now()`),
 });
+
+export const projects = pgTable("projects", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: varchar("name", { length: 256 }).notNull(),
+  description: text("description").notNull(),
+  owner: varchar("owner", { length: 256 }).notNull(),
+  createdAt: timestamp("created_at").default(sql`now()`),
+  updatedAt: timestamp("updated_at").default(sql`now()`),
+});
+
+export const hackathons = pgTable("hackathons", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: varchar("name", { length: 256 }).notNull(),
+  description: text("description"),
+  start_date: timestamp("start_date").notNull(),
+  end_date: timestamp("end_date").notNull(),
+  image_url: varchar("image_url", { length: 256 }),
+  status: varchar("status", { length: 50 }).default('upcoming'),
+  created_at: timestamp("created_at").default(sql`now()`),
+  created_by: varchar("created_by", { length: 256 }).references(() => users.id)
+});
+
+export const hack_projects = pgTable("hack_projects", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  hackathon_id: varchar("hackathon_id", { length: 256 }).references(() => hackathons.id),
+  project_name: varchar("project_name", { length: 256 }).notNull(),
+  description: text("description"),
+  repository: varchar("repository", { length: 256 }),
+  image_url: varchar("image_url", { length: 256 }),
+  owner_id: varchar("owner_id", { length: 256 }).references(() => users.id),
+  team_members: jsonb("team_members"),
+  tech_stack: jsonb("tech_stack"),
+  contract_address: varchar("contract_address", { length: 256 }),
+  created_at: timestamp("created_at").default(sql`now()`)
+});
+
+
+export const project_votes = pgTable("project_votes", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  project_id: varchar("project_id", { length: 256 }).references(() => hack_projects.id),
+  voter_id: varchar("voter_id", { length: 256 }).references(() => users.id),
+  vote_type: varchar("vote_type", { length: 50 }).notNull(),
+  vote_weight: integer("vote_weight").default(1),
+  created_at: timestamp("created_at").default(sql`now()`),
+}, (t) => [
+     unique('project_votes_project_voter_unique_idx').on(t.project_id, t.voter_id)
+]);
+
+export const project_split_payments = pgTable("project_split_payments", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  project_id: varchar("project_id", { length: 256 }).references(() => hack_projects.id),
+  total_amount: varchar("total_amount", { length: 256 }).notNull(),
+  contributor_share: varchar("contributor_share", { length: 256 }).notNull(),
+  maintainer_share: varchar("maintainer_share", { length: 256 }).notNull(),
+  transaction_hash: varchar("transaction_hash", { length: 256 }),
+  status: varchar("status", { length: 50 }).default("pending"),
+  created_at: timestamp("created_at").defaultNow()
+});
+
+export const hackathon_results = pgTable("hackathon_results", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  hackathon_id: varchar("hackathon_id", { length: 256 }).references(() => hackathons.id),
+  project_id: varchar("project_id", { length: 256 }).references(() => hack_projects.id),
+  final_rank: integer("final_rank"),
+  total_votes: integer("total_votes").default(0),
+  yes_votes: integer("yes_votes").default(0),
+  no_votes: integer("no_votes").default(0),
+  approval_percentage: decimal("approval_percentage", { precision: 5, scale: 2 }),
+  voting_status: varchar("voting_status", { length: 50 }).default("pending"), // pending, approved, rejected
+  total_funding: decimal("total_funding", { precision: 36, scale: 18 }).default("0"),
+  contributors_funding: decimal("contributors_funding", { precision: 36, scale: 18 }).default("0"),
+  maintainers_funding: decimal("maintainers_funding", { precision: 36, scale: 18 }).default("0"),
+  award_category: varchar("award_category", { length: 100 }), // "winner", "runner-up", "innovation", etc.
+  judge_feedback: text("judge_feedback"),
+  demo_url: varchar("demo_url", { length: 512 }),
+  presentation_url: varchar("presentation_url", { length: 512 }),
+  final_score: decimal("final_score", { precision: 5, scale: 2 }),
+  metrics: jsonb("metrics"), // Custom metrics like code quality, innovation, etc.
+  created_at: timestamp("created_at").default(sql`now()`),
+  updated_at: timestamp("updated_at").default(sql`now()`)
+}, (t) => [
+  unique('hackathon_results_hackathon_project_unique').on(t.hackathon_id, t.project_id)
+]);

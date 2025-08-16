@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { db } from '../../../db/index';
 import { contributorApplications } from '../../../db/schema';
@@ -54,12 +54,12 @@ export async function POST(request: Request) {
       applicationId: result[0]?.id
     });
 
-  } catch (error) {
-    if (error.code === '23505') { // PostgreSQL unique violation error code
+  } catch (error : unknown) {
+    if (error instanceof Error && (error as { code?: string }).code === '23505') { // PostgreSQL unique violation error code
       return NextResponse.json(
         { 
           success: false, 
-          error: error instanceof Error ? error.message : 'You have already submitted an application for this project.' 
+          error: error.message || 'You have already submitted an application for this project.' 
         },
         { status: 400 }
 

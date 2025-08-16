@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === "production" || process.env.DATABASE_URL) {
   // Create a mock client that logs errors instead of crashing
   client = {
     // Mock the minimum required interface
+    // @ts-expect-error: unknown cause
     query: async () => {
       throw new Error("Database connection not configured");
     },

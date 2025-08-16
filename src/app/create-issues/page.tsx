@@ -39,6 +39,7 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { Loader2, Wallet, AlertCircle, CheckCircle } from "lucide-react";
+import { User } from "@/db/types";
 
 const abi = [
   {
@@ -209,7 +210,7 @@ export default function Project() {
   const [contractAddress, setContractAddress] = useState("");
   const [isDeploying, setIsDeploying] = useState(false);
   const [error, setError] = useState("");
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState<User | null>(null);
   const [issueUrl, setIssueUrl] = useState<string | undefined>();
   const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<string | undefined>();
@@ -358,7 +359,7 @@ export default function Project() {
         }
       );
       const responseData = await res.json();
-      setUserData(responseData.user);
+      setUserData(responseData);
     };
 
     const fetchRepos = async () => {
@@ -390,7 +391,7 @@ export default function Project() {
 
   useEffect(() => {
     if (!userData) return;
-    if (userData[0].maintainerWallet == null) {
+    if (userData?.maintainerWallet == null) {
       setWallet(false);
     }
   }, [userData]);
@@ -506,13 +507,13 @@ export default function Project() {
       return;
     }
 
-    if (!isConnected || !userData[0].maintainerWallet) {
+    if (!isConnected || !userData?.maintainerWallet) {
       setAlertMessage("Connect your wallet first!");
       return;
     }
 
     if (
-      !userData[0].maintainerWallet ||
+      !userData?.maintainerWallet ||
       !abi ||
       (abi as readonly any[]).length === 0
     ) {
@@ -535,10 +536,10 @@ export default function Project() {
         return;
       }
 
-      if (!userData[0]) return;
+      if (!userData) return;
 
       writeContract({
-        address: userData[0].maintainerWallet as `0x${string}`,
+        address: userData?.maintainerWallet as `0x${string}`,
         abi,
         functionName: "deposit",
         value: parseEther(rewardAmount),

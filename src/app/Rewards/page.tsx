@@ -144,6 +144,7 @@ import {
 } from "../../components/ui/form";
 import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { User } from "@/db/types";
 
 // Define interfaces
 interface RewardTransaction {
@@ -198,7 +199,7 @@ export default function Rewards() {
   const [totalPaidRewards, setTotalPaidRewards] = useState<number>(0);
   const [isSuccess, setIsSuccess] = useState(false);
   const publicClient = usePublicClient();
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState<User | null>(null);
   const [rewards, setRewards] = useState<RewardTransaction[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -226,10 +227,10 @@ export default function Rewards() {
         }
       );
       const responseData = await res.json();
-      setUserData(responseData.user);
+      setUserData(responseData);
     };
     fetchUser();
-  }, [session]);
+  }, [session]); 
   useEffect(() => {}, [control]);
   const handleWithdrawal = () => {
     try {
@@ -245,7 +246,7 @@ export default function Rewards() {
 
       writeContract({
         abi,
-        address: userData[0].metaMask,
+        address: userData?.metaMask as `0x${string}`,
         functionName: "setMaxWithdrawalAmount",
         args: [address, totalRewardedWei],
       });
@@ -264,7 +265,7 @@ export default function Rewards() {
 
       writeContract({
         abi,
-        address: userData[0]?.metaMask,
+        address: userData?.metaMask as `0x${string}`,
         functionName: "withdraw",
         args: [totalRewardedWei, address],
       });
@@ -285,7 +286,7 @@ export default function Rewards() {
 
         writeContract({
           abi,
-          address: userData[0]?.metaMask,
+          address: userData?.metaMask as `0x${string}`,
           functionName: "withdraw",
           args: [totalRewardedWei, address],
         });
