@@ -305,6 +305,20 @@ export default function Sidebar() {
                     </div>
                   </div>
                 </Link>
+                <Link href="/MaintainerWallet">
+                  <div className="rounded-lg text-sm data-[active=true]:bg-neutral-400 gap-1 my-auto hover:bg-neutral-100 dark:hover:bg-[#27272a] px-2 py-2 flex">
+                    <div className="flex gap-1">
+                      <Icon
+                        icon="material-symbols:account-balance-wallet-outline"
+                        width="24"
+                        height="24"
+                      />
+                      <div className="my-auto">
+                        {!isShrunk && "Maintainer Wallet"}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
