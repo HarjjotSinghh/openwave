@@ -9,6 +9,9 @@ import {
   useMemo,
   useLayoutEffect,
 } from "react";
+import {Icon} from "@iconify/react"
+import Example from "@/components/drop";
+
 import { signIn, useSession } from "next-auth/react";
 import { io, type Socket } from "socket.io-client";
 import Image from "next/image";
@@ -21,6 +24,18 @@ import Topbar from "@/assets/components/chats/chatTopbar";
 import { useChatSidebarContext } from "@/assets/components/chats/chatSiderbarContext";
 import { redirect } from "next/navigation";
 
+
+interface memoizedSession{
+  accessToken?: string;
+  expires?: string;
+  user?: {
+    username?: string;
+    email?: string;
+    name?: string;
+    image?: string;
+  };
+
+}
 // Define message types
 interface ChatMessage {
   text: string;
@@ -72,7 +87,7 @@ export default function OptimizedChatPage() {
   const { data: session } = useSession();
   const [shouldRestoreScroll, setShouldRestoreScroll] = useState(null);
 
-  const memoizedSession = useMemo(() => session, [session]);
+  const memoizedSession = useMemo(() => session as memoizedSession, [session]);
   const { theme } = useTheme();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
@@ -110,6 +125,7 @@ export default function OptimizedChatPage() {
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isLoadingMoreMessages, setIsLoadingMoreMessages] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [uploadFile,setUploadFile]=useState<boolean>()
 
   const fetchMessages = async () => {
     try {
@@ -139,7 +155,7 @@ export default function OptimizedChatPage() {
         setDatabaseMessages((prevMessages) => [
           ...prevMessages,
           ...data.messages,
-        ]);
+        ]);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
         // Use requestAnimationFrame to ensure DOM has been updated
         requestAnimationFrame(() => {
@@ -200,7 +216,7 @@ export default function OptimizedChatPage() {
     setConnectionStatus("connecting");
     setErrorMessage(null);
 
-    const socket = io("https://gitfund-chat-8uaxx.ondigitalocean.app", {
+    const socket = io("http://localhost:4000", {
       auth: { username: memoizedSession?.user?.username },
       reconnectionAttempts: 5,
       reconnectionDelay: 2000,
@@ -407,6 +423,8 @@ export default function OptimizedChatPage() {
   if (!session) {
   }
 
+
+
   // Filter messages for current conversation
   const conversationMessages = messages.filter(
     (msg) =>
@@ -429,6 +447,370 @@ export default function OptimizedChatPage() {
             : "ml-64 w-[calc(100%-16rem)]"
         )}
       >
+        {
+          uploadFile ? <>
+             <main className="flex-1 flex flex-col overflow-hidden">
+          {/* Connection Status Bar */}
+          {connectionStatus !== "connected" && (
+            <div className="bg-yellow-100 dark:bg-yellow-900 border-b border-yellow-200 dark:border-yellow-800 px-2 sm:px-4 py-2">
+              <div className="flex items-center justify-center">
+                <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-yellow-800 dark:text-yellow-200">
+                  {connectionStatus === "connecting" && (
+                    <>
+                      <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-yellow-600"></div>
+                      <span className="hidden xs:inline">
+                        Connecting to chat server...
+                      </span>
+                      <span className="xs:hidden">Connecting...</span>
+                    </>
+                  )}
+                  {connectionStatus === "disconnected" && (
+                    <>
+                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-red-500 rounded-full"></div>
+                      <span className="hidden xs:inline">
+                        Disconnected from chat server
+                      </span>
+                      <span className="xs:hidden">Disconnected</span>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Error Message */}
+          {errorMessage && (
+            <div className="bg-red-100 dark:bg-red-900 border-b border-red-200 dark:border-red-800 px-2 sm:px-4 py-2">
+              <div className="flex items-center justify-center">
+                <span className="text-xs sm:text-sm text-red-800 dark:text-red-200 text-center">
+                  {errorMessage}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Main Chat Content */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {!selectedUser ? (
+              <div className="flex flex-col items-center justify-center flex-1 px-4">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src="/NeowareLogo2.png" // Replace with your actual fallback image path
+                    alt="openwave"
+                    width={isMobile ? 100 : 100}
+                    height={isMobile ? 100 : 100}
+                  />
+                </div>
+                <h1
+                  className={`dark:text-white text-black text-2xl text-center max-md:text-xl max-sm:text-lg`}
+                  style={{ fontFamily: "var(--font-cypher)" }}
+                >
+                  openwave chat
+                </h1>
+
+                <p className="text-sm xs:text-base lg:text-sm text-neutral-600 dark:text-neutral-400 text-center px-2">
+                  Collaborate on open-source projects seamlessly.
+                  <br />
+                  Stay in sync across devices and contributors.
+                </p>
+                {isLoadingUsers && (
+                  <p className="mt-2 text-xs sm:text-sm text-neutral-500">
+                    Loading users...
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col overflow-hidden">
+                {/* Chat header */}
+                <div className="flex-shrink-0 p-2 xs:p-3 sm:p-4 border-b border-neutral-200 dark:border-neutral-900 bg-white dark:bg-neutral-950">
+                  <div className="flex items-center gap-2 xs:gap-3">
+                    <img
+                      src={selectedUser.image_url || "/placeholder.svg"}
+                      width={isMobile ? 28 : 40}
+                      height={isMobile ? 28 : 40}
+                      alt="User avatar"
+                      className="rounded-full flex-shrink-0 w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <h2 className="text-sm xs:text-base sm:text-lg lg:text-xl font-semibold truncate">
+                        {selectedUser.fullName}
+                      </h2>
+                      <p className="text-xs sm:text-sm">
+                        {activeUsers.includes(selectedUser.id) ? (
+                          <span className="text-green-500 flex items-center">
+                            <div className="w-1.5 h-1.5 xs:w-2 xs:h-2 bg-green-500 rounded-full mr-1 flex-shrink-0" />
+                            <span className="hidden xs:inline">Online</span>
+                            <span className="xs:hidden">•</span>
+                          </span>
+                        ) : (
+                          <span className="text-neutral-500 flex items-center">
+                            <div className="w-1.5 h-1.5 xs:w-2 xs:h-2 bg-neutral-400 rounded-full mr-1 flex-shrink-0" />
+                            <span className="hidden xs:inline">Offline</span>
+                            <span className="xs:hidden">•</span>
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Messages Container - Scrollable */}
+                <div
+                  ref={messagesContainerRef}
+                  className="flex-1 overflow-y-auto bg-neutral-50 dark:bg-neutral-900"
+                >
+                  <div className="p-2 xs:p-3 sm:p-4 space-y-2 xs:space-y-3 sm:space-y-4 min-h-full">
+                    {/* Load More Messages Button/Loader */}
+                    {databaseMessages.length > 0 && (
+                      <div className="flex justify-center mb-4">
+                        {isLoadingMessages ? (
+                          <div className="flex items-center gap-2 text-neutral-500">
+                            <div className="w-4 h-4 border-2 border-neutral-300 border-t-blue-500 rounded-full animate-spin"></div>
+                            <span className="text-sm">Loading messages...</span>
+                          </div>
+                        ) : (
+                          <Button
+                            onClick={fetchMessages}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs xs:text-sm"
+                          >
+                            Load More Messages
+                          </Button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Database Messages */}
+                    {databaseMessages?.map((msg, id) => (
+                      <div
+                        key={`db-${msg.timestamp}-${id}`}
+                        className={cn(
+                          "flex gap-1.5 xs:gap-2 sm:gap-3",
+                          msg.sender_id === memoizedSession?.user?.username
+                            ? "flex-row-reverse"
+                            : "flex-row"
+                        )}
+                      >
+                        <div className="flex-shrink-0">
+                          <img
+                            src={
+                              msg.sender_id === memoizedSession?.user?.username
+                                ? memoizedSession.user?.image ||
+                                  "/placeholder.svg"
+                                : selectedUser.image_url || "/placeholder.svg"
+                            }
+                            width={isMobile ? 24 : 32}
+                            height={isMobile ? 24 : 32}
+                            alt="User avatar"
+                            className="rounded-full w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8"
+                          />
+                        </div>
+                        <div
+                          className={cn(
+                            "flex flex-col max-w-[80%] xs:max-w-[75%] sm:max-w-[70%] md:max-w-[65%]",
+                            msg.sender_id === memoizedSession?.user?.username
+                              ? "items-end"
+                              : "items-start"
+                          )}
+                        >
+                          <div
+                            className={cn(
+                              "flex items-center gap-1 xs:gap-2 mb-1",
+                              msg.sender_id ===
+                                (memoizedSession?.user as User)?.username
+                                ? "flex-row-reverse"
+                                : "flex-row"
+                            )}
+                          >
+                            <h3 className="text-xs sm:text-sm font-medium truncate max-w-[120px] xs:max-w-[150px] sm:max-w-none">
+                              {msg.sender_id ===
+                              (session?.user as User)?.username
+                                ? (session?.user as User)?.username
+                                : selectedUser.fullName}
+                            </h3>
+                            <span className="text-xs text-neutral-400 flex-shrink-0">
+                              {new Date(msg.timestamp).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                          </div>
+                          <div
+                            className={cn(
+                              "p-2 xs:p-2.5 sm:p-3 rounded-lg text-xs xs:text-sm sm:text-base break-words",
+                              msg.sender_id ===
+                                (memoizedSession?.user as User)?.username
+                                ? "bg-blue-500 text-white rounded-br-sm"
+                                : "bg-white dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200 rounded-bl-sm border border-neutral-200 dark:border-neutral-600"
+                            )}
+                          >
+                            {msg.text}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Real-time Messages */}
+                    {conversationMessages?.map((msg, id) => (
+                      <div
+                        key={`rt-${msg.timestamp}-${id}`}
+                        className={cn(
+                          "flex gap-1.5 xs:gap-2 sm:gap-3",
+                          msg.from === memoizedSession?.user?.username
+                            ? "flex-row-reverse"
+                            : "flex-row"
+                        )}
+                      >
+                        <div className="flex-shrink-0">
+                          <img
+                            src={
+                              msg.from === memoizedSession?.user?.username
+                                ? memoizedSession.user?.image ||
+                                  "/placeholder.svg"
+                                : selectedUser.image_url || "/placeholder.svg"
+                            }
+                            width={isMobile ? 24 : 32}
+                            height={isMobile ? 24 : 32}
+                            alt="User avatar"
+                            className="rounded-full w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8"
+                          />
+                        </div>
+                        <div
+                          className={cn(
+                            "flex flex-col max-w-[80%] xs:max-w-[75%] sm:max-w-[70%] md:max-w-[65%]",
+                            msg.from === memoizedSession?.user?.username
+                              ? "items-end"
+                              : "items-start"
+                          )}
+                        >
+                          <div
+                            className={cn(
+                              "flex items-center gap-1 xs:gap-2 mb-1",
+                              msg.from ===
+                                (memoizedSession?.user as User)?.username
+                                ? "flex-row-reverse"
+                                : "flex-row"
+                            )}
+                          >
+                            <h3 className="text-xs sm:text-sm font-medium truncate max-w-[120px] xs:max-w-[150px] sm:max-w-none">
+                              {msg.from ===
+                              (memoizedSession?.user as User)?.username
+                                ? memoizedSession.user?.name
+                                : selectedUser.fullName}
+                            </h3>
+                            <span className="text-xs text-neutral-400 flex-shrink-0">
+                              {new Date(msg.timestamp).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                          </div>
+                          <div
+                            className={cn(
+                              "p-2 xs:p-2.5 sm:p-3 rounded-lg text-xs xs:text-sm sm:text-base break-words",
+                              msg.from ===
+                                (memoizedSession?.user as User)?.username
+                                ? "bg-blue-500 text-white rounded-br-sm"
+                                : "bg-white dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200 rounded-bl-sm border border-neutral-200 dark:border-neutral-600"
+                            )}
+                          >
+                            {msg.text}
+                          </div>
+                          {(msg.pending || msg.failed) && (
+                            <div className="mt-1 text-xs opacity-75 flex items-center">
+                              {msg.pending && <span className="ml-1">⏳</span>}
+                              {msg.failed && (
+                                <button
+                                  onClick={() => retryFailedMessage(msg)}
+                                  className="ml-1 text-red-300 hover:text-red-100"
+                                  title="Click to retry"
+                                >
+                                  ⚠️
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Empty State */}
+                    {conversationMessages.length === 0 &&
+                      databaseMessages?.length === 0 && (
+                        <div className="flex items-center justify-center h-full min-h-[200px]">
+                          <div className="text-center text-neutral-500 px-4">
+                            <p className="text-xs xs:text-sm sm:text-base">
+                              No messages yet. Start the conversation!
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                    {/* Auto-scroll anchor */}
+                    <div ref={messagesEndRef} />
+                  </div>
+                </div>
+
+                {/* Message Input - Fixed at bottom */}
+                <div className="flex-shrink-0 p-2 xs:p-3 sm:p-4 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
+                  <div className="flex gap-1.5 xs:gap-2 sm:gap-3">
+                    <Input
+                      type="text"
+                      placeholder={`Message ${
+                        selectedUser.username || selectedUser.id
+                      }...`}
+                      value={messageInput}
+                      onChange={(e) => setMessageInput(e.target.value)}
+                      onKeyDown={handleKeyPress}
+                      disabled={connectionStatus !== "connected"}
+                      className="flex-1 text-xs xs:text-sm sm:text-base h-8 xs:h-9 sm:h-10"
+                    />
+                    <div onClick={() => {setUploadFile(true)}} className="flex p-2 rounded  bg-neutral-500 hover:bg-neutral-600 my-auto items-center justify-center">
+                        <Icon icon="solar:file-send-broken" width="18" height="18" />
+                        <div className="bg-white p-2 rounded">
+
+
+                        </div>
+                    </div>
+                    <Button
+                      onClick={sendMessage}
+                      disabled={
+                        !messageInput.trim() || connectionStatus !== "connected"
+                      }
+                      className="bg-neutral-500 hover:bg-neutral-600 disabled:opacity-50 p-2 sm:px-4 text-xs xs:text-sm sm:text-base flex-shrink-0 h-8 xs:h-9 sm:h-10"
+                    >
+                      <span className="hidden xs:inline">Send</span>
+                      <div className="xs:hidden"><Icon icon="majesticons:send" width="24" height="24"  style="color: #fffefe" /></div>
+                    </Button>
+                  </div>
+                  {selectedUser && !activeUsers.includes(selectedUser.id) && (
+                    <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-1 xs:mt-2 px-1">
+                      <span className="hidden xs:inline">
+                        ⚠️ User appears offline. Messages may not be delivered
+                        immediately.
+                      </span>
+                      <span className="xs:hidden">⚠️ User offline</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </main>
+          </>:<>
+            <main className="bg-neutral-300 ">
+                <Example />
+
+            </main>
+          </>
+        }
         <main className="flex-1 flex flex-col overflow-hidden">
           {/* Connection Status Bar */}
           {connectionStatus !== "connected" && (
@@ -752,15 +1134,22 @@ export default function OptimizedChatPage() {
                       disabled={connectionStatus !== "connected"}
                       className="flex-1 text-xs xs:text-sm sm:text-base h-8 xs:h-9 sm:h-10"
                     />
+                    <div onClick={() => {setUploadFile(true)}} className="flex p-2 rounded  bg-neutral-500 hover:bg-neutral-600 my-auto items-center justify-center">
+                        <Icon icon="solar:file-send-broken" width="18" height="18" />
+                        <div className="bg-white p-2 rounded">
+
+
+                        </div>
+                    </div>
                     <Button
                       onClick={sendMessage}
                       disabled={
                         !messageInput.trim() || connectionStatus !== "connected"
                       }
-                      className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 px-2 xs:px-3 sm:px-4 text-xs xs:text-sm sm:text-base flex-shrink-0 h-8 xs:h-9 sm:h-10"
+                      className="bg-neutral-500 hover:bg-neutral-600 disabled:opacity-50 p-2 sm:px-4 text-xs xs:text-sm sm:text-base flex-shrink-0 h-8 xs:h-9 sm:h-10"
                     >
                       <span className="hidden xs:inline">Send</span>
-                      <span className="xs:hidden">→</span>
+                      <div className="xs:hidden"><Icon icon="majesticons:send" width="24" height="24"  style="color: #fffefe" /></div>
                     </Button>
                   </div>
                   {selectedUser && !activeUsers.includes(selectedUser.id) && (
