@@ -229,7 +229,7 @@ export default function Rewards() {
       setUserData(responseData.user);
     };
     fetchUser();
-  }, [session]);
+  }, [session]); 
   useEffect(() => {}, [control]);
   const handleWithdrawal = () => {
     try {
