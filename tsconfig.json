@@ -21,7 +21,7 @@
       }
     ],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
     // Removed "types": ["json-schema", "json5"] to fix missing type definition errors
   },
