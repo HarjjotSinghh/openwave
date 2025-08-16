@@ -1,4 +1,4 @@
-import { handlers } from "../../../../../../auth" 
+import { handlers } from "../../../../../auth" 
 export const { GET, POST } = handlers
 
 // Add the required generateStaticParams function for static export

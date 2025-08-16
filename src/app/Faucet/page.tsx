@@ -16,7 +16,7 @@ import { parseEther, formatEther, isAddress } from "viem";
 import { useSession } from "next-auth/react"
 const COOLDOWN_PERIOD_MS = 48 * 60 * 60 * 1000 // 48 hours in milliseconds
 const WALLET_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
-import {faucetabi} from '../../../../abi'
+import {faucetabi} from '../../../abi'
 import Sidebar from "../../assets/components/sidebar";
 import Topbar from "../../assets/components/topbar";
 import { useSidebarContext } from "../../assets/components/SidebarContext";
