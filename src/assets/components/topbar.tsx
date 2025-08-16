@@ -14,16 +14,16 @@ import { useTheme } from "next-themes";
 import SearchModal from "./SearchModal";
 import { useSearch } from "./SearchContext";
 import { Button } from "../../components/ui/button";
-import { config } from "@/config/index";
+import { config } from "../../config/index";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import { Icon } from "@iconify/react";
 import { useAccount, useEnsName } from "wagmi";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
 import { useAppKit } from "@reown/appkit/react";
 import { disconnect, getAccount, getBalance } from "@wagmi/core";
 import { useBalance } from "wagmi";

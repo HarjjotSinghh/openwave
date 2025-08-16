@@ -2,11 +2,11 @@
 import { useState, useEffect, useMemo } from 'react'; // Added useMemo
 import { useSession } from 'next-auth/react';
 import { Octokit } from 'octokit';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 
-import Topbar from "@/assets/components/topbar";
-import Sidebar from "@/assets/components/sidebar";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import Topbar from "../../assets/components/topbar";
+import Sidebar from "../../assets/components/sidebar";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 
 // Define a type for your repository data for better type safety
 interface Repo {

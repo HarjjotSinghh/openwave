@@ -1,7 +1,7 @@
 "use client";
 
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
+import Sidebar from "../../../assets/components/sidebar";
+import Topbar from "../../../assets/components/topbar";
 import {
   useState,
   useEffect,
@@ -14,7 +14,7 @@ import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ReactMarkdown from "react-markdown";
 import { format } from "date-fns";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import { useSidebarContext } from "../../../assets/components/SidebarContext";
 import { Suspense } from "react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";

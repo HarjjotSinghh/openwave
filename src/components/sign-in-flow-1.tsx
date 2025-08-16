@@ -3,7 +3,7 @@
 import React, { useState,useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 
 import * as THREE from "three";

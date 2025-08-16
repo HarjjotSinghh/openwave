@@ -1,17 +1,17 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { Suspense } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import Issue from "@/assets/components/issue";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import Issue from "../../assets/components/issue";
 
-import { BorderBeam } from "@/components/magicui/border-beam";
-import { EarningScroll } from "@/components/ui/earningScroll";
+import { BorderBeam } from "../../components/magicui/border-beam";
+import { EarningScroll } from "../../components/ui/earningScroll";
 import { Icon } from "@iconify/react";
 import {
   DollarSign,
@@ -28,7 +28,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../../components/ui/card";
 interface Project {
   projectName: string;
   shortdes: string;

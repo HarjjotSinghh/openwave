@@ -13,12 +13,12 @@ import { signIn, useSession } from "next-auth/react";
 import { io, type Socket } from "socket.io-client";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import Sidebar from "@/assets/components/chats/chatSidebar";
-import Topbar from "@/assets/components/chats/chatTopbar";
-import { useChatSidebarContext } from "@/assets/components/chats/chatSiderbarContext";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { cn } from "../../lib/utils";
+import Sidebar from "../../assets/components/chats/chatSidebar";
+import Topbar from "../../assets/components/chats/chatTopbar";
+import { useChatSidebarContext } from "../../assets/components/chats/chatSiderbarContext";
 import { redirect } from "next/navigation";
 
 // Define message types

@@ -3,8 +3,8 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
 import { useSession } from "next-auth/react";
 import { Octokit } from "octokit";
 import {
@@ -18,8 +18,8 @@ import { useWalletClient, usePublicClient } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { deployContract } from "@wagmi/core";
 import type { Session } from "next-auth";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
+import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { Suspense } from "react";
 import {
   Card,
@@ -27,17 +27,17 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../components/ui/select";
 import { Loader2, Wallet, AlertCircle, CheckCircle } from "lucide-react";
 
 const abi = [

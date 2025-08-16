@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import Sidebar from "../../../../../assets/components/sidebar";
+import Topbar from "../../../../../assets/components/topbar";
+import { useSidebarContext } from "../../../../../assets/components/SidebarContext";
 import { useSearchParams } from "next/navigation";
 import { Octokit } from "octokit";
 import { useCompletion } from "@ai-sdk/react";
@@ -11,14 +11,14 @@ import ReactMarkdown from "react-markdown";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { TextShimmer } from "@/components/ui/text-shimmer";
+import { TextShimmer } from "../../../../../components/ui/text-shimmer";
 import { simulateContract, writeContract } from "@wagmi/core";
-import { config } from "@/config/index";
+import { config } from "../../../../../config/index";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { type Hash } from "viem";
 import { useAccount } from "wagmi";
 import { parseEther, formatEther, isAddress } from "viem";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertTitle, AlertDescription } from "../../../../../components/ui/alert";
 import { Loader2, Wallet, AlertCircle, CheckCircle } from "lucide-react";
 
 const abi = [

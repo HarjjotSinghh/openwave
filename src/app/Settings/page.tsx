@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState, Suspense } from "react"; // Ensure Suspense is imported
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
 import { useSession, SessionContextValue } from "next-auth/react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import { Button } from "../../components/ui/button";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { Session } from "next-auth"; // Import Session type
 
 // Define a custom session type that includes potential user ID fields and username

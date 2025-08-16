@@ -5,12 +5,12 @@ import { signIn } from "next-auth/react";
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import ShootingStarBorder from "@/components/border";
+import ShootingStarBorder from "../../components/border";
 import { Icon } from "@iconify/react";
 import { useAccount } from "wagmi";
-import { SignInPage } from "@/components/sign-in-flow-1";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
-import { ThemeProvider } from "@/components/End/ThemeChangeContext";
+import { SignInPage } from "../../components/sign-in-flow-1";
+import { InfiniteMovingCards } from "../../components/ui/infinite-moving-cards";
+import { ThemeProvider } from "../../components/End/ThemeChangeContext";
 import { useRouter } from "next/navigation";
 interface User {
   username?: string;

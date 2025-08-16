@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Topbar from "@/assets/components/topbar";
-import Sidebar from "@/assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import Sidebar from "../../assets/components/sidebar";
 import Image from "next/image";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { Suspense } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
 import { useForm } from "react-hook-form";
 import { parseEther, formatEther, isAddress } from "viem";
 import {
@@ -141,8 +141,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+} from "../../components/ui/form";
+import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 // Define interfaces

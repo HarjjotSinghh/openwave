@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "motion/react"; // Assuming this is framer-motion, if it's "motion" library, syntax might differ slightly
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 
 export default function LampDemo() {
   return (

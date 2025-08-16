@@ -6,9 +6,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from "../../../../components/ui/card";
+import { Badge } from "../../../../components/ui/badge";
+import { Button } from "../../../../components/ui/button";
 import {
   ArrowLeft,
   GitPullRequest,
@@ -22,9 +22,9 @@ import { useSession } from "next-auth/react";
 import { Octokit } from "octokit";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useEffect, useState } from "react";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
+import { useSidebarContext } from "../../../../assets/components/SidebarContext";
+import Sidebar from "../../../../assets/components/sidebar";
+import Topbar from "../../../../assets/components/topbar";
 import Image from "next/image";
 
 interface Issue {

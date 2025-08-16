@@ -1,14 +1,14 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import {Input} from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "../../components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
+import { Textarea } from "../../components/ui/textarea"
+import {Input} from "../../components/ui/input"
+import { Label } from "../../components/ui/label"
+import { Checkbox } from "../../components/ui/checkbox"
 import { Loader2, CheckCircle2, XCircle, Wallet } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 import { useAccount } from "wagmi"
 import { useReadContract } from "wagmi"
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
@@ -17,9 +17,9 @@ import { useSession } from "next-auth/react"
 const COOLDOWN_PERIOD_MS = 48 * 60 * 60 * 1000 // 48 hours in milliseconds
 const WALLET_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
 import {faucetabi} from '../../../abi'
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 
 const FAUCET_CONTRACT_ADDRESS = "0x3FCF23De6e128bC045c3370E675Ec9FD368c4928";
 

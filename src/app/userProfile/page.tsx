@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { NextPage } from "next";
 import { parseEther, formatEther, isAddress } from "viem";
-import { config } from "@/config/index";
+import { config } from "../../config/index";
 import { Icon } from "@iconify/react";
 import {
   useWaitForTransactionReceipt,
@@ -30,19 +30,19 @@ import {
   Loader2,
 } from "lucide-react";
 // ... existing imports ...
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
 
-import { ScratchToReveal } from "@/components/scrathtoReaveal";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import { ScratchToReveal } from "../../components/scrathtoReaveal";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Octokit } from "octokit";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 // Add custom CSS for the contribution grid
 import "@/app/userProfile/userProfile.css";
 import { endOfYear } from "date-fns";

@@ -3,9 +3,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { Octokit } from "octokit";
 
 interface User {

@@ -1,15 +1,15 @@
 "use client"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card"
+import { Badge } from "../../components/ui/badge"
+import { Button } from "../../components/ui/button"
 import { GitBranch, Star, Eye, AlertCircle } from "lucide-react"
 import { useSession } from "next-auth/react"
 import {useState,useEffect,useCallback} from "react"
 import { useRouter } from "next/navigation";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
 
 interface User {
   name?: string | null;
