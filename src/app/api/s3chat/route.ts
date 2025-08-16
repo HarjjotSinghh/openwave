@@ -7,6 +7,7 @@ import { db } from "../../../db/index";
 import { users } from "../../../db/schema";
 import { and, desc, eq, like } from "drizzle-orm";
 
+
 const s3Client = new S3Client({
     region: 'us-east-1',
     endpoint: 'https://s3.tebi.io',
@@ -40,22 +41,115 @@ const getExtension = (name: string) => name.split('.').pop()?.toLowerCase() || '
 const ENCRYPTION_KEY = process.env.FILE_ENCRYPTION_KEY || 'your-32-char-secret-key-here!!';
 const ALGORITHM = 'aes-256-cbc';
 
+// RSA Encryption configuration
+const PUBLIC_KEY = process.env.RSA_PUBLIC_KEY || '';
+const PRIVATE_KEY = process.env.RSA_PRIVATE_KEY || '';
+
+// Generate RSA key pair if keys are not provided (for development only)
+function generateKeyPair() {
+  if (!PUBLIC_KEY || !PRIVATE_KEY) {
+    const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+      modulusLength: 2048,
+      publicKeyEncoding: {
+        type: 'spki',
+        format: 'pem'
+      },
+      privateKeyEncoding: {
+        type: 'pkcs8',
+        format: 'pem'
+      }
+    });
+    
+    console.warn('Warning: Using generated RSA keys. Set RSA_PUBLIC_KEY and RSA_PRIVATE_KEY environment variables for production.');
+    return { publicKey, privateKey };
+  }
+  return { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY };
+}
+
+const { publicKey, privateKey } = generateKeyPair();
+
 function encryptData(text: string): string {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipher(ALGORITHM, ENCRYPTION_KEY);
-  let encrypted = cipher.update(text, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return iv.toString('hex') + ':' + encrypted;
+  try {
+    // RSA can only encrypt data smaller than the key size minus padding
+    // For RSA-2048, max data size is ~245 bytes
+    // For larger data, we'll use hybrid encryption: RSA + AES
+    
+    if (text.length > 200) {
+      // Hybrid encryption for larger data
+      const aesKey = crypto.randomBytes(32); // 256-bit AES key
+      const iv = crypto.randomBytes(16);
+      
+      // Encrypt data with AES
+      const cipher = crypto.createCipheriv('aes-256-cbc', aesKey, iv);
+      let encrypted = cipher.update(text, 'utf8', 'hex');
+      encrypted += cipher.final('hex');
+      
+      // Encrypt AES key with RSA
+      const encryptedKey = crypto.publicEncrypt({
+        key: publicKey,
+        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+        oaepHash: 'sha256'
+      }, aesKey);
+      
+      // Combine encrypted key, IV, and encrypted data
+      return encryptedKey.toString('base64') + ':' + iv.toString('hex') + ':' + encrypted;
+    } else {
+      // Direct RSA encryption for small data
+      const encrypted = crypto.publicEncrypt({
+        key: publicKey,
+        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+        oaepHash: 'sha256'
+      }, Buffer.from(text, 'utf8'));
+      
+      return 'rsa:' + encrypted.toString('base64');
+    }
+  } catch (error) {
+    console.error('Encryption error:', error);
+    throw new Error('Failed to encrypt data');
+  }
 }
 
 function decryptData(encryptedText: string): string {
-  const textParts = encryptedText.split(':');
-  const iv = Buffer.from(textParts.shift()!, 'hex');
-  const encryptedData = textParts.join(':');
-  const decipher = crypto.createDecipher(ALGORITHM, ENCRYPTION_KEY);
-  let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
+  try {
+    if (encryptedText.startsWith('rsa:')) {
+      // Direct RSA decryption
+      const encryptedData = encryptedText.substring(4);
+      const decrypted = crypto.privateDecrypt({
+        key: privateKey,
+        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+        oaepHash: 'sha256'
+      }, Buffer.from(encryptedData, 'base64'));
+      
+      return decrypted.toString('utf8');
+    } else {
+      // Hybrid decryption
+      const parts = encryptedText.split(':');
+      if (parts.length !== 3) {
+        throw new Error('Invalid encrypted data format');
+      }
+      
+      const [encryptedKeyB64, ivHex, encryptedDataHex] = parts;
+      
+      // Decrypt AES key with RSA
+      const encryptedKey = Buffer.from(encryptedKeyB64, 'base64');
+      const aesKey = crypto.privateDecrypt({
+        key: privateKey,
+        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+        oaepHash: 'sha256'
+      }, encryptedKey);
+      
+      // Decrypt data with AES
+      const iv = Buffer.from(ivHex, 'hex');
+      const decipher = crypto.createDecipheriv('aes-256-cbc', aesKey, iv);
+      let decrypted = decipher.update(encryptedDataHex, 'hex', 'utf8');
+      decrypted += decipher.final('utf8');
+      
+      return decrypted;
+    }
+  } catch (error) {
+    console.error('Decryption error:', error);
+    throw new Error('Failed to decrypt data');
+  }
 }
 
 function generateSecureFileName(originalName: string, contributorWallet: string, maintainerWallet: string): string {
@@ -82,6 +176,8 @@ function generateSecureFileName(originalName: string, contributorWallet: string,
 export async function POST(request: Request) {
   try {
     const { fileName, fileType, contributorUsername, maintainerUsername } = await request.json();
+    console.log(fileName, fileType, contributorUsername, maintainerUsername)
+
 
     if (!fileName || !fileType || !contributorUsername || !maintainerUsername) {
       return NextResponse.json(

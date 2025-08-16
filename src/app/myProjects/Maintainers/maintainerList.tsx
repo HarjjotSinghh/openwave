@@ -169,7 +169,7 @@ const nonVerifiedfilteredProjectMaintainers = enhancedMaintainers.filter(maintai
                         return (
                             <>
                             <Avatar className="h-12 w-12">
-                                <AvatarImage src={admin.avatar_url || "/placeholder.svg"} alt={`${admin.login}'s avatar`} />
+                                <AvatarImage src={admin.avatar_url } alt={`${admin.login}'s avatar`} />
                                 <AvatarFallback>{admin.login.substring(0, 2).toUpperCase()}</AvatarFallback>
                             </Avatar>
                              <div className="grid gap-1">
@@ -223,7 +223,7 @@ const nonVerifiedfilteredProjectMaintainers = enhancedMaintainers.filter(maintai
                     >
                       <Avatar className="h-10 w-10">
                         <AvatarImage
-                          src={maintainer.avatar_url || "/placeholder.svg"}
+                          src={maintainer.avatar_url }
                           alt={`${maintainer.login}'s avatar`}
                         />
                         <AvatarFallback>{maintainer.login.substring(0, 2).toUpperCase()}</AvatarFallback>
@@ -302,7 +302,7 @@ const nonVerifiedfilteredProjectMaintainers = enhancedMaintainers.filter(maintai
                     >
                       <Avatar className="h-10 w-10">
                         <AvatarImage
-                          src={maintainer.avatar_url || "/placeholder.svg"}
+                          src={maintainer.avatar_url }
                           alt={`${maintainer.login}'s avatar`}
                         />
                         <AvatarFallback>{maintainer.login.substring(0, 2).toUpperCase()}</AvatarFallback>

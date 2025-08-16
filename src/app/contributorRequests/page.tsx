@@ -303,7 +303,7 @@ export default function PullRequestsPage() {
                         >
                           <div className="flex items-center gap-3 mb-3">
                             <img
-                              src={req.image_url || "/placeholder.svg"}
+                              src={req.image_url }
                               alt={req.Contributor_id}
                               className="w-10 h-10 rounded-full bg-neutral-200"
                             />
@@ -434,7 +434,7 @@ export default function PullRequestsPage() {
                             >
                               <td className="px-4 py-3 flex items-center gap-3">
                                 <img
-                                  src={req.image_url || "/placeholder.svg"}
+                                  src={req.image_url }
                                   alt={req.Contributor_id}
                                   className="w-8 h-8 rounded-full bg-neutral-200"
                                 />
