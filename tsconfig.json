@@ -22,8 +22,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "types": ["json-schema", "json5"]
+    }
+    // Removed "types": ["json-schema", "json5"] to fix missing type definition errors
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/chats/page.tsx"],
   "exclude": ["node_modules"]
