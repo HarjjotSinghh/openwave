@@ -327,6 +327,57 @@ export default function Project() {
   } = useWaitForTransactionReceipt({
     hash: writeData,
   });
+  // Set token and user from session
+  useEffect(() => {
+    if (session.data) {
+      const sessionInfo = session.data as SessionData;
+      setToken(sessionInfo.accessToken || "");
+      setUser(sessionInfo.user?.username);
+    }
+  }, [session.data]);
+
+    // Fetch repositories
+    useEffect(() => {
+      if (!token) return;
+  
+      const fetchUser = async () => {
+        if (!session) return;
+        const res = await fetch(
+          `/api/publicProfile?username=${session.data?.user?.username}`,
+          {
+            method: "GET",
+          }
+        );
+        const responseData = await res.json();
+        setUserData(responseData);
+      };
+  
+      const fetchRepos = async () => {
+        try {
+          const response = await fetch(
+            `/api/manageProjects?projectOwner=${username}`,
+            {
+              method: "GET",
+            }
+          );
+          const responseData = await response.json();
+          if (response.ok) {
+            setData(responseData.project as Repo[]);
+          } else {
+            console.error(
+              "Error fetching repositories:",
+              responseData.error || response.statusText
+            );
+            setData([]);
+          }
+        } catch (error) {
+          console.error("Error fetching repositories:", error);
+          setData([]);
+        }
+      };
+      fetchUser();
+      fetchRepos();
+    }, [token, session]);
 
   useEffect(() => {
     if (alertMessage) {
@@ -337,57 +388,6 @@ export default function Project() {
     }
   }, [alertMessage]);
 
-  // Set token and user from session
-  useEffect(() => {
-    if (session.data) {
-      const sessionInfo = session.data as SessionData;
-      setToken(sessionInfo.accessToken || "");
-      setUser(sessionInfo.user?.username);
-    }
-  }, [session.data]);
-
-  // Fetch repositories
-  useEffect(() => {
-    if (!token) return;
-
-    const fetchUser = async () => {
-      if (!session) return;
-      const res = await fetch(
-        `/api/publicProfile?username=${session.data?.user?.username}`,
-        {
-          method: "GET",
-        }
-      );
-      const responseData = await res.json();
-      setUserData(responseData);
-    };
-
-    const fetchRepos = async () => {
-      try {
-        const response = await fetch(
-          `/api/manageProjects?projectOwner=${username}`,
-          {
-            method: "GET",
-          }
-        );
-        const responseData = await response.json();
-        if (response.ok) {
-          setData(responseData.project as Repo[]);
-        } else {
-          console.error(
-            "Error fetching repositories:",
-            responseData.error || response.statusText
-          );
-          setData([]);
-        }
-      } catch (error) {
-        console.error("Error fetching repositories:", error);
-        setData([]);
-      }
-    };
-    fetchUser();
-    fetchRepos();
-  }, [token, session]);
 
   useEffect(() => {
     if (!userData) return;
