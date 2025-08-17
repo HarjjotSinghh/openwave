@@ -443,7 +443,7 @@ const createContract = async () => {
 
   useEffect(() => {
       if (!userData) return
-      if(userData?.maintainerWallet==null){
+      if(userData?.maintainerWallet===null){
           setWallet(false)
       }
   },[userData])
@@ -749,10 +749,10 @@ const createContract = async () => {
                             <option value="">Select a repository</option>
                             {data?.map(
                               (
-                                repo: any // data here refers to the list of projects/repos fetched from /api/add-projects
+                                repo
                               ) => (
                                 <option value={repo.name} key={repo.id}>
-                                  {repo.project_repository}
+                                  {repo.full_name}
                                 </option>
                               )
                             )}
@@ -935,7 +935,6 @@ const createContract = async () => {
             </div>
             </>:
             <div className="mx-auto text-center w-max-sm pt-40">
-                          <div className="mx-auto text-center w-max-sm pt-40">
               <div className="text-center font-bold text-7xl pb-4">
                     Create Maintainer Wallet 
               </div>
@@ -1026,7 +1025,6 @@ const createContract = async () => {
                     </div>
                   )}
               </div>
-            </div>
             </div>
  }
           </div>
