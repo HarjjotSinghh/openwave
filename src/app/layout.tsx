@@ -36,6 +36,7 @@ import {
   spaceGrotesk,
   marcellus,
 } from "../lib/fonts";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,7 @@ export default async function RootLayout({
       <body
         className={`bg-background text-foreground ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster position="bottom-right"  />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

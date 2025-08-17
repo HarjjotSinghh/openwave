@@ -89,20 +89,7 @@ interface HackathonResult {
     created_at: Date | null;
   } | null;
 }
-  id: string;
-  project_name: string;
-  description: string | null;
-  owner_id: string;
-  total_votes: number;
-  yes_votes: number;
-  no_votes: number;
-  approval_percentage: number;
-  voting_status: "approved" | "rejected" | "pending";
-  total_split_amount: number;
-  contributors_percentage: number;
-  maintainers_percentage: number;
-  hackathon_name: string;
-  hackathon_id: string;
+
 export default function ResultsPage() {
   const { data: session } = useSession();
   const { isShrunk } = useSidebarContext();

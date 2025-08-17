@@ -29,7 +29,11 @@ interface session {
 
 
 
-export default function PullRequestsPage() {
+export default function PullRequestsPage({
+  repo_name
+}: {
+  repo_name: string;
+}) {
   const { data: session } = useSession();
   const router = useRouter();
   const { isShrunk } = useSidebarContext();

@@ -3,7 +3,7 @@ import { db } from "../../../db/index";
 import {
   hackathons,
   hack_projects,
-} from "../../../../drizzle/schema";
+} from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function POST(request: Request) {
