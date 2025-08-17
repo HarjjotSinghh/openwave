@@ -1,15 +1,15 @@
 "use client"
 import React, { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./card";
+import { Label } from "./label";
 import { Slider } from "@/components/ui/slider";
-import { Input } from "@/components/ui/input";
+import { Input } from "./input";
 import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BorderBeam } from "@/components/ui/border-beam";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
+import { BorderBeam } from "./border-beam";
+import { Badge } from "./badge";
+import { Button } from "./button";
+import { cn } from "../../lib/utils";
 
 export default function BorderBeamDemo() {
   const [size, setSize] = useState(50);

@@ -140,7 +140,7 @@ const ChatPage = () => {
   );
 
   // Filter users based on your project's requirements
-  const filteredUsers = userData.filter((user: any) =>
+  const filteredUsers = userData?.filter((user: any) =>
     users?.some((contributor: any) => contributor.Contributor_id === user.id)
   );
 

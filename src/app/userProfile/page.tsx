@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { NextPage } from "next";
 import { parseEther, formatEther, isAddress } from "viem";
-import { config } from "@/config/index";
+import { config } from "../../config/index";
 import { Icon } from "@iconify/react";
 import {
   useWaitForTransactionReceipt,
@@ -30,19 +30,19 @@ import {
   Loader2,
 } from "lucide-react";
 // ... existing imports ...
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
 
-import { ScratchToReveal } from "@/components/scrathtoReaveal";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import { ScratchToReveal } from "../../components/scrathtoReaveal";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Octokit } from "octokit";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 // Add custom CSS for the contribution grid
 import "@/app/userProfile/userProfile.css";
 import { endOfYear } from "date-fns";
@@ -780,17 +780,17 @@ function Component() {
 
     // Count rewards per day
     rewardData.forEach((reward) => {
-      if (!reward.date) return;
+      if (!reward.rewardedAt) return;
 
       try {
-        const rewardDate = new Date(reward.date);
+        const rewardDate = new Date(reward.rewardedAt);
         if (isNaN(rewardDate.getTime())) return;
 
         const dateStr = rewardDate.toISOString().split("T")[0];
         const day = result.find((d) => d.date === dateStr);
         if (day) day.rewards += 1;
       } catch (e) {
-        console.error("Invalid reward date format:", reward.date);
+        console.error("Invalid reward date format:", reward.rewardedAt);
       }
     });
     return result;
@@ -1720,13 +1720,13 @@ const UserProfilePage: NextPage = () => {
                         </span>
                         <span className="flex items-center">
                           <CalendarDays className="w-3 h-3 mr-1" /> Joined{" "}
-                          {userData.joinedDate}
+                          {userData?.joinedDate}
                         </span>
                         <a
                           href={
                             users[0]?.id
                               ? `https://github.com/${users[0].id as string}`
-                              : userData.githubProfileUrl
+                              : userData?.githubProfileUrl
                           }
                           className="flex items-center hover:text-blue-600 dark:hover:text-blue-400"
                         >

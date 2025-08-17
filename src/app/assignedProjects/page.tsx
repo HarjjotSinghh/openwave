@@ -46,9 +46,9 @@ import {
   GitBranch,
   AlertCircle,
 } from "lucide-react";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";

@@ -4,10 +4,10 @@ import type React from "react";
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
-import Issue from "@/assets/components/issue";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
+import Issue from "../../assets/components/issue";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { Suspense } from "react";
 
 interface Repo {

@@ -4,13 +4,13 @@ import { useChat, type Message } from "@ai-sdk/react"
 
 import React, { useState, useRef, useEffect } from "react"
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
+import { Button } from "../../components/ui/button"
+import { Input } from "../../components/ui/input"
 import { Suspense } from "react"
-import Sidebar from "@/assets/components/sidebar"
-import Topbar from "@/assets/components/topbar"
-import { useSidebarContext } from "@/assets/components/SidebarContext"
+import Sidebar from "../../assets/components/sidebar"
+import Topbar from "../../assets/components/topbar"
+import { useSidebarContext } from "../../assets/components/SidebarContext"
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"

@@ -1,11 +1,11 @@
 "use client";
 
 import { Box, Lock, Search, Settings, Sparkles } from "lucide-react";
-import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { GlowingEffect } from "../../components/ui/glowing-effect";
 import { Icon } from "@iconify/react";
 import { useState ,useEffect} from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader } from "../../components/ui/card"
+import { Badge } from "../../components/ui/badge"
 import { Star, GitFork, Users } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"

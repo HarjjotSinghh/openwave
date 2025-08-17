@@ -3,8 +3,8 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
+import Sidebar from "../../assets/components/sidebar";
+import Topbar from "../../assets/components/topbar";
 import { useSession } from "next-auth/react";
 import { Octokit } from "octokit";
 import {
@@ -18,8 +18,8 @@ import { useWalletClient, usePublicClient } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { deployContract } from "@wagmi/core";
 import type { Session } from "next-auth";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useSidebarContext } from "../../assets/components/SidebarContext";
+import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { Suspense } from "react";
 import {
   Card,
@@ -27,18 +27,19 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../components/ui/select";
 import { Loader2, Wallet, AlertCircle, CheckCircle } from "lucide-react";
+import { User } from "@/db/types";
 
 const abi = [
   {
@@ -209,7 +210,7 @@ export default function Project() {
   const [contractAddress, setContractAddress] = useState("");
   const [isDeploying, setIsDeploying] = useState(false);
   const [error, setError] = useState("");
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState<User | null>(null);
   const [issueUrl, setIssueUrl] = useState<string | undefined>();
   const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<string | undefined>();
@@ -358,7 +359,7 @@ export default function Project() {
         }
       );
       const responseData = await res.json();
-      setUserData(responseData.user);
+      setUserData(responseData);
     };
 
     const fetchRepos = async () => {
@@ -390,7 +391,7 @@ export default function Project() {
 
   useEffect(() => {
     if (!userData) return;
-    if (userData[0].maintainerWallet == null) {
+    if (userData?.maintainerWallet == null) {
       setWallet(false);
     }
   }, [userData]);
@@ -506,13 +507,13 @@ export default function Project() {
       return;
     }
 
-    if (!isConnected || !userData[0].maintainerWallet) {
+    if (!isConnected || !userData?.maintainerWallet) {
       setAlertMessage("Connect your wallet first!");
       return;
     }
 
     if (
-      !userData[0].maintainerWallet ||
+      !userData?.maintainerWallet ||
       !abi ||
       (abi as readonly any[]).length === 0
     ) {
@@ -535,10 +536,10 @@ export default function Project() {
         return;
       }
 
-      if (!userData[0]) return;
+      if (!userData) return;
 
       writeContract({
-        address: userData[0].maintainerWallet as `0x${string}`,
+        address: userData?.maintainerWallet as `0x${string}`,
         abi,
         functionName: "deposit",
         value: parseEther(rewardAmount),

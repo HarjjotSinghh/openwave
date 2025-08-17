@@ -4,20 +4,20 @@ import { useState, useContext } from "react"
 import { useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Progress } from "@/components/ui/progress"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Button } from "../../../components/ui/button"
+import { Input } from "../../../components/ui/input"
+import { Label } from "../../../components/ui/label"
+import { Textarea } from "../../../components/ui/textarea"
+import { Progress } from "../../../components/ui/progress"
+import { Checkbox } from "../../../components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "../../../components/ui/select"
 import { X } from 'lucide-react'
 
 import { ThemeModalContext } from "./page";

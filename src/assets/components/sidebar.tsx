@@ -7,9 +7,9 @@ import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useBalance } from "wagmi";
 import { useSession } from "next-auth/react";
 import { Suspense, useState, useRef } from "react";
-import NeowareLogo from "@/components/NavBar/RotatingLogo";
+import NeowareLogo from "../../components/NavBar/RotatingLogo";
 import gsap from "gsap";
-import { useThemeChange } from "@/components/End/ThemeChangeContext";
+import { useThemeChange } from "../../components/End/ThemeChangeContext";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
@@ -301,6 +301,35 @@ export default function Sidebar() {
                       />
                       <div className="my-auto">
                         {!isShrunk && "openwave Chat"}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+
+                <Link href="/hacks">
+                  <div className="rounded-lg text-sm data-[active=true]:bg-neutral-400 gap-1 my-auto hover:bg-neutral-100 dark:hover:bg-[#27272a] px-2 py-2 flex">
+                    <div className="flex gap-1">
+                      <Icon
+                        icon="material-symbols:code-blocks"
+                        width="24"
+                        height="24"
+                      />
+                      <div className="my-auto">
+                        {!isShrunk && "Hacks"}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/MaintainerWallet">
+                  <div className="rounded-lg text-sm data-[active=true]:bg-neutral-400 gap-1 my-auto hover:bg-neutral-100 dark:hover:bg-[#27272a] px-2 py-2 flex">
+                    <div className="flex gap-1">
+                      <Icon
+                        icon="material-symbols:account-balance-wallet-outline"
+                        width="24"
+                        height="24"
+                      />
+                      <div className="my-auto">
+                        {!isShrunk && "Maintainer Wallet"}
                       </div>
                     </div>
                   </div>

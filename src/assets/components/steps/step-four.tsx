@@ -4,11 +4,11 @@ import type React from "react"
 
 import { useState } from "react"
 import { Plus, X } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Input } from "../../../components/ui/input"
+import { Label } from "../../../components/ui/label"
+import { Button } from "../../../components/ui/button"
+import { Badge } from "../../../components/ui/badge"
+import { Alert, AlertDescription } from "../../../components/ui/alert"
 
 interface StepFourProps {
   formData: ProfileFormData

@@ -6,18 +6,18 @@ import WhyChoosePage from '@/components/WhyChoose/WhyChoosePage';
 import LastPortal from '@/components/End/LastPortal';
 import FinalPage from '@/components/End/FinalPage';
 import BountiesSection from '@/components/Bounties/BountiesSection';
-import NavBar3 from '@/components/NavBar/NavBar3';
+import NavBar3 from '../components/NavBar/NavBar3';
 import MaskedPage from "@/components/Home/PortalReveal";
 import Footer from "@/components/Footer/Footerpage";
-import { ThemeProvider, useThemeChange } from '@/components/End/ThemeChangeContext';
+import { ThemeProvider, useThemeChange } from '../components/End/ThemeChangeContext';
 import CustomCursor from '@/components/Cursor/Cursor';
 import { CursorProvider } from '@/components/Cursor/CursorContext';
 import PreloadingElem from '@/components/preloadingComponent';
-import How1 from "@/components/HowItWorks/how1";
+import How1 from "../components/HowItWorks/how1";
 import Page2 from "@/components/Home/Page2";
-import InfiniteCarousel from "@/components/Home/infiniteCarousel";
-import DotGridBackground from '@/components/ui/dotGridBackground';
-import { InteractiveHoverButton } from '@/components/Home/interactiveButtons';
+import InfiniteCarousel from "../components/Home/infiniteCarousel";
+import DotGridBackground from '../components/ui/dotGridBackground';
+import { InteractiveHoverButton } from '../components/Home/interactiveButtons';
 import Link from 'next/link';
 export default function Home() {
   return (

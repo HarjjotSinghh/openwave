@@ -14,16 +14,16 @@ import { useTheme } from "next-themes";
 import SearchModal from "./SearchModal";
 import { useSearch } from "./SearchContext";
 import { Button } from "../../components/ui/button";
-import { config } from "@/config/index";
+import { config } from "../../config/index";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import { Icon } from "@iconify/react";
 import { useAccount, useEnsName } from "wagmi";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
 import { useAppKit } from "@reown/appkit/react";
 import { disconnect, getAccount, getBalance } from "@wagmi/core";
 import { useBalance } from "wagmi";
@@ -38,7 +38,7 @@ export default function Topbar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [visible, setVisible] = useState(false);
-  const [image, updateImage] = useState("");
+  const [image, updateImage] = useState("/NeowareLogo2.png");
   const { isShrunk, setIsShrunk } = useSidebarContext();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -52,7 +52,7 @@ export default function Topbar() {
     status,
   } = useEnsName({
     address,
-    enabled: !!address, // Only query when address exists
+    // enabled: !!address, // Only query when address exists
   });
 
   // Memoize balance queries with proper enabled conditions
@@ -62,7 +62,7 @@ export default function Topbar() {
     isLoading: isBalanceLoading,
   } = useBalance({
     address: address,
-    enabled: !!address && isConnected, // Only query when connected
+    // enabled: !!address && isConnected, // Only query when connected
   });
 
   const {
@@ -71,7 +71,7 @@ export default function Topbar() {
     isLoading,
   } = useBalance({
     address: address,
-    enabled: !!address && isConnected, // Only query when connected
+    // enabled: !!address && isConnected, // Only query when connected
   });
 
   // Memoize expensive computations
@@ -341,7 +341,7 @@ export default function Topbar() {
                           <div className="text-[14px] flex px-4 mt-1">
                             Balance:
                             <span>
-                              <img src="AVAX_small.png" className="w-5 h-5" />
+                              <img src="/AVAX_small.png" className="w-5 h-5" />
                             </span>
                             {formattedBalance}
                           </div>
@@ -572,6 +572,18 @@ export default function Topbar() {
                               </div>
                             </div>
                           </Link>
+                          <Link href="/MaintainerWallet">
+                            <div className="rounded-lg text-sm focus:bg-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#27272a] pl-1 pr-4 py-2 flex">
+                              <div className="flex gap-1">
+                                <Icon
+                                  icon="material-symbols:account-balance-wallet-outline"
+                                  width="24"
+                                  height="24"
+                                />
+                                Maintainer Wallet
+                              </div>
+                            </div>
+                          </Link>
                         </div>
                       </div>{" "}
                       {/* End of wrapper for top content */}
@@ -600,7 +612,7 @@ export default function Topbar() {
                                   />
                                 </svg>
                               </div>
-                              {truncateAddress(address as string)}
+                              {truncatedAddress}
                             </div>
                           </div>
                         ) : (

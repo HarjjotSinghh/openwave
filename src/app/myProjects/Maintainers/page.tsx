@@ -7,9 +7,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
+import { Button } from "../../../components/ui/button";
 import {
   ArrowLeft,
   MessageSquare,
@@ -28,9 +28,9 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { useSidebarContext } from "@/assets/components/SidebarContext";
-import Sidebar from "@/assets/components/sidebar";
-import Topbar from "@/assets/components/topbar";
+import { useSidebarContext } from "../../../assets/components/SidebarContext";
+import Sidebar from "../../../assets/components/sidebar";
+import Topbar from "../../../assets/components/topbar";
 import { RepositoryDescription } from "../../../components/repository-discription";
 
 interface RepositoryData {

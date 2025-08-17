@@ -18,7 +18,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "../../../components/ui/dropdown-menu"
 import { useChatSidebarContext } from './chatSiderbarContext'; // Ensure this is the correct context
 export default function Topbar(  ) {
 const { isSearchOpen, toggleSearchModal, closeSearchModal } = useSearch();
