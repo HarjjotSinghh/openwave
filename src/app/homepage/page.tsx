@@ -819,7 +819,7 @@ export default function Home() {
                               Get Paid for Your Work
                             </div>
                             <div className="text-[12px] text-neutral-400">
-                              in CRYPTO
+                              in AVAX
                             </div>
                           </div>
                         </div>

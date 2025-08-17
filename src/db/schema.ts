@@ -338,3 +338,14 @@ export const hackathon_results = pgTable("hackathon_results", {
 }, (t) => [
   unique('hackathon_results_hackathon_project_unique').on(t.hackathon_id, t.project_id)
 ]);
+
+export const project_certificates = pgTable("project_certificates", {
+  id: varchar("id", { length: 256 })
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  project_id: varchar("project_id", { length: 256 }).references(() => hack_projects.id),
+  ipfs_hash: text("ipfs_hash").notNull(),
+  url: text("url"),
+  issued_at: timestamp("issued_at").default(sql`now()`),
+  issued_by: text("issued_by").notNull()
+});

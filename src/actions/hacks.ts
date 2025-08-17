@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { hackathons, hack_projects, project_votes, project_split_payments, hackathon_results } from "../../drizzle/schema";
+import { hackathons, hack_projects, project_votes, project_split_payments, hackathon_results } from "@/db/ßschema";
 import { eq, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
