@@ -557,18 +557,19 @@ export default function Project() {
       setAlertMessage("Please enter a valid positive reward amount");
       return;
     }
-
+    // @ts-expect-error  not typed correctly
     if (!isConnected || !userData[0].maintainerWallet) {
       return setAlertMessage("Connect your wallet first!");
     }
+    // @ts-expect-error  not typed correctly
     console.log("userData", userData[0].maintainerWallet);
     if (
+      // @ts-expect-error  not typed correctly
       !userData[0].maintainerWallet ||
       !abi ||
       (abi as readonly any[]).length === 0
     ) {
       return setAlertMessage("Contract address or ABI is not configured.");
-      console.error("Contract address or ABI is not configured.");
     }
 
     if (!difficulty || !priority || !selectedRepo || !selectedissue) {
@@ -586,6 +587,7 @@ export default function Project() {
       if (!userData) return;
 
       writeContract({
+        // @ts-expect-error  not typed correctly
         address: userData[0].maintainerWallet as `0x${string}`,
         abi,
         functionName: "deposit",
