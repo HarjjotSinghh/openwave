@@ -303,16 +303,18 @@ export default function Page2() {
                       sampleVids.length
                     );
                     const isDraggable = index === activeIndex;
-
+                    const baseStyle = {
+                      width: "clamp(320px, 60vw, 700px)", // Responsive width
+                      height: "clamp(200px, 37vw, 440px)", // Responsive height maintaining aspect ratio
+                      maxWidth: "90vw", // Prevent overflow on very small screens
+                      cursor: isDraggable ? "grab" : "default",
+                      ...transform,
+                    };
                     return (
                       <motion.div
                         key={video.id}
                         className="absolute"
-                        style={{
-                          width: "clamp(320px, 60vw, 700px)", // Responsive width
-                          height: "clamp(200px, 37vw, 440px)", // Responsive height maintaining aspect ratio
-                          maxWidth: "90vw", // Prevent overflow on very small screens
-                        }}
+                        style={baseStyle}
                         animate={transform}
                         transition={{
                           type: "spring",
@@ -324,10 +326,6 @@ export default function Page2() {
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0.1}
                         onDragEnd={handleDragEnd}
-                        style={{
-                          cursor: isDraggable ? "grab" : "default",
-                          ...transform,
-                        }}
                         whileDrag={{ cursor: "grabbing" }}
                       >
                         <div
@@ -354,15 +352,20 @@ export default function Page2() {
                     );
                     const isDraggable = index === activeIndex;
 
+                    // Merge all style properties into a single object to avoid duplicate 'style' props
+                    const baseStyle = {
+                      width: "clamp(320px, 60vw, 700px)", // Responsive width
+                      height: "clamp(200px, 37vw, 440px)", // Responsive height maintaining aspect ratio
+                      maxWidth: "90vw", // Prevent overflow on very small screens
+                      cursor: isDraggable ? "grab" : "default",
+                      ...transform,
+                    };
+
                     return (
                       <motion.div
                         key={video.id}
                         className="absolute"
-                        style={{
-                          width: "clamp(320px, 60vw, 700px)", // Responsive width
-                          height: "clamp(200px, 37vw, 440px)", // Responsive height maintaining aspect ratio
-                          maxWidth: "90vw", // Prevent overflow on very small screens
-                        }}
+                        style={baseStyle}
                         animate={transform}
                         transition={{
                           type: "spring",
@@ -374,10 +377,6 @@ export default function Page2() {
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0.1}
                         onDragEnd={handleDragEnd}
-                        style={{
-                          cursor: isDraggable ? "grab" : "default",
-                          ...transform,
-                        }}
                         whileDrag={{ cursor: "grabbing" }}
                       >
                         <div

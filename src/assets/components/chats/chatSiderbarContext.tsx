@@ -1,14 +1,15 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { useSession } from "next-auth/react";
+import { ContributorRequests, User } from "@/db/types";
 // Define a more specific type for a user if available, otherwise 'any' is a placeholder
-type UserType = any; 
+type UserType = User; 
 
 type SidebarContextType = {
   isShrunk: boolean;
   setIsShrunk: (val: boolean) => void;
-  selectedUser: UserType | null; // Updated type
-  setSelectedUser: (user: UserType | null) => void; // Updated type
+  selectedUser: ContributorRequests | null; // Updated type
+  setSelectedUser: (user: ContributorRequests | null) => void; // Updated type
   allUsers: UserType[];
   assignedUsers: UserType[];
   filteredUsers: UserType[];
@@ -18,8 +19,8 @@ type SidebarContextType = {
   setDatabaseMessages: (messages: ChatMessage[]) => void;
 };
 
-interface ChatMessage {
-  id: number;
+export interface ChatMessage {
+  id: string;
   text: string;
   timestamp: string;
   sender_id: string;
@@ -32,7 +33,7 @@ const chatSidebarContext = createContext<SidebarContextType | undefined>(undefin
 export const ChatSidebarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const {data:session}=useSession();
   const [isShrunk, setIsShrunk] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [selectedUser, setSelectedUser] = useState<ContributorRequests | null>(null);
   const [allUsers, setAllUsers] = useState<UserType[]>([]);
   const [databaseMessages, setDatabaseMessages] = useState<ChatMessage[]>([]);
   const [assignedUsers, setAssignedUsers] = useState<UserType[]>([]);

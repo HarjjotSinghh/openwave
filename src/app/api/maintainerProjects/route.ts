@@ -46,17 +46,17 @@ export async function PUT(request: Request) {
             );
         }
 
-        const existingMaintainers = existingProject[0].maintainerUserIds || [];
+        const existingMaintainers = existingProject[0].maintainerUserIds || [] as string[];
         let finalMaintainers;
 
         switch (action) {
             case 'append':
                 // Add new maintainers, avoid duplicates
-                finalMaintainers = [...new Set([...existingMaintainers, ...maintainerUserIds])];
+                finalMaintainers = [...new Set([...existingMaintainers as string[], ...maintainerUserIds])];
                 break;
             case 'remove':
                 // Remove specified maintainers
-                finalMaintainers = existingMaintainers.filter(id => !maintainerUserIds.includes(id));
+                finalMaintainers = (existingMaintainers as string[]).filter((id: string) => !maintainerUserIds.includes(id));
                 break;
             case 'replace':
             default:

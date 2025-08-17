@@ -6,10 +6,10 @@ import { Slider } from "@/components/ui/slider";
 import { Input } from "./input";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
-import { BorderBeam } from "./border-beam";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { cn } from "../../lib/utils";
+import { BorderBeam } from "../magicui/border-beam";
 
 export default function BorderBeamDemo() {
   const [size, setSize] = useState(50);
@@ -151,12 +151,12 @@ export default function BorderBeamDemo() {
               colorTo={colorTo}
               reverse={reverse}
               initialOffset={initialOffset}
-              borderThickness={borderThickness}
-              opacity={opacity}
-              glowIntensity={glowIntensity}
-              beamBorderRadius={beamBorderRadius}
-              pauseOnHover={pauseOnHover}
-              speedMultiplier={speedMultiplier}
+              // borderThickness={borderThickness}
+              // opacity={opacity}
+              // glowIntensity={glowIntensity}
+              // beamBorderRadius={beamBorderRadius}
+              // pauseOnHover={pauseOnHover}
+              // speedMultiplier={speedMultiplier}
             />
             <div className="relative bg-card p-6 rounded-md z-10 w-full h-full flex items-center justify-center">
               <div className="text-center">

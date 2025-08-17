@@ -266,10 +266,10 @@ export default function InfiniteCarousel() {
   return (
     <div className="w-full [mask-image:linear-gradient(to_right,transparent,black_25%,black_75%,transparent)]  overflow-hidden space-y-4">
       {renderRow(items1, scrollRef1 as React.RefObject<HTMLDivElement>)}
-      {renderRow(items2, scrollRef2)}
-      {renderRow(items3, scrollRef3)}
-      {renderRow(items4, scrollRef4)}
-      {renderRow(items5, scrollRef5)}
+      {renderRow(items2, scrollRef2 as React.RefObject<HTMLDivElement>)}
+      {renderRow(items3, scrollRef3 as React.RefObject<HTMLDivElement>)}
+      {renderRow(items4, scrollRef4 as React.RefObject<HTMLDivElement>)}
+      {renderRow(items5, scrollRef5 as React.RefObject<HTMLDivElement>)}
     </div>
   );
 }

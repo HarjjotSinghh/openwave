@@ -2,15 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { db } from '../../../db/index';
 import { contributorApplications } from '../../../db/schema';
-import { eq,and } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 
 export async function POST(request: Request) {
   try {
     // Get session to extract username
 
-
     const formData = await request.json();
-    
+
     // Validate required fields
     if (!formData.name || !formData.email) {
       return NextResponse.json(
@@ -81,26 +80,18 @@ export async function POST(request: Request) {
 // GET endpoint to retrieve applications (for admin/project owners)
 export async function GET(request: Request) {
   try {
-
-  
-
     const { searchParams } = new URL(request.url);
     const projectName = searchParams.get('projectName');
     const username = searchParams.get('username');
 
-
-    let query = db.select().from(contributorApplications);
-    
-    // Filter by project name if provided
-  
-
-    if (username && projectName) {
-      query = query.where(and (eq(contributorApplications.projectName, projectName))) .orderBy(contributorApplications.submittedAt);
-
+    if (!projectName || !username) {
+      return NextResponse.json(
+        { success: false, error: 'Project name or username is required' },
+        { status: 400 }
+      );
     }
 
-
-    const applications = await query;
+    const applications = await db.select().from(contributorApplications).where(eq(contributorApplications.projectName, projectName)).orderBy(contributorApplications.submittedAt);
 
     return NextResponse.json({
       success: true,
@@ -122,10 +113,8 @@ export async function GET(request: Request) {
 // PUT endpoint to update application status
 export async function PUT(request: Request) {
   try {
-    
-
     const { applicationId, status } = await request.json();
-    
+
     if (!applicationId || !status) {
       return NextResponse.json(
         { success: false, error: 'Application ID and status are required' },

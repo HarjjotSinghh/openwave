@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "mkw8ccoogskw0go4wosgwk4c.server.gitfund.tech",
+      },
+      {
+        protocol: "https",
         hostname: "s3.tebi.io",
       },
       {

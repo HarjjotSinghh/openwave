@@ -3,11 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useChatSidebarContext } from "./chatSiderbarContext";
-import React, { Suspense, useEffect, useRef, useState } from "react"; // Added React, useEffect, useState
+import React, { Suspense, useEffect, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useSession } from "next-auth/react";
+import { ContributorRequests, User } from "../../../db/types";
 
 type RotatingLogoProps = {
   size?: number;
@@ -16,7 +17,7 @@ type RotatingLogoProps = {
 };
 
 export default function Sidebar() {
-  const textRef = useRef(null);
+  const textRef = useRef<HTMLHeadingElement | null>(null);
   const { data: session } = useSession();
   const {
     isShrunk,
@@ -49,11 +50,11 @@ export default function Sidebar() {
     return <primitive ref={modelRef} object={scene} scale={size} />;
   };
 
-  const fetchMessages = async (user) => {
+  const fetchMessages = async (user: ContributorRequests) => {
     try {
       const username = session?.user?.username;
       const response = await fetch(
-        databaseMessages.length == 0
+        databaseMessages.length === 0
           ? `/api/chat?username=${username}&pageSize=50&selectedUser=${user?.Contributor_id}`
           : `/api/chat?username=${username}&pageSize=50&selectedUser=${
               user?.Contributor_id
@@ -71,16 +72,22 @@ export default function Sidebar() {
     }
   };
 
-  const uniqueFilteredUsers = filteredUsers.reduce((unique, user) => {
-    if (!unique.some((u) => u.Contributor_id === user.Contributor_id)) {
-      unique.push(user);
-    }
-    return unique;
-  }, []);
+  // Fix: Ensure uniqueFilteredUsers is always an array and has correct type
+  // @ts-expect-error - filteredUsers is not typed correctly
+  const uniqueFilteredUsers: ContributorRequests[] = Array.isArray(filteredUsers)
+  // @ts-expect-error - filteredUsers is not typed correctly
+    ? filteredUsers.reduce((unique: ContributorRequests[], user: ContributorRequests) => {
+        if (!unique.some((u) => u?.Contributor_id === user?.Contributor_id)) {
+          unique.push(user);
+        }
+        return unique;
+      }, [])
+    : [];
 
   // Refresh users when the component mounts
   useEffect(() => {
     refreshUsers();
+     
   }, []);
 
   return (
@@ -106,7 +113,7 @@ export default function Sidebar() {
                 }}
               >
                 <img
-                  src="/NeowareLogo2.png" // Replace with your actual fallback image path
+                  src="/NeowareLogo2.png"
                   alt="Loading logo..."
                 />
               </div>
@@ -122,14 +129,14 @@ export default function Sidebar() {
               >
                 <ambientLight intensity={1} />
                 <directionalLight position={[2, 2, 5]} intensity={1.5} />
-                <RotatingLogo size={2.2} speed={3} direction={`clockwise`} />
+                <RotatingLogo size={2.2} speed={3} direction="clockwise" />
               </Canvas>
             </div>
           </Suspense>
           <div className="my-auto overflow-hidden max-sm:hidden">
             <h1
               ref={textRef}
-              className={`dark:text-white text-black text-2xl text-center max-md:text-xl max-sm:text-lg`}
+              className="dark:text-white text-black text-2xl text-center max-md:text-xl max-sm:text-lg"
               style={{ fontFamily: "var(--font-cypher)" }}
             >
               openwave
@@ -147,30 +154,29 @@ export default function Sidebar() {
             )}
 
             {!isLoadingUsers && uniqueFilteredUsers.length > 0
-              ? uniqueFilteredUsers.map((user: any) => (
+              ? uniqueFilteredUsers.map((user: ContributorRequests) => (
                   <div
                     key={user.id}
                     onClick={() => {
                       setSelectedUser(user);
-                      fetchMessages(user); // Update the selected user
+                      fetchMessages(user);
                     }}
                     className="rounded-lg gap-4 text-sm focus:bg-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#27272a] px-2 py-2 flex items-center cursor-pointer max-md:gap-2 max-md:px-1 max-md:py-1"
-                    // onClick={() => { /* TODO: Implement chat opening logic if needed */ }}
                   >
                     <img
-                      className={`rounded-full`}
-                      src={user.image_url || ""} // Provide a fallback avatar
+                      className="rounded-full"
+                      src={user.image_url || ""}
                       alt={user.fullName || "User"}
-                      width={isShrunk ? 28 : 24} // Slightly larger avatar when shrunk
+                      width={isShrunk ? 28 : 24}
                       height={isShrunk ? 28 : 24}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "";
-                      }} // Fallback for broken images
+                      }}
                     />
                     {!isShrunk && (
                       <span
                         className="ml-2 truncate max-md:text-xs"
-                        title={user.fullName}
+                        title={user.fullName || ""}
                       >
                         {user.fullName}
                       </span>

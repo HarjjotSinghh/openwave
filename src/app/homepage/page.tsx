@@ -579,7 +579,7 @@ export default function Home() {
                 {session && (
                   <div className="bg-gradient-to-r from-purple-950 via-purple-800 to-purple-950 px-4 py-4 rounded-2xl">
                     <div className="text-white text-xl font-bold">
-                      Hey {session?.user?.name}, ready to make an impact?
+                      Hey {session?.user?.username}, ready to make an impact?
                     </div>
                     <div className="text-white py-2">
                       Start contributing. Start earning. Let openwave recommend
@@ -836,7 +836,7 @@ export default function Home() {
                           key: item.key,
                           personName: item.personName,
                           eventName: item.repoTitle,
-                          amount: 500, // Placeholder amount
+                          amount: "500", // Placeholder amount as string
                           avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(
                             item.personName
                           )}&background=random`,

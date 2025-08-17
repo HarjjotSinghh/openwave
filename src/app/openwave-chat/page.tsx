@@ -21,7 +21,7 @@ import { Input } from "../../components/ui/input";
 import { cn } from "../../lib/utils";
 import Sidebar from "../../assets/components/chats/chatSidebar";
 import Topbar from "../../assets/components/chats/chatTopbar";
-import { useChatSidebarContext } from "../../assets/components/chats/chatSiderbarContext";
+import { useChatSidebarContext, type ChatMessage } from "../../assets/components/chats/chatSiderbarContext";
 import { redirect } from "next/navigation";
 
 
@@ -36,14 +36,28 @@ interface memoizedSession{
   };
 
 }
-// Define message types
-interface ChatMessage {
+// Define message types for real-time messages
+interface RealTimeMessage {
   text: string;
   timestamp: string;
   to: string;
   from: string;
   pending?: boolean;
   failed?: boolean;
+}
+
+// Unified message interface for display
+interface DisplayMessage {
+  id?: string;
+  text: string;
+  timestamp: string;
+  sender_id?: string;
+  reciever_id?: string;
+  from?: string;
+  to?: string;
+  pending?: boolean;
+  failed?: boolean;
+  image_url?: string;
 }
 
 interface SessionData {
@@ -54,14 +68,7 @@ interface SessionData {
   };
 }
 
-interface DatabaseMessage {
-  id: number;
-  text: string;
-  timestamp: string;
-  sender_id: string;
-  reciever_id: string;
-  image_url?: string;
-}
+
 
 interface User {
   username?: string;
@@ -121,7 +128,7 @@ console.log("memo:", memoizedSession)
 console.log("selectedUser:", selectedUser)
 
   // State
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<RealTimeMessage[]>([]);
   const [messageInput, setMessageInput] = useState("");
   const [connectionStatus, setConnectionStatus] =
     useState<ConnectionStatus>("disconnected");
@@ -152,13 +159,13 @@ console.log("selectedUser:", selectedUser)
               databaseMessages[databaseMessages.length - 1]?.timestamp
             }`
       );
-      const data = await response.json();
+      const data = await response.json() as { messages: ChatMessage[] };
 
       if (data.messages && data.messages.length > 0) {
-        setDatabaseMessages((prevMessages) => [
-          ...prevMessages,
+        setDatabaseMessages([
+          ...databaseMessages,
           ...data.messages,
-        ]);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        ] as ChatMessage[]);
 
         // Use requestAnimationFrame to ensure DOM has been updated
         requestAnimationFrame(() => {
@@ -182,7 +189,7 @@ console.log("selectedUser:", selectedUser)
   const [activeUsers, setActiveUsers] = useState<string[]>([]);
   const [isReconnecting, setIsReconnecting] = useState(false);
 
-  const saveMessageToBackend = useCallback(async (msg: ChatMessage) => {
+  const saveMessageToBackend = useCallback(async (msg: RealTimeMessage) => {
     try {
       await fetch("/api/chat", {
         method: "POST",
@@ -262,8 +269,8 @@ console.log("selectedUser:", selectedUser)
     });
 
     // Message events
-    socket.on("privateMessage", (msg: ChatMessage) => {
-      setMessages((prev) => [...prev, { ...msg, pending: false }]);
+    socket.on("privateMessage", (msg: RealTimeMessage) => {
+      setMessages((prev: RealTimeMessage[]) => [...prev, { ...msg, pending: false }]);
     });
 
     // Error handling
@@ -321,7 +328,7 @@ console.log("selectedUser:", selectedUser)
     }
 
     const messageId = `${Date.now()}-${Math.random()}`;
-    const newMessage: ChatMessage = {
+    const newMessage: RealTimeMessage = {
       text: messageInput.trim(),
       timestamp: new Date().toISOString(),
       to: selectedUser.id,
@@ -330,7 +337,7 @@ console.log("selectedUser:", selectedUser)
     };
 
     // Add message optimistically
-    setMessages((prev) => [...prev, { ...newMessage }]);
+    setMessages((prev: RealTimeMessage[]) => [...prev, { ...newMessage, to: selectedUser.id, from: memoizedSession?.user?.username as string }]);
     setMessageInput("");
 
     // Send to server with callback
@@ -342,7 +349,7 @@ console.log("selectedUser:", selectedUser)
         timestamp: newMessage.timestamp,
       },
       (response: { success?: boolean; error?: string; timestamp?: string }) => {
-        setMessages((prev) =>
+        setMessages((prev: RealTimeMessage[]) =>
           prev.map((msg) =>
             msg.timestamp === newMessage.timestamp &&
             msg.from === newMessage.from
@@ -392,11 +399,11 @@ console.log("selectedUser:", selectedUser)
     [sendMessage]
   );
 
-  const retryFailedMessage = useCallback((failedMessage: ChatMessage) => {
+  const retryFailedMessage = useCallback((failedMessage: RealTimeMessage) => {
     if (!socketRef.current?.connected || !failedMessage.failed) return;
 
     // Remove failed flag and mark as pending
-    setMessages((prev) =>
+    setMessages((prev: RealTimeMessage[]) =>
       prev.map((msg) =>
         msg === failedMessage ? { ...msg, pending: true, failed: false } : msg
       )
@@ -411,7 +418,7 @@ console.log("selectedUser:", selectedUser)
         timestamp: failedMessage.timestamp,
       },
       (response: { success?: boolean; error?: string }) => {
-        setMessages((prev) =>
+        setMessages((prev: RealTimeMessage[]) =>
           prev.map((msg) =>
             msg.timestamp === failedMessage.timestamp
               ? { ...msg, pending: false, failed: !!response.error }
@@ -464,7 +471,7 @@ console.log("selectedUser:", selectedUser)
       {/* Your Example component */}
       <Example
         contributorID={(memoizedSession?.user as User)?.username as string}
-        maintainerID={selectedUser?.Contributor_id}
+        maintainerID={selectedUser?.Contributor_id as string}
       />
     </div>
   </div>
@@ -785,7 +792,7 @@ console.log("selectedUser:", selectedUser)
                     <Input
                       type="text"
                       placeholder={`Message ${
-                        selectedUser.username || selectedUser.id
+                        selectedUser.id || selectedUser.fullName
                       }...`}
                       value={messageInput}
                       onChange={(e) => setMessageInput(e.target.value)}

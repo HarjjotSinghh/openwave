@@ -1,5 +1,5 @@
 import { type } from "os";
-import { hack_projects, project_votes, project_split_payments, users } from "./schema";
+import { contributorRequests, hack_projects, project_votes, project_split_payments, users } from "./schema";
 
 export type User = typeof users.$inferSelect;
 export type UserInsert = typeof users.$inferInsert;
@@ -12,3 +12,6 @@ export type ProjectVotesInsert = typeof project_votes.$inferInsert;
 
 export type SplitPayment = typeof project_split_payments.$inferSelect;
 export type SplitPaymentInsert = typeof project_split_payments.$inferInsert;
+
+export type ContributorRequests = typeof contributorRequests.$inferSelect;
+export type ContributorRequestsInsert = typeof contributorRequests.$inferInsert;
