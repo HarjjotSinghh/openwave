@@ -542,7 +542,7 @@ export default function Project() {
         address: userData?.maintainerWallet as `0x${string}`,
         abi,
         functionName: "deposit",
-        value: parseEther(rewardAmount),
+        value: parseEther(rewardAmount as string),
       });
 
       if (isWritePending) {

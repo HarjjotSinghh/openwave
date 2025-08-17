@@ -572,7 +572,7 @@ export default function Topbar() {
                               </div>
                             </div>
                           </Link>
-                          <Link href="/MaintainerWallet">
+                          {/* <Link href="/MaintainerWallet">
                             <div className="rounded-lg text-sm focus:bg-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#27272a] pl-1 pr-4 py-2 flex">
                               <div className="flex gap-1">
                                 <Icon
@@ -583,7 +583,7 @@ export default function Topbar() {
                                 Maintainer Wallet
                               </div>
                             </div>
-                          </Link>
+                          </Link> */}
                         </div>
                       </div>{" "}
                       {/* End of wrapper for top content */}
