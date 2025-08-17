@@ -752,7 +752,8 @@ const createContract = async () => {
                                 repo
                               ) => (
                                 <option value={repo.name} key={repo.id}>
-                                  {repo.full_name}
+                                  {/* @ts-expect-error  not typed correctly*/}
+                                  {repo.project_repository}
                                 </option>
                               )
                             )}
