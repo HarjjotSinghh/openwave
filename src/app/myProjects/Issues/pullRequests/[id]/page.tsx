@@ -18,7 +18,11 @@ import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { type Hash } from "viem";
 import { useAccount } from "wagmi";
 import { parseEther, formatEther, isAddress } from "viem";
-import { Alert, AlertTitle, AlertDescription } from "../../../../../components/ui/alert";
+import {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+} from "../../../../../components/ui/alert";
 import { Loader2, Wallet, AlertCircle, CheckCircle } from "lucide-react";
 
 const abi = [
@@ -172,7 +176,7 @@ export default function PullRequestDetails() {
   } = useWaitForTransactionReceipt({
     hash,
   });
-  console.log("completion",completion)
+  console.log("completion", completion);
   const [contributer, setContributer] = useState();
   const [contributerId, setContributerId] = useState();
   const { address, isConnected } = useAccount();
@@ -239,31 +243,34 @@ export default function PullRequestDetails() {
   }, [repoData]);
   const transact = async () => {
     if (!isConnected || !address) {
-      alert("Please connect your wallet first.");
-      return;
+      return alert("Please connect your wallet first.");
     }
     // Add type-safe null checks
-    if (!userData || !userData?.maintainerWallet) {
-      alert("User wallet information is missing");
-      return;
-    }
 
-    if (
-      !contributorData ||
-      !contributorData?.metaMask
-    ) {
-      alert("Contributor wallet information is missing");
-      return;
+    // @ts-expect-error userData is expected to be an array
+    if (!userData || !userData.user[0].maintainerWallet) {
+      return alert("User wallet information is missing");
     }
-
+    //@ts-expect-error contributorData is expected to be an array
+    if (!contributorData || !contributorData.user[0].maintainerWallet) {
+      return alert("Contributor wallet information is missing");
+    }
+    console.log(contributorData, "hello cont");
+    console.log(userData, "hello user");
     const amountInWei = parseEther(RewardAmount as string);
     try {
       // Add await since writeContract is async
       await writeContract({
-        address: userData?.maintainerWallet as `0x${string}`,
+        // @ts-expect-error y
+
+        address: userData.user[0].maintainerWallet as `0x${string}`,
         abi,
         functionName: "forwardFunds",
-        args: [contributorData?.metaMask as `0x${string}`, amountInWei],
+        args: [
+          // @ts-expect-error contributorData is expected to be an array
+          contributorData.user[0].metaMask as `0x${string}`,
+          amountInWei,
+        ],
       });
     } catch (error) {
       console.error("Transaction failed:", error);
@@ -431,19 +438,18 @@ export default function PullRequestDetails() {
         }),
       });
 
-
-      await fetch(`/api/getContributions?contributor=${contributer}`,{
+      await fetch(`/api/getContributions?contributor=${contributer}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           contributor: contributer,
-          issue:issueNumber,
+          issue: issueNumber,
           projectName: project,
-          status:'completed'
+          status: "completed",
         }),
-      })
+      });
       // make transaction call
 
       makeTransaction();
@@ -511,12 +517,11 @@ export default function PullRequestDetails() {
     fetchPRDetails();
   }, [session, owner, project, pullRequestId, octokit]);
 
-
   const handleAnalyzePR = async () => {
     if (!repoData) return;
-    
+
     const prompt = `Analyze this pull request: ${repoData.title}\n\nDescription: ${repoData.body}\n\nChanges: ${repoData.changed_files} files changed`;
-    
+
     await complete(prompt);
   };
 
@@ -883,13 +888,12 @@ export default function PullRequestDetails() {
                   <button
                     onClick={() => {
                       setAi(true);
-                      
-                        setHasRunCompletion(true);
-                        const prompt = `Analyze the changes made in a pull request https://github.com/${owner}/${project}/pull/${pullRequestId}. Focus on a technical review: explain the purpose of the changes, evaluate the code quality, identify any potential issues or improvements, and assess if the modifications align with best coding practices. Assume the reader is familiar with programming concepts.`;
 
-                        // Use setTimeout to prevent React state update cycles
-                        handleAnalyzePR();
-                      
+                      setHasRunCompletion(true);
+                      const prompt = `Analyze the changes made in a pull request https://github.com/${owner}/${project}/pull/${pullRequestId}. Focus on a technical review: explain the purpose of the changes, evaluate the code quality, identify any potential issues or improvements, and assess if the modifications align with best coding practices. Assume the reader is familiar with programming concepts.`;
+
+                      // Use setTimeout to prevent React state update cycles
+                      handleAnalyzePR();
                     }}
                     disabled={
                       isCompletionLoading ||
