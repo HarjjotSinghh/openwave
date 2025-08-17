@@ -568,7 +568,7 @@ export default function Component() {
                                 <Avatar className="h-5 w-5 lg:h-6 lg:w-6">
                                   <AvatarImage
                                     src={
-                                      project.image_url || "/placeholder.svg"
+                                      project.image_url 
                                     }
                                   />
                                   <AvatarFallback className="text-xs">

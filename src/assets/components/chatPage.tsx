@@ -27,7 +27,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     // Create socket connection
-    const newSocket = io("https://openwave-chat-8uaxx.ondigitalocean.app/", {
+    const newSocket = io("http://localhost:4000", {
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
     });

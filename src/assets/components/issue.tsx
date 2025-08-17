@@ -158,7 +158,7 @@ export default function IssueCard({
         <CardHeader className="p-0">
           <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
             <img
-              src={image || "/placeholder.svg"}
+              src={image }
               alt={Project}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />

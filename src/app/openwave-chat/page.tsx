@@ -9,6 +9,9 @@ import {
   useMemo,
   useLayoutEffect,
 } from "react";
+import {Icon} from "@iconify/react"
+import Example from "@/components/drop";
+
 import { signIn, useSession } from "next-auth/react";
 import { io, type Socket } from "socket.io-client";
 import Image from "next/image";
@@ -21,6 +24,18 @@ import Topbar from "../../assets/components/chats/chatTopbar";
 import { useChatSidebarContext } from "../../assets/components/chats/chatSiderbarContext";
 import { redirect } from "next/navigation";
 
+
+interface memoizedSession{
+  accessToken?: string;
+  expires?: string;
+  user?: {
+    username?: string;
+    email?: string;
+    name?: string;
+    image?: string;
+  };
+
+}
 // Define message types
 interface ChatMessage {
   text: string;
@@ -72,12 +87,13 @@ export default function OptimizedChatPage() {
   const { data: session } = useSession();
   const [shouldRestoreScroll, setShouldRestoreScroll] = useState(null);
 
-  const memoizedSession = useMemo(() => session, [session]);
+  const memoizedSession = useMemo(() => session as memoizedSession, [session]);
   const { theme } = useTheme();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+console.log("memo:", memoizedSession)
 
   // Check if mobile
   useEffect(() => {
@@ -98,9 +114,11 @@ export default function OptimizedChatPage() {
     selectedUser,
     isLoadingUsers,
     refreshUsers,
+    filteredUsers,
     databaseMessages,
     setDatabaseMessages,
   } = useChatSidebarContext();
+console.log("selectedUser:", selectedUser)
 
   // State
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -110,6 +128,7 @@ export default function OptimizedChatPage() {
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isLoadingMoreMessages, setIsLoadingMoreMessages] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [uploadFile,setUploadFile]=useState<boolean>()
 
   const fetchMessages = async () => {
     try {
@@ -139,7 +158,7 @@ export default function OptimizedChatPage() {
         setDatabaseMessages((prevMessages) => [
           ...prevMessages,
           ...data.messages,
-        ]);
+        ]);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
         // Use requestAnimationFrame to ensure DOM has been updated
         requestAnimationFrame(() => {
@@ -200,7 +219,7 @@ export default function OptimizedChatPage() {
     setConnectionStatus("connecting");
     setErrorMessage(null);
 
-    const socket = io("https://gitfund-chat-8uaxx.ondigitalocean.app", {
+    const socket = io("http://localhost:4000", {
       auth: { username: memoizedSession?.user?.username },
       reconnectionAttempts: 5,
       reconnectionDelay: 2000,
@@ -407,6 +426,8 @@ export default function OptimizedChatPage() {
   if (!session) {
   }
 
+
+
   // Filter messages for current conversation
   const conversationMessages = messages.filter(
     (msg) =>
@@ -429,6 +450,26 @@ export default function OptimizedChatPage() {
             : "ml-64 w-[calc(100%-16rem)]"
         )}
       >
+       {uploadFile && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-xl p-6 w-full max-w-lg relative">
+      {/* Close button */}
+      <button
+        onClick={() => setUploadFile(false)}
+        className="absolute top-3 right-3 text-neutral-500 hover:text-neutral-800 dark:hover:text-white"
+      >
+        ✖
+      </button>
+
+      {/* Your Example component */}
+      <Example
+        contributorID={(memoizedSession?.user as User)?.username as string}
+        maintainerID={selectedUser?.Contributor_id}
+      />
+    </div>
+  </div>
+)}
+
         <main className="flex-1 flex flex-col overflow-hidden">
           {/* Connection Status Bar */}
           {connectionStatus !== "connected" && (
@@ -521,7 +562,7 @@ export default function OptimizedChatPage() {
                       <h2 className="text-sm xs:text-base sm:text-lg lg:text-xl font-semibold truncate">
                         {selectedUser.fullName}
                       </h2>
-                      <p className="text-xs sm:text-sm">
+                      <div className="text-xs sm:text-sm">
                         {activeUsers.includes(selectedUser.id) ? (
                           <span className="text-green-500 flex items-center">
                             <div className="w-1.5 h-1.5 xs:w-2 xs:h-2 bg-green-500 rounded-full mr-1 flex-shrink-0" />
@@ -535,7 +576,7 @@ export default function OptimizedChatPage() {
                             <span className="xs:hidden">•</span>
                           </span>
                         )}
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -752,15 +793,22 @@ export default function OptimizedChatPage() {
                       disabled={connectionStatus !== "connected"}
                       className="flex-1 text-xs xs:text-sm sm:text-base h-8 xs:h-9 sm:h-10"
                     />
+                    <div onClick={() => {setUploadFile(true)}} className="flex p-2 rounded  bg-neutral-500 hover:bg-neutral-600 my-auto items-center justify-center">
+                        <Icon icon="solar:file-send-broken" width="18" height="18" />
+                        <div className="bg-white p-2 rounded">
+
+
+                        </div>
+                    </div>
                     <Button
                       onClick={sendMessage}
                       disabled={
                         !messageInput.trim() || connectionStatus !== "connected"
                       }
-                      className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 px-2 xs:px-3 sm:px-4 text-xs xs:text-sm sm:text-base flex-shrink-0 h-8 xs:h-9 sm:h-10"
+                      className="bg-neutral-500 hover:bg-neutral-600 disabled:opacity-50 p-2 sm:px-4 text-xs xs:text-sm sm:text-base flex-shrink-0 h-8 xs:h-9 sm:h-10"
                     >
                       <span className="hidden xs:inline">Send</span>
-                      <span className="xs:hidden">→</span>
+                      <div className="xs:hidden"><Icon icon="majesticons:send" width="24" height="24"  style={{ color: "#fffefe" }}  /></div>
                     </Button>
                   </div>
                   {selectedUser && !activeUsers.includes(selectedUser.id) && (
