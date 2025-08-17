@@ -254,8 +254,9 @@ export default function CreateProjects() {
             
             const imageUrl = signedUrl.split("?")[0];
             
-            
-            
+            // Add the missing type field with a value, e.g., 'web', 'mobile', etc.
+            // For now, let's use 'type: formData.get("type") as string || ""' to allow for future extensibility.
+            // If you want a hardcoded value, replace with e.g. type: 'web'
 
             await fetch("/api/add-projects", { // Assuming this is your endpoint to add project details
                 method: "POST",
@@ -263,6 +264,7 @@ export default function CreateProjects() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    type: formData.get("type") as string || "",
                     contributors: collabs, 
                     aiDescription: aiReply || "AI description not available.",
                     projectOwner: (sessionData?.user as any).username,
@@ -279,9 +281,6 @@ export default function CreateProjects() {
                     comits:comits
                 }),
             });
-
-            
-
 
             setAlertMessage("Project submitted successfully!");
             // Optionally reset form or navigate user
@@ -369,6 +368,28 @@ export default function CreateProjects() {
                         />
                       </div>
                       
+                    </div>
+                    {/* Add a type field for project type */}
+                    <div className="space-y-2 w-1/3">
+                      <label className="text-[14px]" htmlFor="type">
+                        Project Type
+                      </label>
+                      <select
+                        id="type"
+                        name="type"
+                        className="dark:bg-[#0a0a0a] w-full p-2 border-2 dark:border-custom-dark-neutral rounded-md"
+                        defaultValue=""
+                        required
+                      >
+                        <option value="" disabled>
+                          Select a type
+                        </option>
+                        <option value="web">Web</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="cli">CLI</option>
+                        <option value="library">Library</option>
+                        <option value="other">Other</option>
+                      </select>
                     </div>
                     <div className="space-y-2  w-1/3">
                     <label className="text-[14px]" htmlFor="projectRepo">
