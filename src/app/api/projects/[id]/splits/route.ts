@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { project_split_payments } from "@/../drizzle/schema";
+import { project_split_payments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function GET(

@@ -4,7 +4,7 @@ import {
   hack_projects,
   project_votes,
   project_split_payments,
-} from "../../../../drizzle/schema";
+} from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
 /**

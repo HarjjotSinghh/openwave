@@ -1,432 +1,30 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { NextPage } from "next";
-import { parseEther, formatEther, isAddress } from "viem";
-import { config } from "../../config/index";
-import { Icon } from "@iconify/react";
-import {
-  useWaitForTransactionReceipt,
-  useReadContract,
-  useEstimateGas,
-  useAccount,
-  useWriteContract,
-  usePublicClient,
-} from "wagmi";
-import {
-  BarChart,
-  Briefcase,
-  CheckCircle,
-  DollarSign,
-  GitPullRequest,
-  Star,
-  User,
-  MapPin,
-  CalendarDays,
-  Link as LinkIcon,
-  Award,
-  Activity as ActivityIcon,
-  AlertCircle,
-  Loader2,
-} from "lucide-react";
-// ... existing imports ...
-import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
-
-import { ScratchToReveal } from "../../components/scrathtoReaveal";
-import Sidebar from "../../assets/components/sidebar";
-import Topbar from "../../assets/components/topbar";
-import { useSidebarContext } from "../../assets/components/SidebarContext";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useParams, useSearchParams } from "next/navigation";
-import { Octokit } from "octokit";
-import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { Octokit } from "@octokit/rest";
+import { Icon } from "@iconify/react";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CheckCircle, AlertCircle, User, MapPin, CalendarDays, LinkIcon, Star, GitPullRequest, Briefcase } from "lucide-react";
+import Sidebar from "@/assets/components/sidebar";
+import Topbar from "@/assets/components/topbar";
+import { useSidebarContext } from "@/assets/components/SidebarContext";
+import ProjectsTab from "./components/ProjectsTab";
+import { userProfileAbi, userProfileContract } from "./abi";
+import { getUserCerts } from "@/actions/user-certs";
 
-import { Button } from "../../components/ui/button";
-// Add custom CSS for the contribution grid
-import "@/app/userProfile/userProfile.css";
-import { endOfYear } from "date-fns";
-const abi = [
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "name_",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "symbol_",
-        type: "string",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "approved",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "Approval",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "bool",
-        name: "approved",
-        type: "bool",
-      },
-    ],
-    name: "ApprovalForAll",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "Transfer",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "approve",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-    ],
-    name: "balanceOf",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "getApproved",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-    ],
-    name: "isApprovedForAll",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "uri",
-        type: "string",
-      },
-    ],
-    name: "mint",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "name",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "ownerOf",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "safeTransferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
-    ],
-    name: "safeTransferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-      {
-        internalType: "bool",
-        name: "approved",
-        type: "bool",
-      },
-    ],
-    name: "setApprovalForAll",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes4",
-        name: "interfaceId",
-        type: "bytes4",
-      },
-    ],
-    name: "supportsInterface",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "symbol",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "tokenURI",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "transferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
-const contract = "0xc0b8bf1D83c2582779115BA333ddf17cF8d59362";
-// GitHub contribution data interface
+type TabName = "Overview" | "Pull Requests" | "Achievements" | "Activity" | "Projects";
+type TabNameExtended = "Overview" | "Pull Requests" | "Achievements" | "Projects";
+
 interface GitHubContribution {
   date: string;
   count: number;
   level: number;
-  type?: string;
-  repo?: string;
-  description?: string;
-  contributions?: Array<{
-    type: string;
-    repo: string;
-    description: string;
-    url?: string;
-  }>;
+  contributions: any[];
 }
 
 interface GitHubStats {
@@ -436,64 +34,28 @@ interface GitHubStats {
   repositories: number;
 }
 
-// Dummy data - replace with actual data fetching
-const userData = {
-  name: "Sarah Johnson",
-  username: "@sarahdev",
-  bio: "Full-stack developer passionate about React and TypeScript. Love contributing to open source projects.",
-  email: "sarah@example.com",
-  location: "San Francisco, CA",
-  joinedDate: "2022-03-15",
-  githubProfileUrl: "#",
-  avatarUrl: "https://via.placeholder.com/150", // Replace with actual avatar URL
-  rating: 4.8,
-  skills: ["React", "TypeScript", "JavaScript", "Node.js", "Next.js", "Python"],
-  totalEarnings: 2450,
-  pullRequestsCount: 12,
-  projectsContributed: 5,
-  averageRating: 4.8,
-};
-
-const completedPRs = [
-  {
-    id: 1,
-    title: "Fix SSR hydration mismatch in dynamic routes",
-    project: "next.js",
-    difficulty: "Medium",
-    mergedDate: "2023-05-20",
-    reward: 500,
-    url: "#",
-  },
-  {
-    id: 2,
-    title: "Add TypeScript support for API routes",
-    project: "next.js",
-    difficulty: "Hard",
-    mergedDate: "2023-05-15",
-    reward: 350,
-    url: "#",
-  },
-  {
-    id: 3,
-    title: "Improve error handling in useEffect",
-    project: "react",
-    difficulty: "Medium",
-    mergedDate: "2023-05-10",
-    reward: 400,
-    url: "#",
-  },
-  {
-    id: 4,
-    title: "Add documentation for server components",
-    project: "react",
-    difficulty: "Easy",
-    mergedDate: "2023-05-05",
-    reward: 200,
-    url: "#",
-  },
-];
-
-type Role = "contributor" | "maintainer";
+interface User {
+  _id: string;
+  fullName: string;
+  username: string;
+  email: string;
+  image_url?: string;
+  Bio?: string;
+  Location?: string;
+  userName?: string;
+  Linkedin?: string;
+  Telegram?: string;
+  Twitter?: string;
+  rating?: number;
+  skills?: {
+    languages?: Array<{
+      name: string;
+      proficiency: string;
+      yearsOfExperience: number;
+    }>;
+  };
+  [key: string]: any;
+}
 
 interface NFTBadge {
   name: string;
@@ -501,513 +63,88 @@ interface NFTBadge {
   json: string;
 }
 
-function getNFTBadge(role: Role, milestone: number): NFTBadge | null {
+interface Achievement {
+  image: string;
+  name: string;
+  description: string;
+  attributes: Array<{
+    trait_type: string;
+    value: string | number;
+  }>;
+}
+
+const achievements: Achievement[] = [
+  {
+    image: "first-fixer",
+    name: "First Fixer",
+    description: "You've squashed your first bug! This badge marks the beginning of your contribution journey.",
+    attributes: [
+      { trait_type: "Role", value: "Contributor" },
+      { trait_type: "Milestone", value: 1 }
+    ]
+  },
+  {
+    image: "bug-buster",
+    name: "Bug Buster",
+    description: "You're becoming unstoppable — five fixes and counting. This badge celebrates your persistence.",
+    attributes: [
+      { trait_type: "Role", value: "Contributor" },
+      { trait_type: "Milestone", value: 5 }
+    ]
+  },
+  {
+    image: "code-champion",
+    name: "Code Champion",
+    description: "Ten issues down! You've earned your place among the top contributors.",
+    attributes: [
+      { trait_type: "Role", value: "Contributor" },
+      { trait_type: "Milestone", value: 10 }
+    ]
+  }
+];
+
+function getNFTBadge(role: string, milestone: number): NFTBadge | null {
   switch (role) {
-    case "contributor":
+    case "Contributor":
       switch (milestone) {
         case 1:
           return {
             name: "First Fixer",
-            description:
-              "You’ve squashed your first bug! This badge marks the beginning of your contribution journey.",
+            description: "You've squashed your first bug! This badge marks the beginning of your contribution journey.",
             json: "",
           };
         case 5:
           return {
             name: "Bug Buster",
-            description:
-              "You're becoming unstoppable — five fixes and counting. This badge celebrates your persistence.",
+            description: "You're becoming unstoppable — five fixes and counting. This badge celebrates your persistence.",
             json: "",
           };
         case 10:
           return {
             name: "Code Champion",
-            description:
-              "Ten issues down! You’ve earned your place among the top contributors.",
+            description: "Ten issues down! You've earned your place among the top contributors.",
             json: "",
           };
         default:
           return null;
       }
-
-    case "maintainer":
-      switch (milestone) {
-        case 1:
-          return {
-            name: "Open Sourcer",
-            description:
-              "You opened your first issue and welcomed community collaboration. The open-source spirit begins here.",
-            json: "",
-          };
-        case 5:
-          return {
-            name: "Community Driver",
-            description:
-              "Five issues created — you’re guiding the community toward impact and growth.",
-            json: "",
-          };
-        case 10:
-          return {
-            name: "Project Leader",
-            description:
-              "Ten issues driven by you! Your leadership is shaping this project’s future.",
-            json: "",
-          };
-        default:
-          return null;
-      }
-
     default:
       return null;
   }
 }
 
-const achievements = [
-  {
-    name: "First Fixer",
-    description:
-      "You’ve squashed your first bug! This badge marks the beginning of your contribution journey.",
-    image: "ipfs://bafkreig7pqnagbco2ya4bgq72r67n7gwb3prupnrq7lzalyvgae5q3vipy",
-    attributes: [
-      { trait_type: "Role", value: "Contributor" },
-      { trait_type: "Milestone", value: 1 },
-    ],
-  },
-  {
-    name: "Bug Buster",
-    description:
-      "You're becoming unstoppable — five fixes and counting. This badge celebrates your persistence.",
-    image: "ipfs://bafkreihcnydbsxaek2oe6pnzcnbt2t6bdv4wsxqwhtgnmsctwuwc6pxlo4",
-    attributes: [
-      { trait_type: "Role", value: "Contributor" },
-      { trait_type: "Milestone", value: 5 },
-    ],
-  },
-  {
-    name: "Code Champion",
-    description:
-      "Ten issues down! You’ve earned your place among the top contributors.",
-    image: "ipfs://bafkreifgtfdt5itkmr35nnefegf2qchrj5uqcy5xzbytrl4e7ejl3kog7e",
-    attributes: [
-      { trait_type: "Role", value: "Contributor" },
-      { trait_type: "Milestone", value: 10 },
-    ],
-  },
-  {
-    name: "Open Sourcer",
-    description:
-      "You opened your first issue and welcomed community collaboration. The open-source spirit begins here.",
-    image: "ipfs://bafkreig7pqnagbco2ya4bgq72r67n7gwb3prupnrq7lzalyvgae5q3vipy",
-    attributes: [
-      { trait_type: "Role", value: "Maintainer" },
-      { trait_type: "Milestone", value: 1 },
-    ],
-  },
-  {
-    name: "Community Driver",
-    description:
-      "Five issues created — you’re guiding the community toward impact and growth.",
-    image: "ipfs://bafkreig7pqnagbco2ya4bgq72r67n7gwb3prupnrq7lzalyvgae5q3vipy",
-    attributes: [
-      { trait_type: "Role", value: "Maintainer" },
-      { trait_type: "Milestone", value: 5 },
-    ],
-  },
-  {
-    name: "Project Leader",
-    description:
-      "Ten issues driven by you! Your leadership is shaping this project’s future.",
-    image: "ipfs://bafkreig7pqnagbco2ya4bgq72r67n7gwb3prupnrq7lzalyvgae5q3vipy",
-    attributes: [
-      { trait_type: "Role", value: "Maintainer" },
-      { trait_type: "Milestone", value: 10 },
-    ],
-  },
-];
 
-const achievementsData = [
-  {
-    id: 1,
-    title: "First Contribution",
-    description: "Merged your first pull request",
-    earnedDate: "2022-03-20",
-    icon: <CheckCircle className="w-8 h-8 text-green-500" />,
-  },
-  {
-    id: 2,
-    title: "Big Earner",
-    description: "Earned over $1000 in rewards",
-    earnedDate: "2023-04-15",
-    icon: <DollarSign className="w-8 h-8 text-yellow-500" />,
-  },
-  {
-    id: 3,
-    title: "Bug Hunter",
-    description: "Fixed 10 critical bugs",
-    earnedDate: "2023-05-01",
-    icon: <Award className="w-8 h-8 text-blue-500" />,
-  },
-  {
-    id: 4,
-    title: "Team Player",
-    description: "Contributed to 5 different projects",
-    earnedDate: "2023-06-10",
-    icon: <User className="w-8 h-8 text-purple-500" />,
-  },
-];
 
-// Example data for contribution activity chart (replace with actual chart implementation)
-const contributionActivityData = [
-  { month: "Jan", contributions: 10, prs: 2, issues: 4, commits: 4 },
-  { month: "Feb", contributions: 12, prs: 3, issues: 3, commits: 6 },
-  { month: "Mar", contributions: 15, prs: 5, issues: 2, commits: 8 },
-  { month: "Apr", contributions: 18, prs: 4, issues: 6, commits: 8 },
-  { month: "May", contributions: 22, prs: 7, issues: 5, commits: 10 },
-  { month: "Jun", contributions: 19, prs: 6, issues: 4, commits: 9 },
-  { month: "Jul", contributions: 24, prs: 8, issues: 6, commits: 10 },
-  { month: "Aug", contributions: 28, prs: 9, issues: 7, commits: 12 },
-  { month: "Sep", contributions: 26, prs: 8, issues: 8, commits: 10 },
-  { month: "Oct", contributions: 30, prs: 10, issues: 8, commits: 12 },
-  { month: "Nov", contributions: 27, prs: 9, issues: 7, commits: 11 },
-  { month: "Dec", contributions: 32, prs: 11, issues: 9, commits: 12 },
-];
-
-type TabName = "Overview" | "Pull Requests" | "Achievements" | "Activity";
-
-// test
-
-// Generate sample contribution data for the past ye
-
-function Component() {
-  interface RewardDay {
-    date: string;
-    rewards: number;
-  }
-
-  interface HoveredSquare {
-    date: string;
-    rewards: number;
-    x: number;
-    y: number;
-  }
-
-  interface PullRequest {
-    rewardedAt: string;
-    projectName: string;
-    rewardAmount: number;
-    status: string;
-  }
-
-  const [hoveredSquare, setHoveredSquare] = useState<HoveredSquare | null>(
-    null
-  );
-  const [rewardData, setRewardData] = useState<PullRequest[]>([]);
-  const [windowWidth, setWindowWidth] = useState(0);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const searchParams = useSearchParams();
-  const userFromQuery = searchParams?.get("user");
-
-  // Track window size changes
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Initial call
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Fetch reward data
-  useEffect(() => {
-    async function fetchRewardData() {
-      try {
-        const userId = userFromQuery || "current-user-id";
-        const res = await fetch(`/api/rewards?contributor=${userId}`);
-        if (!res.ok) throw new Error("Failed to fetch reward data");
-
-        const data = await res.json();
-        if (!Array.isArray(data?.Rewards)) {
-          throw new Error("Invalid reward data format");
-        }
-        const projects = data.Rewards;
-        setRewardData(projects);
-      } catch (error) {
-        console.error("Error fetching reward data:", error);
-        setRewardData([]);
-      }
-    }
-    fetchRewardData();
-  }, [userFromQuery]);
-
-  // Get color based on reward count
-  const getContributionColor = (count: number): string => {
-    if (count === 0) return "bg-neutral-100 dark:bg-neutral-800";
-    if (count < 2) return "bg-green-200 dark:bg-green-900";
-    if (count < 4) return "bg-green-300 dark:bg-green-700";
-    if (count < 6) return "bg-green-400 dark:bg-green-600";
-    return "bg-green-500 dark:bg-green-500";
-  };
-
-  // Transform reward data into contribution format
-  const contributionData: RewardDay[] = useMemo(() => {
-    const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1); // January 1st of current year
-    const endOfYear = new Date(now.getFullYear(), 11, 31); // December 31st of current year
-
-    // Initialize empty contribution data for each day
-    const result: RewardDay[] = [];
-    for (
-      let d = new Date(startOfYear);
-      d <= new Date(endOfYear);
-      d.setDate(d.getDate() + 1)
-    ) {
-      result.push({
-        date: d.toISOString().split("T")[0],
-        rewards: 0,
-      });
-    }
-
-    // Count rewards per day
-    rewardData.forEach((reward) => {
-      if (!reward.rewardedAt) return;
-
-      try {
-        const rewardDate = new Date(reward.rewardedAt);
-        if (isNaN(rewardDate.getTime())) return;
-
-        const dateStr = rewardDate.toISOString().split("T")[0];
-        const day = result.find((d) => d.date === dateStr);
-        if (day) day.rewards += 1;
-      } catch (e) {
-        console.error("Invalid reward date format:", reward.rewardedAt);
-      }
-    });
-    return result;
-  }, [rewardData]);
-
-  // Group data by weeks (memoized)
-  const weeks = useMemo(() => {
-    const result = [];
-    for (let i = 0; i < contributionData.length; i += 7) {
-      result.push(contributionData.slice(i, i + 7));
-    }
-    return result;
-  }, [contributionData]);
-
-  // Calculate total rewards
-  const totalRewards = useMemo(
-    () => contributionData.reduce((sum, day) => sum + day.rewards, 0),
-    [contributionData]
-  );
-
-  return (
-    <div className="w-full max-w-7xl mx-auto p-3 sm:p-4 md:p-6 bg-white dark:bg-neutral-900 rounded-lg border">
-      <div className="mb-3 sm:mb-4">
-        <h2 className="text-lg sm:text-xl font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
-          <span className="block sm:inline">{totalRewards} rewards</span>
-          <span className="block sm:inline sm:ml-1">in the last year</span>
-        </h2>
-      </div>
-
-      <div className="relative overflow-x-auto">
-        <div className="min-w-fit">
-          {/* Month labels */}
-          <div className="flex mb-1 sm:mb-2 ml-6 sm:ml-8">
-            {months.map((month, index) => (
-              <div
-                key={month}
-                className="text-xs text-neutral-600 dark:text-neutral-400 flex-1 text-left min-w-0"
-                style={{
-                  marginLeft: index === 0 ? "0" : "4px",
-                  fontSize: windowWidth < 640 ? "10px" : "12px",
-                }}
-              >
-                <span className="hidden sm:inline">{month}</span>
-                <span className="sm:hidden">{month.slice(0, 1)}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex">
-            {/* Day labels */}
-            <div className="flex flex-col mr-1 sm:mr-2 text-xs text-neutral-600 dark:text-neutral-400">
-              {/* Spacer for alignment */}
-              {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-                (day, index) => (
-                  <div
-                    key={day}
-                    className="h-2  sm:h-3 flex items-center text-xs"
-                    style={{
-                      marginTop: index === 0 ? "0" : "4px",
-                      fontSize: windowWidth < 640 ? "10px" : "12px",
-                    }}
-                  >
-                    <span className="hidden sm:inline">{day}</span>
-                    <span className="sm:hidden">{day.slice(0, 1)}</span>
-                  </div>
-                )
-              )}
-              <div className="h-2 sm:h-3"></div>
-            </div>
-
-            {/* Contribution grid */}
-            <div className="flex gap-0.5 sm:gap-1">
-              {weeks.map((week, weekIndex) => (
-                <div key={weekIndex} className="flex flex-col gap-0.5 sm:gap-1">
-                  {week.map((day: RewardDay, dayIndex: number) => (
-                    <div
-                      key={`${weekIndex}-${dayIndex}`}
-                      className={`w-2 h-2 sm:w-3 sm:h-3 rounded-sm cursor-pointer transition-all hover:ring-1 hover:ring-neutral-400 ${getContributionColor(
-                        day.rewards
-                      )}`}
-                      onMouseEnter={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        setHoveredSquare({
-                          date: day.date,
-                          rewards: day.rewards,
-                          x: rect.left + rect.width / 2,
-                          y: rect.top,
-                        });
-                      }}
-                      onMouseLeave={() => setHoveredSquare(null)}
-                      onTouchStart={(e) => {
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        setHoveredSquare({
-                          date: day.date,
-                          rewards: day.rewards,
-                          x: rect.left + rect.width / 2,
-                          y: rect.top,
-                        });
-                      }}
-                      onTouchEnd={() => {
-                        setTimeout(() => setHoveredSquare(null), 2000);
-                      }}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Tooltip */}
-          {hoveredSquare && (
-            <div
-              className="fixed z-10 px-2 py-1 text-xs text-white bg-neutral-900 rounded shadow-lg pointer-events-none max-w-xs"
-              style={{
-                left: Math.min(
-                  Math.max(hoveredSquare.x, 10),
-                  windowWidth - 200
-                ),
-                top: hoveredSquare.y - 50,
-                transform: "translateX(-50%)",
-              }}
-            >
-              <div className="font-medium whitespace-nowrap">
-                {hoveredSquare.rewards} reward
-                {hoveredSquare.rewards !== 1 ? "s" : ""}
-              </div>
-              <div className="text-neutral-300 whitespace-nowrap">
-                {new Date(hoveredSquare.date).toLocaleDateString("en-US", {
-                  weekday: "short",
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Legend */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-3 sm:mt-4 text-xs text-neutral-600 dark:text-neutral-400 gap-2 sm:gap-0">
-        <span className="text-xs sm:text-sm">
-          Learn how we count contributions
-        </span>
-        <div className="flex items-center gap-1 sm:gap-2">
-          <span className="text-xs">Less</span>
-          <div className="flex gap-0.5 sm:gap-1">
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-neutral-100 dark:bg-neutral-800"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-green-200 dark:bg-green-900"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-green-300 dark:bg-green-700"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-green-400 dark:bg-green-600"></div>
-            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-green-500 dark:bg-green-500"></div>
-          </div>
-          <span className="text-xs">More</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const UserProfilePage: NextPage = () => {
-  const {
-    data: forwardHash,
-    isPending: isForwarding,
-    writeContract,
-    error: forwardError,
-  } = useWriteContract();
-  const achieve = async (ach: string) => {
-    try {
-      writeContract({
-        abi,
-        address: contract,
-        functionName: "mint",
-        args: [address, `${ach}`],
-      });
-    } catch (error) {
-      console.error("Error in achieve function:", error);
-    }
-  };
-
-  const {
-    isLoading: isConfirmingForward,
-    isSuccess: isForwardConfirmed,
-    error: confirmationError,
-  } = useWaitForTransactionReceipt({ hash: forwardHash });
-  const { address, isConnected } = useAccount();
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
-  const router = useRouter();
-  const { data: session } = useSession();
-  // Define User interface to avoid type errors
-  interface User {
-    _id: string;
-    fullName: string;
-    username: string;
-    email: string;
-    image_url?: string;
-    Bio?: string;
-    Location?: string;
-    userName?: string;
-    Linkedin?: string;
-    Telegram?: string;
-    Twitter?: string;
-    [key: string]: any; // Allow for any additional properties
-  }
-
+export default function UserProfilePage() {
+  const { isShrunk } = useSidebarContext();
+  const [activeTab, setActiveTab] = useState<TabName>("Overview");
+  const [activeExtendedTab, setActiveExtendedTab] = useState<TabNameExtended>("Overview");
   const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [activeTab, setActiveTab] = useState<TabName>("Overview");
-  const [contributionData, setContributionData] = useState<
-    GitHubContribution[]
-  >([]);
-  const [TotalEarnings, updateEarnings] = useState<number | undefined>(
-    undefined
-  );
+  const [contributionData, setContributionData] = useState<GitHubContribution[]>([]);
+  const [TotalEarnings, updateEarnings] = useState<number | undefined>(undefined);
   const [rewardAmount, setRewardAmount] = useState<number>(0);
-  const [rewardData, setRewardData] = useState<any[]>([]); // Adjust type as needed
+  const [rewardData, setRewardData] = useState<any[]>([]);
   const [uniqueRewardDays, setUniqueRewardDays] = useState(0);
   const [issues, updateIssues] = useState([]);
   const [githubStats, setGithubStats] = useState<GitHubStats>({
@@ -1017,34 +154,59 @@ const UserProfilePage: NextPage = () => {
     repositories: 0,
   });
   const [loadingContributions, setLoadingContributions] = useState(false);
+  const [loadingProjects, setLoadingProjects] = useState(false);
+  const [userProjects, setUserProjects] = useState([]);
+  const [forwardHash, setForwardHash] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [certificates, setCertificates] = useState<any[]>([]);
   const searchParams = useSearchParams();
   const userFromQuery = searchParams?.get("user");
+  const router = useRouter();
+  const { data: session } = useSession();
+  const { address, isConnected } = useAccount();
+
+  const { writeContract: writeContractForward, isPending: isForwarding, error: forwardError } = useWriteContract();
+  const { isLoading: isConfirmingForward, isSuccess: isForwardConfirmed, error: confirmationError } = useWaitForTransactionReceipt({ hash: forwardHash as `0x${string}` });
+
+  const achieve = async (ach: string) => {
+    if (!address) return;
+    try {
+      const result = await writeContractForward({
+        address: userProfileContract as `0x${string}`,
+        abi: userProfileAbi,
+        functionName: "achieve",
+        args: [address, `${ach}`],
+      });
+      // @ts-expect-error - result is not typed
+      if (result?.hash) {
+        // @ts-expect-error - result is not typed
+        setForwardHash(result.hash);
+      }
+    } catch (error) {
+      console.error("Error in achieve function:", error);
+    }
+  };
+
+  const fetchUserCerts = async () => {
+    const certs = await getUserCerts(userFromQuery as string);
+    setCertificates(certs);
+  };
 
   useEffect(() => {
     if (isForwarding) {
-      setAlertMessage(
-        "Please confirm the NFT minting transaction in your wallet..."
-      );
+      setAlertMessage("Please confirm the NFT minting transaction in your wallet...");
     } else if (isConfirmingForward) {
       setAlertMessage("Waiting for transaction confirmation...");
     } else if (isForwardConfirmed) {
       setAlertMessage("NFT minted successfully!");
-      // Clear message after 5 seconds
       setTimeout(() => setAlertMessage(null), 5000);
     } else if (forwardError) {
       setAlertMessage(`Transaction failed: ${forwardError.message}`);
     } else if (confirmationError) {
-      setAlertMessage(
-        `Transaction confirmation failed: ${confirmationError.message}`
-      );
+      setAlertMessage(`Transaction confirmation failed: ${confirmationError.message}`);
     }
-  }, [
-    isForwarding,
-    isConfirmingForward,
-    isForwardConfirmed,
-    forwardError,
-    confirmationError,
-  ]);
+  }, [isForwarding, isConfirmingForward, isForwardConfirmed, forwardError, confirmationError]);
+
   useEffect(() => {
     const fetchRewards = async () => {
       const res = await fetch("/api/getIssues?publisher=" + userFromQuery, {
@@ -1057,7 +219,8 @@ const UserProfilePage: NextPage = () => {
       updateIssues(resData);
     };
     fetchRewards();
-  }, []);
+    fetchUserCerts();
+  }, [userFromQuery]);
 
   const contributorRewardsCount = rewardData.length;
   const maintainerIssuesCount = issues.length;
@@ -1096,7 +259,6 @@ const UserProfilePage: NextPage = () => {
         }
         setRewardData(data.Rewards || []);
 
-        // Calculate unique reward days from last 365 days
         const now = new Date();
         const oneYearAgo = new Date(now);
         oneYearAgo.setFullYear(now.getFullYear() - 1);
@@ -1115,12 +277,10 @@ const UserProfilePage: NextPage = () => {
         setUniqueRewardDays(new Set(validDates).size);
 
         if (data.Rewards && Array.isArray(data.Rewards)) {
-          // Filter and map rewards where Contributor_id matches userFromQuery
           const userRewards = data.Rewards.filter(
             (reward: any) => reward.Contributor_id === userFromQuery
           ).map((reward: any) => Number(reward.value));
 
-          // Calculate total earnings from filtered rewards
           const totalEarnings = userRewards.reduce(
             (sum: number, value: number) => sum + value,
             0
@@ -1140,7 +300,6 @@ const UserProfilePage: NextPage = () => {
     fetchEarnings();
   }, [fetchEarnings]);
 
-  // Fetch GitHub contributions and stats
   const fetchGitHubData = async (username: string, accessToken?: string) => {
     if (!username) return;
 
@@ -1150,7 +309,6 @@ const UserProfilePage: NextPage = () => {
         auth: accessToken || undefined,
       });
 
-      // Fetch user's events for contribution activity - get more items
       const { data: events } = await octokit.request(
         "GET /users/{username}/events",
         {
@@ -1162,7 +320,6 @@ const UserProfilePage: NextPage = () => {
         }
       );
 
-      // Fetch user's repositories
       const { data: repos } = await octokit.request(
         "GET /users/{username}/repos",
         {
@@ -1174,12 +331,9 @@ const UserProfilePage: NextPage = () => {
         }
       );
 
-      // Try to fetch contributor stats if available
       const contributorStats = [];
       try {
-        // Get commit activity for user's owned repos
         for (const repo of repos.slice(0, 5)) {
-          // Limit to first 5 repos to avoid rate limiting
           const { data: stats } = await octokit.request(
             "GET /repos/{owner}/{repo}/stats/contributors",
             {
@@ -1196,7 +350,6 @@ const UserProfilePage: NextPage = () => {
         console.warn("Could not fetch contributor stats:", error);
       }
 
-      // Process events to create contribution data for the last 365 days (full year)
       const yearAgo = new Date();
       yearAgo.setDate(yearAgo.getDate() - 365);
 
@@ -1205,7 +358,6 @@ const UserProfilePage: NextPage = () => {
         { count: number; contributions: any[] }
       >();
 
-      // Initialize all days in the last 365 days with 0 contributions
       for (let i = 0; i < 365; i++) {
         const date = new Date();
         date.setDate(date.getDate() - i);
@@ -1213,7 +365,6 @@ const UserProfilePage: NextPage = () => {
         contributionMap.set(dateStr, { count: 0, contributions: [] });
       }
 
-      // Count contributions from events and store detailed information
       const relevantEvents = events.filter(
         (event: any) =>
           [
@@ -1232,7 +383,6 @@ const UserProfilePage: NextPage = () => {
           const current = contributionMap.get(date)!;
           current.count += 1;
 
-          // Add detailed event information
           let description = "";
           const repo = event.repo?.name || "";
 
@@ -1283,7 +433,6 @@ const UserProfilePage: NextPage = () => {
         }
       });
 
-      // Convert to array and calculate levels
       const contributions: GitHubContribution[] = Array.from(
         contributionMap.entries()
       )
@@ -1308,7 +457,6 @@ const UserProfilePage: NextPage = () => {
 
       setContributionData(contributions);
 
-      // Calculate stats
       const totalContributions = contributions.reduce(
         (sum, day) => sum + day.count,
         0
@@ -1333,7 +481,6 @@ const UserProfilePage: NextPage = () => {
     }
   };
 
-  // Add an effect to fetch users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -1351,7 +498,6 @@ const UserProfilePage: NextPage = () => {
           const data = await res.json();
           setUsers(data.user || []);
 
-          // Find the current user from the query parameter
           if (userFromQuery && data.users) {
             const user = data.users.find((u: any) => u._id === userFromQuery);
             setCurrentUser((user as User) || null);
@@ -1365,22 +511,17 @@ const UserProfilePage: NextPage = () => {
     };
 
     fetchUsers();
-  }, [session]);
+  }, [session, userFromQuery]);
 
-  // Effect for fetching GitHub data
   useEffect(() => {
     if (currentUser?.userName) {
       fetchGitHubData(currentUser.userName as string);
     }
   }, [currentUser]);
-  // console.log(TotalEarnings, "Earnings");
-  // console.log(currentUser, "users");
-  // console.log(users, "test users");
-
-  // Generate sample contribution data for the past year
 
   const renderTabContent = () => {
-    switch (activeTab) {
+
+    switch (activeExtendedTab) {
       case "Overview":
         return (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
@@ -1402,7 +543,12 @@ const UserProfilePage: NextPage = () => {
                     </p>
                   </div>
                   <div className="overflow-x-auto w-full">
-                    <Component />
+                    {/* Component placeholder - you'll need to implement this */}
+                    <div className="h-64 bg-neutral-100 dark:bg-neutral-700 rounded flex items-center justify-center">
+                      <p className="text-neutral-500 dark:text-neutral-400">
+                        Contribution chart component
+                      </p>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-3 sm:mt-4">
@@ -1631,12 +777,20 @@ const UserProfilePage: NextPage = () => {
             )}
           </>
         );
+      case "Projects":
+        return (
+          <div className="mt-4 sm:mt-6">
+            <div className="bg-white dark:bg-neutral-800 p-4 sm:p-6 rounded-lg shadow">
+                <ProjectsTab userIdProp={userFromQuery || users[0]?._id} />
+            </div>
+          </div>
+        );
 
       default:
         return null;
     }
   };
-  const { isShrunk } = useSidebarContext();
+
   return (
     <div>
       <Sidebar />
@@ -1720,13 +874,13 @@ const UserProfilePage: NextPage = () => {
                         </span>
                         <span className="flex items-center">
                           <CalendarDays className="w-3 h-3 mr-1" /> Joined{" "}
-                          {userData?.joinedDate}
+                          "Recently"
                         </span>
                         <a
                           href={
                             users[0]?.id
                               ? `https://github.com/${users[0].id as string}`
-                              : userData?.githubProfileUrl
+                              : "#"
                           }
                           className="flex items-center hover:text-blue-600 dark:hover:text-blue-400"
                         >
@@ -1797,7 +951,7 @@ const UserProfilePage: NextPage = () => {
                 </div>
 
                 {/* Stats Bar */}
-                <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
                   {[
                     {
                       icon: (
@@ -1864,18 +1018,33 @@ const UserProfilePage: NextPage = () => {
                       aria-label="Tabs"
                     >
                       {(
-                        [
-                          "Overview",
-                          "Pull Requests",
-                          "Achievements",
-                        ] as TabName[]
+                        ["Overview", "Pull Requests", "Achievements", "Projects"] as TabNameExtended[]
                       ).map((tab) => (
                         <button
                           key={tab}
-                          onClick={() => setActiveTab(tab)}
+                          onClick={() => {
+                            setActiveExtendedTab(tab);
+                            if (tab === "Projects") {
+                              (async () => {
+                                try {
+                                  setLoadingProjects(true);
+                                  const userId = userFromQuery || users[0]?._id;
+                                  const res = await fetch(`/api/user-projects?userId=${userId}`);
+                                  const json = await res.json();
+                                  if (json.success) setUserProjects(json.projects || []);
+                                  else setUserProjects([]);
+                                } catch (err) {
+                                  console.error(err);
+                                  setUserProjects([]);
+                                } finally {
+                                  setLoadingProjects(false);
+                                }
+                              })();
+                            }
+                          }}
                           className={`whitespace-nowrap py-2 sm:py-3 px-1 border-b-2 font-medium text-xs sm:text-sm
                     ${
-                      activeTab === tab
+                      activeExtendedTab === tab
                         ? "border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-300"
                         : "border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300 dark:text-neutral-400 dark:hover:text-neutral-200 dark:hover:border-neutral-600"
                     }
@@ -1996,6 +1165,4 @@ const UserProfilePage: NextPage = () => {
       </div>
     </div>
   );
-};
-
-export default UserProfilePage;
+}

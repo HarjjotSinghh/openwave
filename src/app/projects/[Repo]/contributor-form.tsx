@@ -19,8 +19,9 @@ import {
   SelectValue,
 } from "../../../components/ui/select"
 import { X } from 'lucide-react'
-
-import { ThemeModalContext } from "./page";
+import { Alert, AlertDescription, AlertTitle } from "../../../components/ui/alert"
+import { ThemeModalContext } from "./repo-page";
+import { toast } from "sonner"
 
 interface FormData {
   username:string
@@ -159,39 +160,69 @@ export default function ContributorApplicationForm({repo}:ContributorApplication
     )
   }
 
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
   const nextStep = () => {
     // Basic validation before moving to the next step
     if (currentStep === 1) {
       if (!formData.name || !formData.email || !formData.bio || !formData.whyContribute) {
-        alert("Please fill in all required personal information fields.")
-        return
+        setAlertMessage("Please fill in all required personal information fields.");
+        return;
       }
     } else if (currentStep === 2) {
-      if (formData.languages.length === 0 && formData.frameworks.length === 0 && formData.tools.length === 0 && !formData.otherSkills) {
-        alert("Please select at least one skill or enter other skills.")
-        return
+      if (
+        formData.languages.length === 0 &&
+        formData.frameworks.length === 0 &&
+        formData.tools.length === 0 &&
+        !formData.otherSkills
+      ) {
+        setAlertMessage("Please select at least one skill or enter other skills.");
+        return;
       }
     } else if (currentStep === 3) {
       // Validate experience matrix for selected languages
       for (const lang of formData.languages) {
         if (!formData.experienceMatrix[lang]?.years || !formData.experienceMatrix[lang]?.rating) {
-          alert(`Please provide years of experience and self-rating for ${lang}.`)
-          return
+          setAlertMessage(`Please provide years of experience and self-rating for ${lang}.`);
+          return;
         }
       }
     } else if (currentStep === 4) {
       if (formData.sshPublicKey && !validateSSHKey(formData.sshPublicKey)) {
-        alert("Please enter a valid SSH public key.")
-        return
+        setAlertMessage("Please enter a valid SSH public key.");
+        return;
       }
     } else if (currentStep === 5) {
-      if (!formData.accessLevel || !formData.ndaAgreement || !formData.twoFactorEnabled || !formData.earliestStartDate) {
-        alert("Please fill in all required access and preferences fields.")
-        return
+      if (
+        !formData.accessLevel ||
+        !formData.ndaAgreement ||
+        !formData.twoFactorEnabled ||
+        !formData.earliestStartDate
+      ) {
+        setAlertMessage("Please fill in all required access and preferences fields.");
+        return;
       }
     }
-    setCurrentStep((prev) => Math.min(prev + 1, totalSteps))
-  }
+    setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+  };
+
+  // Render the shadcn Alert component for validation errors
+  // Place this somewhere in your component's JSX, e.g. above the stepper/form
+  // Example:
+  // {alertMessage && (
+  //   <Alert variant="destructive" className="mb-4">
+  //     <AlertTitle>Validation Error</AlertTitle>
+  //     <AlertDescription>{alertMessage}</AlertDescription>
+  //     <Button
+  //       variant="ghost"
+  //       size="sm"
+  //       className="absolute top-2 right-2"
+  //       onClick={() => setAlertMessage(null)}
+  //     >
+  //       Dismiss
+  //     </Button>
+  //   </Alert>
+  // )}
 
   const prevStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1))
@@ -267,16 +298,17 @@ export default function ContributorApplicationForm({repo}:ContributorApplication
 
     const result = await response.json();
 
+    // Use toast notifications instead of alert
     if (result.success) {
-      alert('Application submitted successfully!');
+      toast.success("Application submitted successfully!");
       setIsOpen(false);
       // Reset form or redirect
     } else {
-      alert('Error submitting application: ' + result.error);
+      toast.error("Error submitting application: " + result.error);
     }
   } catch (error) {
     console.error('Error submitting form:', error);
-    alert('Error submitting application');
+    toast.error("Error submitting application");
   }
 };
 
@@ -501,32 +533,37 @@ export default function ContributorApplicationForm({repo}:ContributorApplication
                 </p>
                 <div className="space-y-4">
                   {formData.languages.length === 0 && (
-                    <p className="text-sm text-gray-500">
-                      Please select programming languages in the previous step to rate your experience.
-                    </p>
+                    <Alert variant="destructive">
+                      <AlertTitle>No Languages Selected</AlertTitle>
+                      <AlertDescription>
+                        Please select programming languages in the previous step to rate your experience.
+                      </AlertDescription>
+                    </Alert>
                   )}
                   {formData.languages.map((language) => (
                     <div key={language} className="rounded-lg border p-4">
                       <h4 className="mb-3 text-base font-medium">{language}</h4>
                       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor={`years-${language}`}>Years of Experience</Label>
-                          <Select
-                            value={formData.experienceMatrix[language]?.years || ""}
-                            onValueChange={(value) =>
-                              handleExperienceChange(language, "years", value)
-                            }
-                          >
-                            <SelectTrigger id={`years-${language}`}>
-                              <SelectValue placeholder="Select years" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="<1">Less than 1 year</SelectItem>
-                              <SelectItem value="1-2">1-2 years</SelectItem>
-                              <SelectItem value="3-5">3-5 years</SelectItem>
-                              <SelectItem value="5+">5+ years</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <Label htmlFor={`years.${language}`}>Years of Experience</Label>
+                          <div className="relative">
+                            <select
+                              id={`years.${language}`}
+                              className="block w-full rounded-md border border-neutral-200 dark:border-neutral-600 bg-neutral-300 dark:bg-neutral-700 py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                              value={formData.experienceMatrix[language]?.years || ""}
+                              onChange={(e) =>
+                                handleExperienceChange(language, "years", e.target.value)
+                              }
+                            >
+                              <option value="" disabled>
+                                Select years
+                              </option>
+                              <option value="<1">Less than 1 year</option>
+                              <option value="1-2">1-2 years</option>
+                              <option value="3-5">3-5 years</option>
+                              <option value="5+">5+ years</option>
+                            </select>
+                          </div>
                         </div>
                         <div className="space-y-2">
                           <Label>Self-Rating (1-5)</Label>
