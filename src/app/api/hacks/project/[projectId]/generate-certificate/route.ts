@@ -6,7 +6,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ project
     const { projectId } = await params;
     if (!projectId) return NextResponse.json({ success: false, error: "projectId required" }, { status: 400 });
 
-    const res = await generateCertificateForProject(projectId as string);
+    const body = await req.json();
+    const { userId } = body;
+
+    const res = await generateCertificateForProject(projectId as string, userId);
     return NextResponse.json(res);
   } catch (err: any) {
     console.error(err);

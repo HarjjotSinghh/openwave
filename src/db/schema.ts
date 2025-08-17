@@ -347,5 +347,6 @@ export const project_certificates = pgTable("project_certificates", {
   ipfs_hash: text("ipfs_hash").notNull(),
   url: text("url"),
   issued_at: timestamp("issued_at").default(sql`now()`),
-  issued_by: text("issued_by").notNull()
+  issued_by: text("issued_by").notNull(),
+  issued_to: varchar("issued_to", { length: 256 }).references(() => users.id),
 });

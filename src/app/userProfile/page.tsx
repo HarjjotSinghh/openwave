@@ -15,6 +15,7 @@ import Topbar from "@/assets/components/topbar";
 import { useSidebarContext } from "@/assets/components/SidebarContext";
 import ProjectsTab from "./components/ProjectsTab";
 import { userProfileAbi, userProfileContract } from "./abi";
+import { getUserCerts } from "@/actions/user-certs";
 
 type TabName = "Overview" | "Pull Requests" | "Achievements" | "Activity" | "Projects";
 type TabNameExtended = "Overview" | "Pull Requests" | "Achievements" | "Projects";
@@ -132,6 +133,8 @@ function getNFTBadge(role: string, milestone: number): NFTBadge | null {
   }
 }
 
+
+
 export default function UserProfilePage() {
   const { isShrunk } = useSidebarContext();
   const [activeTab, setActiveTab] = useState<TabName>("Overview");
@@ -155,7 +158,7 @@ export default function UserProfilePage() {
   const [userProjects, setUserProjects] = useState([]);
   const [forwardHash, setForwardHash] = useState<string | null>(null);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
+  const [certificates, setCertificates] = useState<any[]>([]);
   const searchParams = useSearchParams();
   const userFromQuery = searchParams?.get("user");
   const router = useRouter();
@@ -182,6 +185,11 @@ export default function UserProfilePage() {
     } catch (error) {
       console.error("Error in achieve function:", error);
     }
+  };
+
+  const fetchUserCerts = async () => {
+    const certs = await getUserCerts(userFromQuery as string);
+    setCertificates(certs);
   };
 
   useEffect(() => {
@@ -211,6 +219,7 @@ export default function UserProfilePage() {
       updateIssues(resData);
     };
     fetchRewards();
+    fetchUserCerts();
   }, [userFromQuery]);
 
   const contributorRewardsCount = rewardData.length;
@@ -511,6 +520,7 @@ export default function UserProfilePage() {
   }, [currentUser]);
 
   const renderTabContent = () => {
+
     switch (activeExtendedTab) {
       case "Overview":
         return (
@@ -771,7 +781,7 @@ export default function UserProfilePage() {
         return (
           <div className="mt-4 sm:mt-6">
             <div className="bg-white dark:bg-neutral-800 p-4 sm:p-6 rounded-lg shadow">
-              <ProjectsTab userIdProp={userFromQuery || users[0]?._id} />
+                <ProjectsTab userIdProp={userFromQuery || users[0]?._id} />
             </div>
           </div>
         );
@@ -941,7 +951,7 @@ export default function UserProfilePage() {
                 </div>
 
                 {/* Stats Bar */}
-                <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
                   {[
                     {
                       icon: (

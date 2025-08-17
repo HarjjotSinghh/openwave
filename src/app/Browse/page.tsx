@@ -19,6 +19,7 @@ interface Repo {
   forks?: number | string;
   stars?: number | string;
   contributors?: { collabs: string[] };
+  type?: string;
 }
 
 interface ProjectData {
@@ -47,7 +48,7 @@ interface session {
 
 
 export default function Home() {
-  const session = useSession();
+  const {data: session} = useSession();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredRepos, setFilteredRepos] = useState<Repo[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
@@ -85,7 +86,7 @@ export default function Home() {
     };
   }, []);
 
-  const id = session?.data?.user?.username as session;
+  const id = session?.user?.username as session;
   const [image, updateImage] = useState<string>("");
   const [visible, setVisible] = useState<null | any>(null);
   const [repoData, setRepoData] = useState<Repo[]>([]);
@@ -148,10 +149,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (session?.data?.user?.image) {
-      updateImage(session.data.user.image);
+    if (session?.user?.image) {
+      updateImage(session.user.image);
     }
-  }, [session?.data?.user?.image]);
+  }, [session?.user?.image]);
 
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -300,8 +301,8 @@ export default function Home() {
                                 activeUser={
                                   session?.user?.username || undefined
                                 }
-                                Fork={repo.forks ? repo.forks : 0}
-                                Stars={repo.stars ? repo.stars : 0}
+                                Fork={repo.forks ? Number(repo.forks) : 0}
+                                Stars={repo.stars ? Number(repo.stars) : 0}
                                 Contributors={
                                   repo.contributors && repo.contributors.collabs
                                     ? Object.keys(repo.contributors.collabs)

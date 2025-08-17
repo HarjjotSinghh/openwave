@@ -86,7 +86,7 @@ export default function HackathonPage() {
       }
 
       if (projectsResult.success && projectsResult.projects) {
-        setProjects(projectsResult.projects);
+        setProjects(projectsResult.projects as Project[]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
