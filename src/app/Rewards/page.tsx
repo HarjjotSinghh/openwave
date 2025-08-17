@@ -7,7 +7,12 @@ import Sidebar from "../../assets/components/sidebar";
 import Image from "next/image";
 import { useSidebarContext } from "../../assets/components/SidebarContext";
 import { Suspense } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
@@ -230,7 +235,7 @@ export default function Rewards() {
       setUserData(responseData);
     };
     fetchUser();
-  }, [session]); 
+  }, [session]);
   useEffect(() => {}, [control]);
   const handleWithdrawal = () => {
     try {
@@ -247,7 +252,7 @@ export default function Rewards() {
       writeContract({
         abi,
         address: userData?.metaMask as `0x${string}`,
-        functionName: "setMaxWithdrawalAmount",
+        functionName: "withdraw",
         args: [address, totalRewardedWei],
       });
     } catch {
@@ -263,9 +268,11 @@ export default function Rewards() {
         parseFloat(totalPaidRewards.toFixed(4));
       const totalRewardedWei = parseEther(netamtavailable.toString());
 
+      console.log("user", userData);
       writeContract({
         abi,
-        address: userData?.metaMask as `0x${string}`,
+        // @ts-expect-error userData is expected to be an array
+        address: userData.user[0].metaMask as `0x${string}`,
         functionName: "withdraw",
         args: [totalRewardedWei, address],
       });
@@ -340,9 +347,9 @@ export default function Rewards() {
         const paidRewards = data.payments;
 
         let totalPaidReward = 0;
-        for (let i = 0; i < paidRewards.length; i++) {
-          totalPaidReward += paidRewards[i].amount;
-        }
+        // for (let i = 0; i < paidRewards.length; i++) {
+        //   totalPaidReward += paidRewards[i].amount;
+        // }
 
         setTotalPaidRewards(totalPaidReward);
       } catch (error) {}
