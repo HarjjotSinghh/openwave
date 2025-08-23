@@ -4,7 +4,7 @@ import postgres from "postgres";
 // Use environment variable with fallback for local development
 const connectionString: string =
   process.env.DATABASE_URL ||
-  "postgres://postgres:postgres@localhost:5432/openwave";
+  "postgres://postgres:postgres@localhost:5432/neoweave";
 
 // Create a connection pool
 let client;

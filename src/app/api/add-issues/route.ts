@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     try {
       // Send webhook to n8n
       const response = await fetch(
-        "https://n8n-h04ks0s0kk0kw0ocws0socsk.server.openwave.tech/webhook/43c1a3aa-c87d-4e66-a109-51e8412dbffc",
+        "https://n8n-h04ks0s0kk0kw0ocws0socsk.server.neoweave.tech/webhook/43c1a3aa-c87d-4e66-a109-51e8412dbffc",
         {
           method: "POST",
           headers: {
@@ -70,16 +70,16 @@ export async function POST(request: Request) {
     // Then send email notification
     // try {
     //     const info = await transporter.sendMail({
-    //         from: 'openwave@gdggtbit.in',
+    //         from: 'neoweave@gdggtbit.in',
     //         to: email,
-    //         subject: 'New Project Added on openwave!',
+    //         subject: 'New Project Added on neoweave!',
     //         html: `
     //             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
     //                 <p><strong>Difficulty:</strong> ${difficulty}</p>
     //                 <p><strong>Reward Amount:</strong> ${rewardAmount} PAHROS</p>
     //                 <p><strong>Repository:</strong> ${project_repository}</p>
     //                 <hr>
-    //                 <p>Visit openwave to learn more and start contributing!</p>
+    //                 <p>Visit neoweave to learn more and start contributing!</p>
     //             </div>
     //         `
     //     });

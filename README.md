@@ -1,4 +1,4 @@
-# openwave
+# neoweave
 
 - **GitHub Integration:** Authenticate with GitHub, list your repositories, select issues, view collaborators, and manage pull requests.
 - **Smart Contract Funding:** Project owners can deposit cryptocurrency into a dedicated smart contract to fund specific tasks.
@@ -10,11 +10,11 @@
 
 ## How It Works
 
-1.  **Project Creation:** Project owners connect their GitHub account and Web3 wallet. They create a project listing on openwave, selecting a repository, an issue, and setting a reward amount.Just for testing
+1.  **Project Creation:** Project owners connect their GitHub account and Web3 wallet. They create a project listing on neoweave, selecting a repository, an issue, and setting a reward amount.Just for testing
 2.  **Funding:** The owner deposits the specified reward amount into the project's associated smart contract.
 3.  **Contribution:** Developers browse listed projects/issues. They can apply to work on an issue (feature might exist or be planned).
 4.  **Development & PR:** The contributor works on the issue and submits a Pull Request on GitHub.
-5.  **Review & Merge:** The project owner reviews the PR via the openwave interface.
+5.  **Review & Merge:** The project owner reviews the PR via the neoweave interface.
 6.  **Reward Payout:** Upon deciding to merge, the owner triggers a function that first attempts to withdraw the reward from the smart contract to the contributor's (or owner's, based on current implementation) wallet. If successful, the PR is merged on GitHub, and the transaction is recorded.
 
 ## Technology Stack
@@ -32,7 +32,7 @@
 1.  **Clone the repository:**
     ```bash
     git clone <repository-url>
-    cd openwave
+    cd neoweave
     ```
 2.  **Install dependencies:**
     ```bash

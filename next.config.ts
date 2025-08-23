@@ -32,11 +32,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "openwave.tech",
+        hostname: "neoweave.tech",
       },
       {
         protocol: "http",
-        hostname: "openwave.tech",
+        hostname: "neoweave.tech",
       },
     ],
   },

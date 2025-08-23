@@ -139,7 +139,7 @@ export default function Sidebar() {
               className="dark:text-white text-black text-2xl text-center max-md:text-xl max-sm:text-lg"
               style={{ fontFamily: "var(--font-cypher)" }}
             >
-              openwave
+              neoweave
             </h1>
           </div>
         </div>

@@ -133,7 +133,7 @@ export default function Topbar() {
   }, [router]);
 
   const handleSupportClick = useCallback(() => {
-    router.push("https://docs.openwave.tech");
+    router.push("https://docs.neoweave.tech");
     setVisible(false);
   }, [router]);
 
@@ -407,7 +407,7 @@ export default function Topbar() {
                 <div className="flex gap-1">
                   <img
                     src="/NeowareLogo2.png"
-                    alt="openwave logo"
+                    alt="neoweave logo"
                     width={24}
                     height={24}
                   />
@@ -415,7 +415,7 @@ export default function Topbar() {
                     style={{ fontFamily: "var(--font-cypher)" }}
                     className="text-xl"
                   >
-                    openwave
+                    neoweave
                   </span>
                 </div>
 
@@ -560,7 +560,7 @@ export default function Topbar() {
                             </div>
                           </Link>
 
-                          <Link href="/openwaveChat">
+                          <Link href="/neoweaveChat">
                             <div className="rounded-lg text-sm focus:bg-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#27272a] pl-1 pr-4 py-2 flex">
                               <div className="flex gap-1">
                                 <Icon
@@ -568,7 +568,7 @@ export default function Topbar() {
                                   width="24"
                                   height="24"
                                 />
-                                openwave Chat
+                                neoweave Chat
                               </div>
                             </div>
                           </Link>

@@ -296,7 +296,7 @@ export default function Home() {
   }, [session?.user?.image]);
 
   const Icons = {
-    openwave: () => (
+    neoweave: () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         version="1.1"
@@ -582,7 +582,7 @@ export default function Home() {
                       Hey {session?.user?.username}, ready to make an impact?
                     </div>
                     <div className="text-white py-2">
-                      Start contributing. Start earning. Let openwave recommend
+                      Start contributing. Start earning. Let neoweave recommend
                       your next challenge.
                     </div>
                     <div className="text-neutral-200">

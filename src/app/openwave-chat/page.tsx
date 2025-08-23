@@ -530,7 +530,7 @@ console.log("selectedUser:", selectedUser)
                 >
                   <img
                     src="/NeowareLogo2.png" // Replace with your actual fallback image path
-                    alt="openwave"
+                    alt="neoweave"
                     width={isMobile ? 100 : 100}
                     height={isMobile ? 100 : 100}
                   />
@@ -539,7 +539,7 @@ console.log("selectedUser:", selectedUser)
                   className={`dark:text-white text-black text-2xl text-center max-md:text-xl max-sm:text-lg`}
                   style={{ fontFamily: "var(--font-cypher)" }}
                 >
-                  openwave chat
+                  neoweave chat
                 </h1>
 
                 <p className="text-sm xs:text-base lg:text-sm text-neutral-600 dark:text-neutral-400 text-center px-2">

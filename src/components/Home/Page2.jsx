@@ -249,7 +249,7 @@ export default function Page2() {
             Where Your Code Creates Value
           </h1>
           <p className="font-medium text-sm sm:text-base lg:text-[16px] max-w-5xl mx-auto leading-relaxed px-4">
-            Your code has value. openwave connects you to a curated marketplace
+            Your code has value. neoweave connects you to a curated marketplace
             of paid bounties on GitHub issues from top projects.
             <br className="hidden sm:block" />
             Browse challenges, submit your code, and get rewarded for your

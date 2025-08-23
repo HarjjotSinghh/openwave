@@ -84,63 +84,63 @@ export default TestimonialsPage;
 const testimonials = [
   {
     quote:
-      "openwave has revolutionized how we manage open-source contributions. The bounty system motivates contributors, and we've seen faster issue resolutions than ever before.",
+      "neoweave has revolutionized how we manage open-source contributions. The bounty system motivates contributors, and we've seen faster issue resolutions than ever before.",
     name: "Aisha Patel",
     title: "Lead Maintainer, DevConnect",
     image: "/testimonials/test0.png",
   },
   {
     quote:
-      "As a contributor, openwave has opened new doors. I'm solving real-world issues and getting paid directly in crypto—it's the perfect blend of impact and incentive.",
+      "As a contributor, neoweave has opened new doors. I'm solving real-world issues and getting paid directly in crypto—it's the perfect blend of impact and incentive.",
     name: "Ravi Sharma",
     title: "Open Source Contributor",
     image: "/testimonials/test1.png",
   },
   {
     quote:
-      "The transparency and accountability openwave brings to open source is a game-changer. It ensures quality deliverables while rewarding contributors fairly.",
+      "The transparency and accountability neoweave brings to open source is a game-changer. It ensures quality deliverables while rewarding contributors fairly.",
     name: "Jessica Liu",
     title: "Project Manager, ChainSource Labs",
     image: "/testimonials/test2.png",
   },
   {
     quote:
-      "Integrating GitHub with smart contracts through openwave was seamless. It's now our go-to platform for community-driven development with verifiable results.",
+      "Integrating GitHub with smart contracts through neoweave was seamless. It's now our go-to platform for community-driven development with verifiable results.",
     name: "Daniel Thompson",
     title: "Founder, CodeDAO",
     image: "/testimonials/test3.png",
   },
   {
     quote:
-      "We funded three major bug fixes through openwave and had all resolved within a week. The experience was smooth, secure, and efficient.",
+      "We funded three major bug fixes through neoweave and had all resolved within a week. The experience was smooth, secure, and efficient.",
     name: "Meera Nair",
     title: "Tech Lead, BitSage",
     image: "/testimonials/test4.png",
   },
   {
     quote:
-      "openwave brings clarity and structure to open-source collaboration. It's more than just bounties—it's a movement toward decentralized innovation.",
+      "neoweave brings clarity and structure to open-source collaboration. It's more than just bounties—it's a movement toward decentralized innovation.",
     name: "Liam O’Reilly",
     title: "Community Head, Web3United",
     image: "/testimonials/test5.png",
   },
   {
     quote:
-      "openwave gave us access to a global talent pool. We’ve had developers from four continents contribute to our codebase—all tracked and paid automatically via smart contracts.",
+      "neoweave gave us access to a global talent pool. We’ve had developers from four continents contribute to our codebase—all tracked and paid automatically via smart contracts.",
     name: "Elena Petrova",
     title: "Co-Founder, BlockNet Systems",
     image: "/testimonials/test0.png",
   },
   {
     quote:
-      "I joined openwave during a student hackathon and ended up getting my first crypto payout. It’s an incredible way for new developers to gain experience and build a portfolio.",
+      "I joined neoweave during a student hackathon and ended up getting my first crypto payout. It’s an incredible way for new developers to gain experience and build a portfolio.",
     name: "Mohammed Faiz",
     title: "Student Developer, GitHub Campus Expert",
     image: "/testimonials/test6.png",
   },
   {
     quote:
-      "As an investor, I see openwave as a disruptive force in the future of work. Decentralized project funding and fulfillment is the next big thing, and they’re leading the way.",
+      "As an investor, I see neoweave as a disruptive force in the future of work. Decentralized project funding and fulfillment is the next big thing, and they’re leading the way.",
     name: "Olivia Grant",
     title: "Angel Investor, Web3 Capital Group",
     image: "/testimonials/test7.png",

@@ -87,7 +87,7 @@ const GravityText = () => {
       </div>
       <div className="flex items-center justify-center w-full mt-10">
         <h1 className="text-center font-semibold text-[8vw] leading-10 md:leading-32 max-w-[50vw] text-[white] w-full">
-          Why choose openwave
+          Why choose neoweave
         </h1>
       </div>
     </div>

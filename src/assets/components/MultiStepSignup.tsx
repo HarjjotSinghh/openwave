@@ -442,7 +442,7 @@ export default function MultiStepSignup() {
               <div className="flex gap-1">
                 <img
                   src="/NeowareLogo2.png"
-                  alt="openwave Logo"
+                  alt="neoweave Logo"
                   width="24"
                   height="24"
                 />
@@ -450,7 +450,7 @@ export default function MultiStepSignup() {
                   className={`my-auto text-xl`}
                   style={{ fontFamily: "var(--font-cypher)" }}
                 >
-                  openwave
+                  neoweave
                 </h2>
               </div>
             </div>
@@ -537,7 +537,7 @@ export default function MultiStepSignup() {
                           </h3>
                           <p className="text-neutral-500 text-sm max-w-60 mx-auto dark:text-neutral-400">
                             Please review and accept our terms to continue with
-                            your openwave journey
+                            your neoweave journey
                           </p>
                         </div>
                       </div>
@@ -546,10 +546,10 @@ export default function MultiStepSignup() {
                           <div>
                             <h4 className="font-bold text-neutral-900 text-lg mb-3 flex items-center gap-2 dark:text-white">
                               <div className="w-2 h-2 bg-neutral-700 rounded-full dark:bg-neutral-300" />
-                              openwave Platform Agreement
+                              neoweave Platform Agreement
                             </h4>
                             <p className="leading-relaxed">
-                              By joining openwave, you agree to contribute to
+                              By joining neoweave, you agree to contribute to
                               open-source projects and earn rewards based on
                               your contributions. This platform connects
                               developers with meaningful projects and provides
@@ -597,7 +597,7 @@ export default function MultiStepSignup() {
                             <p className="leading-relaxed">
                               By connecting your MetaMask wallet, you authorize
                               secure transactions for receiving rewards and
-                              participating in the openwave ecosystem.
+                              participating in the neoweave ecosystem.
                             </p>
                           </div>
                         </div>

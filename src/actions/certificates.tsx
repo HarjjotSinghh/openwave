@@ -184,7 +184,7 @@ export async function generateCertificateForProject(projectId: string, userId?: 
               </View>
               <View style={styles.signatureContainer}>
                 <View style={styles.signatureLine} />
-                <Text style={styles.signatureText}>OpenWave Team</Text>
+                <Text style={styles.signatureText}>neoweave Team</Text>
               </View>
             </View>
           </View>
@@ -229,7 +229,7 @@ export async function generateCertificateForProject(projectId: string, userId?: 
             project_id: projectId,
             ipfs_hash: ipfsHash,
             url: `https://gateway.pinata.cloud/ipfs/${ipfsHash}`,
-            issued_by: "OpenWave System",
+            issued_by: "neoweave System",
             issued_to: userId
           });
         }
@@ -302,7 +302,7 @@ export async function generateCertificateForProject(projectId: string, userId?: 
           project_id: projectId,
           ipfs_hash: ipfsHash,
           url: `https://gateway.pinata.cloud/ipfs/${ipfsHash}`,
-          issued_by: "OpenWave System",
+          issued_by: "neoweave System",
           issued_to: userId
         });
       }

@@ -994,7 +994,7 @@ export default function RepoPageClient({
                           </p>
                           <p className="text-sm">
                             Approval is based on your profile, experience, and
-                            form submission. openwave doesn't have any say in
+                            form submission. neoweave doesn't have any say in
                             the above.
                           </p>
                         </div>

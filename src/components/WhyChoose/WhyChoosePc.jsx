@@ -719,7 +719,7 @@ const WhyChoosePc = () => {
                 Auto-Rewarded Merged PRs
               </div>
               <p className="text-[8px] text-[#f4e2ff]">
-                openwave tracks merged pull requests in real-time and
+                neoweave tracks merged pull requests in real-time and
                 auto-distributes rewards, removing manual claim steps and
                 letting contributors focus on coding.
               </p>
@@ -745,7 +745,7 @@ const WhyChoosePc = () => {
                 Auto-Rewarded Merged PRs
               </div>
               <p className="text-[8px] text-[#f4e2ff]">
-                openwave tracks merged pull requests in real-time and
+                neoweave tracks merged pull requests in real-time and
                 auto-distributes rewards, removing manual claim steps and
                 letting contributors focus on coding.
               </p>
@@ -773,7 +773,7 @@ const WhyChoosePc = () => {
                 Developer-First Experience
               </div>
               <p className="text-[8px] text-[#f4e2ff]">
-                Built for developers, openwave OSNF offers a clean interface,
+                Built for developers, neoweave OSNF offers a clean interface,
                 simple wallet setup, and automatic tracking—no red tape, just
                 fast onboarding and earnings.{" "}
               </p>
@@ -864,7 +864,7 @@ const WhyChoosePc = () => {
                 Decentralized Reward System
               </div>
               <p className="text-[8px] text-[#f4e2ff]">
-                openwave directly integrates with GitHub to auto-track
+                neoweave directly integrates with GitHub to auto-track
                 contributions, PRs, and merges—rewarding developers without
                 manual effort. Real-time repo monitoring ensures rewards are
                 triggered instantly upon successful merges.

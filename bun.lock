@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "openwave",
+      "name": "neoweave",
       "dependencies": {
         "@ai-sdk/azure": "^1.3.24",
         "@ai-sdk/google": "^1.2.22",

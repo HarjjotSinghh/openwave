@@ -21,10 +21,10 @@ const queryClient = new QueryClient({
 
 // Set up metadata
 const metadata = {
-  name: "openwave",
+  name: "neoweave",
   description: "An Open Source Issue Solving Platform",
-  url: "https://openwave.tech",
-  icons: ["https://openwave.tech/NeowareLogo2.png"],
+  url: "https://neoweave.tech",
+  icons: ["https://neoweave.tech/NeowareLogo2.png"],
 };
 
 // Create the modal

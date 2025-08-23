@@ -81,8 +81,8 @@ export default function Login() {
   const testimonials = [
     {
       key: "1",
-      repoName: "openwaveWeb",
-      repoTitle: "openwave Web Platform",
+      repoName: "neoweaveWeb",
+      repoTitle: "neoweave Web Platform",
       personName: "Alice Johnson",
       date: "2025-07-01",
       tags: ["security", "backend", "performance"],

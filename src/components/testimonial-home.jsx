@@ -6,35 +6,35 @@ const testimonials = [
   {
     company: "OpenDev Collective",
     quote:
-      "openwave has completely changed how I contribute to open source. Now, my efforts are recognized and rewarded without any extra overhead.",
+      "neoweave has completely changed how I contribute to open source. Now, my efforts are recognized and rewarded without any extra overhead.",
     author: "Aarav Mehta",
     role: "Full Stack Developer - OpenDev Collective",
   },
   {
     company: "ChainCrafters",
     quote:
-      "Managing bounties and tracking contributions used to be a pain. openwave streamlined everything for us and helped grow our contributor base.",
+      "Managing bounties and tracking contributions used to be a pain. neoweave streamlined everything for us and helped grow our contributor base.",
     author: "Priya Nair",
     role: "Lead Maintainer - ChainCrafters",
   },
   {
     company: "HackLabs",
     quote:
-      "Thanks to openwave, I picked up a bug fix issue, submitted a PR, and got paid in crypto—all within a weekend. It’s the dream for student developers.",
+      "Thanks to neoweave, I picked up a bug fix issue, submitted a PR, and got paid in crypto—all within a weekend. It’s the dream for student developers.",
     author: "Jessica L.",
     role: "Student Developer - HackLabs",
   },
   {
-    company: "openwave",
+    company: "neoweave",
     quote:
-      "openwave adds a layer of incentive that motivates real contributions. It's helping open source become more sustainable, one bounty at a time.",
+      "neoweave adds a layer of incentive that motivates real contributions. It's helping open source become more sustainable, one bounty at a time.",
     author: "Rahul Sinha",
-    role: "Developer Advocate - openwave",
+    role: "Developer Advocate - neoweave",
   },
   {
     company: "ZeroDAO",
     quote:
-      "We’ve funded dozens of meaningful PRs through openwave. It’s eliminated the noise and given us a trusted way to reward valuable work.",
+      "We’ve funded dozens of meaningful PRs through neoweave. It’s eliminated the noise and given us a trusted way to reward valuable work.",
     author: "Lucas M.",
     role: "Founder - ZeroDAO",
   },

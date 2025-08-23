@@ -140,7 +140,7 @@ const InfiniteScroller = () => {
               key={i}
               className="md:text-[6vw] text-[15vw] font-semibold flex items-center justify-center gap-5"
             >
-              <p>openwave is Built Different</p>
+              <p>neoweave is Built Different</p>
               <PurpleSphere width="120px" height="110px" />
             </li>
           ))}

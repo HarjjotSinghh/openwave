@@ -172,7 +172,7 @@ const NavBar3 = () => {
             } text-2xl text-center  scale-y-120 `}
             style={{ fontFamily: "var(--font-cypher)" }}
           >
-            openwave
+            neoweave
           </h1>
         </div>
       </div>

@@ -50,7 +50,7 @@ export default function Home() {
             <div>
               <img
                 src="/NeowareLogo2.png"
-                alt="openwave logo"
+                alt="neoweave logo"
                 width={120}
                 height={40}
               />
@@ -58,7 +58,7 @@ export default function Home() {
                 style={{ fontFamily: "var(--font-cypher)" }}
                 className=" text-xl"
               >
-                openwave
+                neoweave
               </span>
             </div>
             <div className="flex space-x-4">
