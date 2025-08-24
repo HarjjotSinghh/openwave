@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect} from "react";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import {
@@ -48,6 +48,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useSidebarContext } from "../../assets/components/SidebarContext";
+import Topbar from "@/assets/components/topbar";
 
 interface Project {
   id: number | string;
@@ -102,9 +103,14 @@ interface UserIssue {
   rewardAmount: string;
 }
 
+interface Issue{
+  contributorRequests: AssignedIssue;
+  issues: UserIssue;
+}
+
 interface AssignedProjectsClientProps {
   projects: Project[];
-  userIssues: UserIssue[];
+  userIssues: Issue[];
   assignedIssues: AssignedIssue[];
 }
 
@@ -113,9 +119,24 @@ export default function AssignedProjectsClient({
   userIssues,
   assignedIssues,
 }: AssignedProjectsClientProps) {
+  console.log(projects,"projects");
+  console.log(assignedIssues,"assignedIssues");
+  console.log(userIssues,"userIssues");
   const { isShrunk } = useSidebarContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+  
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+  
+      return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
   const filteredProjects = projects.filter((project) => {
     const searchLower = searchTerm.toLowerCase();
@@ -127,15 +148,17 @@ export default function AssignedProjectsClient({
     return statusMatch && searchMatch;
   });
 
-  const filteredIssues = assignedIssues.filter((issue) => {
+  const filteredIssues = userIssues.filter((issue) => {
     const searchLower = searchTerm.toLowerCase();
     const statusMatch =
-      statusFilter === "all" || (issue.status || "").toLowerCase() === statusFilter;
+      statusFilter === "all" || (issue.contributorRequests.status || "").toLowerCase() === statusFilter;
     const searchMatch =
-      (issue.issue_name || "").toLowerCase().includes(searchLower) ||
-      (issue.issue_description || "").toLowerCase().includes(searchLower);
+      (issue.contributorRequests.issue_name || "").toLowerCase().includes(searchLower) ||
+      (issue.contributorRequests.issue_description || "").toLowerCase().includes(searchLower);
     return statusMatch && searchMatch;
   });
+
+
 
   // Helper function to determine status color
   function getStatusColor(status?: string) {
@@ -211,9 +234,16 @@ export default function AssignedProjectsClient({
     <div
       className={`
         flex-1 transition-all duration-300 ease-in-out
-        ${isShrunk ? "ml-16 w-[calc(100%-4rem)]" : "ml-64 w-[calc(100%-16rem)]"}
+         ${
+                isMobile
+                  ? "ml-0 w-full"
+                  : isShrunk
+                  ? "ml-16 w-[calc(100%-4rem)]"
+                  : "ml-64 w-[calc(100%-16rem)]"
+              }
       `}
     >
+      <Topbar />
       <div className="z-10 mt-16 bg-background">
         {/* Header */}
         <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -310,7 +340,7 @@ export default function AssignedProjectsClient({
                       {userIssues
                         .reduce(
                           (sum, issue) =>
-                            sum + Number.parseFloat(issue.rewardAmount),
+                            sum + Number.parseFloat(issue.issues.rewardAmount),
                           0
                         )
                         .toFixed(7)}{" "}
@@ -512,20 +542,20 @@ export default function AssignedProjectsClient({
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
                   {filteredIssues.map((issue) => {
-                    const daysAgo = getDaysAgo(issue.issue_date);
+                    const daysAgo = getDaysAgo(issue.issues.issue_date);
                     return (
                       <Card
-                        key={issue.id}
+                        key={issue.issues.id}
                         className="hover:shadow-md transition-shadow"
                       >
                         <CardHeader className="pb-3">
                           <div className="flex items-start justify-between gap-2">
                             <div className="space-y-1 flex-1 min-w-0">
                               <CardTitle className="text-base lg:text-lg leading-tight line-clamp-2 ">
-                                {issue.issue_name}
+                                {issue.issues.issue_name}
                               </CardTitle>
                               <CardDescription className="text-xs lg:text-sm line-clamp-2">
-                                {issue.issue_description}
+                                {issue.issues.issue_description}
                               </CardDescription>
                             </div>
                             <DropdownMenu>
@@ -559,21 +589,21 @@ export default function AssignedProjectsClient({
                           {/* Priority and Difficulty */}
                           <div className="flex flex-wrap items-center gap-2">
                             <Badge
-                              className={getPriorityColor(issue.priority)}
+                              className={getPriorityColor(issue.issues.priority)}
                               variant="secondary"
                             >
-                              {issue.priority?.charAt(0)?.toUpperCase() +
-                                issue.priority?.slice(1) || "Unknown"}{" "}
+                              {issue.issues.priority?.charAt(0)?.toUpperCase() +
+                                issue.issues.priority?.slice(1) || "Unknown"}{" "}
                               Priority
                             </Badge>
                             <Badge
                               className={getDifficultyColor(
-                                issue.Difficulty
+                                issue.issues.Difficulty
                               )}
                               variant="secondary"
                             >
-                              {issue.Difficulty?.charAt(0)?.toUpperCase() +
-                                issue.Difficulty?.slice(1) || "Unknown"}
+                              {issue.issues.Difficulty?.charAt(0)?.toUpperCase() +
+                                issue.issues.Difficulty?.slice(1) || "Unknown"}
                             </Badge>
                           </div>
 
@@ -591,7 +621,7 @@ export default function AssignedProjectsClient({
                                 Reward
                               </p>
                               <p className="text-sm lg:text-lg font-bold text-neutral-900 dark:text-neutral-100 truncate">
-                                {issue.rewardAmount} AVAX
+                                {issue.issues.rewardAmount} AVAX
                               </p>
                             </div>
                           </div>
@@ -603,7 +633,7 @@ export default function AssignedProjectsClient({
                               Repository:
                             </span>
                             <span className="font-mono truncate">
-                              {issue.project_repository}
+                              {issue.issues.project_repository}
                             </span>
                           </div>
 
@@ -614,7 +644,7 @@ export default function AssignedProjectsClient({
                               Posted:
                             </span>
                             <span className="truncate">
-                              {formatDate(issue.issue_date)}{" "}
+                              {formatDate(issue.issues.issue_date)}{" "}
                               {daysAgo ? `(${daysAgo})` : ""}
                             </span>
                           </div>
@@ -623,13 +653,13 @@ export default function AssignedProjectsClient({
                           <div className="flex items-center gap-2">
                             <Avatar className="h-5 w-5 lg:h-6 lg:w-6">
                               <AvatarFallback className="text-xs">
-                                {issue.publisher
+                                {issue.issues.publisher
                                   ?.slice(0, 2)
                                   ?.toUpperCase() || "???"}
                               </AvatarFallback>
                             </Avatar>
                             <span className="text-xs lg:text-sm text-muted-foreground truncate">
-                              Published by {issue.publisher}
+                              Published by {issue.issues.publisher}
                             </span>
                           </div>
 
@@ -645,6 +675,7 @@ export default function AssignedProjectsClient({
                               size="sm"
                               variant="outline"
                               className="flex-1 text-xs lg:text-sm bg-transparent"
+                              onClick={() =>{router.push(`/myProjects/Issues?repo=${issue.issues.project_repository}&issue=${issue.issues.project_issues}`)}}
                             >
                               View Details
                             </Button>
