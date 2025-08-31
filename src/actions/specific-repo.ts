@@ -33,7 +33,7 @@ interface ProjectData {
 export async function createSpecificRepo(projectData: ProjectData) {
   try {
     // Insert the project
-    await (db as any).insert(project).values({
+    await db.insert(project).values({
       contributors: projectData.contributors,
       aiDescription: projectData.aiDescription,
       projectOwner: projectData.projectOwner,

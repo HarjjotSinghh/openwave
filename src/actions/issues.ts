@@ -29,7 +29,7 @@ export async function addIssue({
 }) {
   try {
     // First insert the issue
-    const [{ issue_id: createdIssueId }] = await (db as any)
+    const [{ issue_id: createdIssueId }] = await db
       .insert(issues)
       .values({
         issue_name,
@@ -84,7 +84,7 @@ export async function addIssue({
 
 export async function getIssues() {
   try {
-    const issuesData = await (db as any).select().from(issues);
+    const issuesData = await db.select().from(issues);
     return { issues: issuesData };
   } catch (error) {
     console.error("Error fetching issues:", error);
@@ -98,7 +98,7 @@ export async function getIssueById(issueId: string) {
       return { success: false, error: 'Issue ID is required' };
     }
 
-    const issue = await (db as any)
+    const issue = await db
       .select()
       .from(issues)
       .where(eq(issues.id, issueId))
@@ -121,7 +121,7 @@ export async function getIssuesByUser(publisher: string) {
       return { success: false, error: 'Publisher is required' };
     }
 
-    const issuesData = await (db as any)
+    const issuesData = await db
       .select()
       .from(issues)
       .where(eq(issues.publisher, publisher));

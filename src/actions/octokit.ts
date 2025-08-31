@@ -1,4 +1,4 @@
 'use server'
 
-import {getServerSession} from 'next-auth'
+import {useServerSession} from 'next-auth'
 

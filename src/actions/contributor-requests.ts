@@ -10,7 +10,7 @@ export async function getContributorRequests(projectOwner: string) {
   }
 
   try {
-    const projectsData = await (db as any)
+    const projectsData = await db
       .select()
       .from(contributorRequests)
       .where(and(
@@ -57,7 +57,7 @@ export async function createContributorRequest({
       return { success: false, error: "Missing required fields" };
     }
 
-    await (db as any).insert(contributorRequests).values({
+    await db.insert(contributorRequests).values({
       projectName,
       Contributor_id,
       contributor_email,
@@ -91,7 +91,7 @@ export async function updateContributorRequestStatus({
       return { success: false, error: 'Missing required fields' };
     }
     
-    await (db as any)
+    await db
       .update(contributorRequests)
       .set({ status })
       .where(eq(contributorRequests.id, id));
@@ -105,7 +105,7 @@ export async function updateContributorRequestStatus({
 
 export async function getPullRequests() {
   try {
-    const projectsData = await (db as any)
+    const projectsData = await db
       .select()
       .from(contributorRequests)
       .where(eq(contributorRequests.status, "assigned"));

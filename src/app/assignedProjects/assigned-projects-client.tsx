@@ -124,7 +124,6 @@ export default function AssignedProjectsClient({
   console.log(assignedIssues,"assignedIssues");
   console.log(userIssues,"userIssues");
   const { isShrunk } = useSidebarContext();
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isMobile, setIsMobile] = useState<boolean>(false);

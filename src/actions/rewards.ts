@@ -94,7 +94,7 @@ export async function createReward(input: RewardInput) {
 
 export async function getRewards(contributorId?: string, projectName?: string) {
   try {
-    let query = (db as any).select().from(Rewards);
+    let query = db.select().from(Rewards);
 
     if (contributorId && projectName) {
       query = query.where(

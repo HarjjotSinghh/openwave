@@ -14,7 +14,7 @@ interface MessageData {
 export async function sendMessage({ from, text, timestamp, to }: MessageData) {
   try {
     const parsedTimestamp = new Date(timestamp);
-    await (db as any).insert(messages).values({
+    await db.insert(messages).values({
       sender_id: from,
       reciever_id: to,
       timestamp: parsedTimestamp,
@@ -59,7 +59,7 @@ export async function getMessages({
     }
 
     // Execute the query with pagination
-    const messagesData = await (db as any)
+    const messagesData = await db
       .select()
       .from(messages)
       .where(and(...whereConditions))

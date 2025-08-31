@@ -141,9 +141,9 @@ export default function CreateIssueClient({ session, managedProjects,userProfile
 
       const receipt = await publicClient.waitForTransactionReceipt({
         hash,
-        timeout: 60_000, // 60 second timeout
+        timeout: 60000, // 60 second timeout
       });
-
+      console.log(receipt,"teggsffss")
       if (!receipt.contractAddress) {
         throw new Error("Contract deployment failed - no address in receipt");
       }
@@ -347,7 +347,7 @@ export default function CreateIssueClient({ session, managedProjects,userProfile
       return;
     }
     if (!isConnected || !userData?.maintainerWallet) {
-      console.log(isConnected,"wallet connected or not");
+      console.log(isConnected,userData?.maintainerWallet,"wallet connected or not");
     console.log("userData", userData);
       return setAlertMessage("Connect your wallet first!");
     }
@@ -535,7 +535,7 @@ export default function CreateIssueClient({ session, managedProjects,userProfile
                               >
                                 <option value="">Select a repository</option>
                                 {data?.map((repo) => (
-                                  <option value={repo?.projectName} key={repo?.projectName}>
+                                  <option value={repo?.name} key={repo?.id}>
                                     {repo.project_repository}
                                   </option>
                                 ))}
