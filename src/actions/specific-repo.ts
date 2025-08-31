@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from '@/db';
-import { project } from '@/db/schema';
+import { db } from '../db/index';
+import { project } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import nodemailer from 'nodemailer';
 
@@ -33,7 +33,7 @@ interface ProjectData {
 export async function createSpecificRepo(projectData: ProjectData) {
   try {
     // Insert the project
-    await db.insert(project).values({
+    await (db as any).insert(project).values({
       contributors: projectData.contributors,
       aiDescription: projectData.aiDescription,
       projectOwner: projectData.projectOwner,

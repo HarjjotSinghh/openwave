@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { contributorRequests } from "@/db/schema";
+import { db } from "../db/index";
+import { contributorRequests } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function getContributorRequests(projectOwner: string) {
@@ -10,7 +10,7 @@ export async function getContributorRequests(projectOwner: string) {
   }
 
   try {
-    const projectsData = await db
+    const projectsData = await (db as any)
       .select()
       .from(contributorRequests)
       .where(and(
@@ -57,7 +57,7 @@ export async function createContributorRequest({
       return { success: false, error: "Missing required fields" };
     }
 
-    await db.insert(contributorRequests).values({
+    await (db as any).insert(contributorRequests).values({
       projectName,
       Contributor_id,
       contributor_email,
@@ -91,7 +91,7 @@ export async function updateContributorRequestStatus({
       return { success: false, error: 'Missing required fields' };
     }
     
-    await db
+    await (db as any)
       .update(contributorRequests)
       .set({ status })
       .where(eq(contributorRequests.id, id));
@@ -105,7 +105,7 @@ export async function updateContributorRequestStatus({
 
 export async function getPullRequests() {
   try {
-    const projectsData = await db
+    const projectsData = await (db as any)
       .select()
       .from(contributorRequests)
       .where(eq(contributorRequests.status, "assigned"));

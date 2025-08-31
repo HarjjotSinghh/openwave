@@ -5,7 +5,7 @@ import SubnetDashboard from '../components/SubnetDashboard';
 const HomePage = () => {
     return (
         <div>
-            <h1>Welcome to the Avalanche Subnet Dashboard</h1>
+            <h1>Welcome to the Flow Subnet Dashboard</h1>
             <WalletConnect />
             <SubnetDashboard />
         </div>

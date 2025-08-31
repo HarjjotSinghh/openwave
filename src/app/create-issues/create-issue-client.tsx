@@ -535,7 +535,7 @@ export default function CreateIssueClient({ session, managedProjects,userProfile
                               >
                                 <option value="">Select a repository</option>
                                 {data?.map((repo) => (
-                                  <option value={repo?.name} key={repo?.id}>
+                                  <option value={repo?.projectName} key={repo?.projectName}>
                                     {repo.project_repository}
                                   </option>
                                 ))}

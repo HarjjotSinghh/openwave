@@ -11,13 +11,13 @@ import Link from "next/link"
 import Image from "next/image"
 interface IssueCardProps {
   image: string;
-  Project?: string;
+  Project: string;
   activeUser?: string;
   Stars?: number;
   Fork?: number;
   Contributors: number;
-  shortDescription?: string;
-  languages?: Record<string, number>;
+  shortDescription: string;
+  languages: Record<string, number>;
   Tag?: string;
 }
 

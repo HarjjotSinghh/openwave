@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createChain } from '../../../lib/avalanche/txhelpers';
+import { createChain } from '../../../lib/Flow/txhelpers';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {

@@ -2,8 +2,8 @@ import React from 'react';
 import './globals.css';
 
 export const metadata = {
-  title: 'Avalanche Subnet Dashboard',
-  description: 'A dashboard for managing and interacting with Avalanche subnets and blockchains.',
+  title: 'Flow Subnet Dashboard',
+  description: 'A dashboard for managing and interacting with Flow subnets and blockchains.',
 };
 
 const RootLayout = ({ children }) => {
@@ -11,11 +11,11 @@ const RootLayout = ({ children }) => {
     <html lang="en">
       <body>
         <header>
-          <h1>Avalanche Subnet Dashboard</h1>
+          <h1>Flow Subnet Dashboard</h1>
         </header>
         <main>{children}</main>
         <footer>
-          <p>&copy; {new Date().getFullYear()} Avalanche Subnet Project</p>
+          <p>&copy; {new Date().getFullYear()} Flow Subnet Project</p>
         </footer>
       </body>
     </html>

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script automates the deployment of a new blockchain within the Avalanche subnet.
+# This script automates the deployment of a new blockchain within the Flow subnet.
 
 # Load subnet configuration
 SUBNET_CONFIG_FILE="../config/subnet-config.json"
@@ -17,7 +17,7 @@ echo "Deploying blockchain in subnet with ID: $SUBNET_ID"
 echo "Using VM ID: $VM_ID and Token Symbol: $TOKEN_SYMBOL"
 
 # Command to create the blockchain
-avalanche-cli create-chain \
+Flow-cli create-chain \
   --subnet-id $SUBNET_ID \
   --vm-id $VM_ID \
   --genesis "$GENESIS_DATA" \

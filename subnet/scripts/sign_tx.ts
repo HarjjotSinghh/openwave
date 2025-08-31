@@ -1,12 +1,12 @@
-import { Avalanche, Buffer, BinTools, BufferReader, BufferWriter } from "avalanche";
-import { KeyPair } from "avalanche/dist/common/keypair";
-import { Tx } from "avalanche/dist/common/tx";
-import { TxBuilder } from "avalanche/dist/common/txBuilder";
-import { TxStatus } from "avalanche/dist/common/txStatus";
-import { getTxStatus } from "../lib/avalanche/txhelpers";
+import { Flow, Buffer, BinTools, BufferReader, BufferWriter } from "Flow";
+import { KeyPair } from "Flow/dist/common/keypair";
+import { Tx } from "Flow/dist/common/tx";
+import { TxBuilder } from "Flow/dist/common/txBuilder";
+import { TxStatus } from "Flow/dist/common/txStatus";
+import { getTxStatus } from "../lib/Flow/txhelpers";
 
-// Initialize Avalanche client
-const ava = new Avalanche("localhost", 9650, "http");
+// Initialize Flow client
+const ava = new Flow("localhost", 9650, "http");
 
 // Function to sign a transaction
 async function signTransaction(tx: Tx, keyPair: KeyPair): Promise<Tx> {

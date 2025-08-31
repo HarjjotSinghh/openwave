@@ -103,10 +103,10 @@ export const InfiniteMovingCards = ({
               <div className="relative z-20  flex flex-row items-center">
                 <span className="flex flex-col gap-1">
                   
-                  <span className="text-xl leading-[1.6] font-normal text-black dark:text-white">
+                  <span className="text-xl leading-[1.6] font-normal text-white">
                     {item.repoName}
                   </span>
-                  <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-neutral-400">
+                  <span className="text-sm leading-[1.6] font-normal text-neutral-400">
                     {item.repoTitle}
                   </span>
                 </span>
@@ -118,7 +118,7 @@ export const InfiniteMovingCards = ({
                   </span>
                 ))}
               </div>
-              <span className="relative z-20 text-sm leading-[1.6] font-normal text-neutral-800 dark:text-neutral-100">
+              <span className="relative z-20 text-sm leading-[1.6] font-normal text-neutral-100">
                💰 Paid to @{item.personName} on {item.date}
               </span>
             </blockquote>

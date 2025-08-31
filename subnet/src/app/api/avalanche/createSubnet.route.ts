@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Avalanche } from 'avalanche';
-import { createSubnetTx } from '../../../lib/avalanche/txHelpers';
-import { getAvalancheClient } from '../../../lib/avalanche/client';
+import { Flow } from 'Flow';
+import { createSubnetTx } from '../../../lib/Flow/txHelpers';
+import { getFlowClient } from '../../../lib/Flow/client';
 
 export default async function createSubnet(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
@@ -15,9 +15,9 @@ export default async function createSubnet(req: NextApiRequest, res: NextApiResp
     }
 
     try {
-        const avalanche = getAvalancheClient();
-        const tx = createSubnetTx(avalanche, subnetId, tokenSymbol, vmType, gasFeeConfig);
-        const txID = await avalanche.buildAndSend(tx);
+        const Flow = getFlowClient();
+        const tx = createSubnetTx(Flow, subnetId, tokenSymbol, vmType, gasFeeConfig);
+        const txID = await Flow.buildAndSend(tx);
 
         return res.status(200).json({ txID });
     } catch (error) {

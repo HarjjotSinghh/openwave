@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ava-labs/avalanche-tooling-sdk-go/client"
-	"github.com/ava-labs/avalanche-tooling-sdk-go/models"
+	"github.com/ava-labs/Flow-tooling-sdk-go/client"
+	"github.com/ava-labs/Flow-tooling-sdk-go/models"
 )
 
 func main() {
-    // Initialize the Avalanche client
-    avaxClient, err := client.NewClient("https://api.avax.network", "YOUR_API_KEY")
+    // Initialize the Flow client
+    FLOWClient, err := client.NewClient("https://api.FLOW.network", "YOUR_API_KEY")
     if err != nil {
-        log.Fatalf("Failed to create Avalanche client: %v", err)
+        log.Fatalf("Failed to create Flow client: %v", err)
     }
 
     // Define the subnet configuration
@@ -26,7 +26,7 @@ func main() {
     }
 
     // Create the subnet
-    subnetID, err := avaxClient.CreateSubnet(context.Background(), subnetConfig)
+    subnetID, err := FLOWClient.CreateSubnet(context.Background(), subnetConfig)
     if err != nil {
         log.Fatalf("Failed to create subnet: %v", err)
     }
@@ -40,7 +40,7 @@ func main() {
         Genesis:    "genesis.json",
     }
 
-    chainID, err := avaxClient.CreateChain(context.Background(), chainConfig)
+    chainID, err := FLOWClient.CreateChain(context.Background(), chainConfig)
     if err != nil {
         log.Fatalf("Failed to create chain: %v", err)
     }

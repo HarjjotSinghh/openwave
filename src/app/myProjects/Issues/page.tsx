@@ -461,8 +461,8 @@ export default function RepositoryIssuesPage() {
                           <div className="flex gap-2 ">
                             <div className="flex items-center gap-1 text-black dark:text-neutral-100 font-bold text-sm lg:text-base">
                               <img
-                                src="https://build.avax.network/favicon.ico"
-                                alt="AVAX"
+                                src="https://build.FLOW.network/favicon.ico"
+                                alt="FLOW"
                                 width={16}
                                 height={16}
                                 className="w-4 h-4 lg:w-5 lg:h-5"

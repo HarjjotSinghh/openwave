@@ -956,7 +956,7 @@ export default function UserProfilePage() {
                     {
                       icon: (
                         <img
-                          src="https://build.avax.network/favicon.ico"
+                          src="https://build.FLOW.network/favicon.ico"
                           width={40}
                           height={40}
                           className="w-6 h-6 "

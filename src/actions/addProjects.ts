@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { project } from "@/db/schema";
+import { db } from "../db/index";
+import { project } from "../db/schema";
 import nodemailer, { SendMailOptions } from "nodemailer";
 import { eq } from "drizzle-orm";
 // Create a more resilient transporter
@@ -61,7 +61,7 @@ export async function addProject({
   try {
     // First insert the project
     try {
-      await db.insert(project).values({
+      await (db as any).insert(project).values({
         projectName: projectName,
         contributors: contributors,
         aiDescription: aiDescription,
@@ -129,7 +129,26 @@ export async function getProjects(currentUser: string) {
   try {
     // Add error handling for database operations
     try {
-      const projectsData = await db.select().from(project).where(eq(project.projectOwner, currentUser));
+      const projectsData = await (db as any).select().from(project).where(eq(project.projectOwner, currentUser));
+
+      return { project: projectsData };
+    } catch (dbError) {
+      console.error("Database error fetching projects:", dbError);
+      // Return empty array instead of failing
+      return { project: [] };
+    }
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    return { error: "Internal Server Error", project: [] };
+  }
+}
+
+
+export async function getAllProjects() {
+  try {
+    // Add error handling for database operations
+    try {
+      const projectsData = await (db as any).select().from(project);
 
       return { project: projectsData };
     } catch (dbError) {

@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { Rewards } from "@/db/schema";
+import { db } from "../db/index";
+import { Rewards } from "../db/schema";
 import { and, desc, eq, like } from "drizzle-orm";
 
 type Reward = typeof Rewards.$inferSelect;
@@ -77,7 +77,7 @@ export async function createReward(input: RewardInput) {
       Contributor,
     };
 
-    const result = await db.insert(Rewards).values(newReward).returning();
+    const result = await (db as any).insert(Rewards).values(newReward).returning();
 
     return {
       success: true,
@@ -94,7 +94,7 @@ export async function createReward(input: RewardInput) {
 
 export async function getRewards(contributorId?: string, projectName?: string) {
   try {
-    let query = db.select().from(Rewards);
+    let query = (db as any).select().from(Rewards);
 
     if (contributorId && projectName) {
       query = query.where(

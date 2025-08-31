@@ -16,7 +16,7 @@ import { getAllIssues } from "../../actions/show-issues";
 import { getContributionsByUser } from "../../actions/contributions";
 import AssignedProjectsClient from "./assigned-projects-client";
 import { SidebarProvider } from "@/assets/components/SidebarContext";
-import {Project as ProjectType, AssignedIssue as AssignedIssueType, Issue as UserIssueType} from '@/db/types'
+// Using local interfaces from AssignedProjectsClient component
 
 
 
@@ -47,13 +47,13 @@ export default async function Component() {
   try {
 
     const projectsResult = await getProjects(currentUser);
-    const projects = projectsResult.project as ProjectType[] ?? [];
+    const projects = projectsResult.project ?? [];
 
     const userIssuesResult = await getAllIssues(currentUser);
-    const userIssues = userIssuesResult.data;
+    const userIssues = userIssuesResult.data ?? [];
     
     const assignedIssuesResult = await getContributionsByUser(currentUser!);
-    const assignedIssues = assignedIssuesResult.data as AssignedIssueType[] ?? [];
+    const assignedIssues = assignedIssuesResult.data ?? [];
 
     return (
       <Suspense>

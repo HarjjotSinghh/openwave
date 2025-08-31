@@ -19,9 +19,9 @@ cat <<EOF > subnet/config/subnet-config.json
 }
 EOF
 
-# Create the subnet using the Avalanche CLI
+# Create the subnet using the Flow CLI
 echo "Creating subnet..."
-avalanche-cli create-subnet --config subnet/config/subnet-config.json
+Flow-cli create-subnet --config subnet/config/subnet-config.json
 
 # Check if the subnet was created successfully
 if [ $? -eq 0 ]; then

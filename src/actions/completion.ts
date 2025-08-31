@@ -56,12 +56,15 @@ export async function generateCompletion(prompt: string) {
     // Handle tool calls if any
     if (response.choices[0]?.message?.tool_calls) {
       for (const toolCall of response.choices[0].message.tool_calls) {
-        if (toolCall.function?.name && toolCall.function?.arguments) {
+        // Type assertion to access function properties
+        const functionCall = (toolCall as any).function;
+        if (functionCall?.name && functionCall?.arguments) {
           try {
-            const args = JSON.parse(toolCall.function.arguments);
-            const tool = tools[toolCall.function.name];
+            const args = JSON.parse(functionCall.arguments);
+            const tool = tools[functionCall.name];
             if (tool) {
-              const result = await clientTwo.callTool(toolCall.function.name, args);
+              // Use type assertion for callTool method
+              const result = await (clientTwo as any).callTool(functionCall.name, args);
               collectedContent += JSON.stringify(result);
             }
           } catch (error) {

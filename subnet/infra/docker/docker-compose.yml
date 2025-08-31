@@ -1,15 +1,15 @@
 version: '3.8'
 
 services:
-  avalanche-node:
-    image: avaplatform/avalanchego:latest
-    container_name: avalanche-node
+  Flow-node:
+    image: avaplatform/Flowgo:latest
+    container_name: Flow-node
     ports:
       - "9650:9650"  # P-Chain
       - "9651:9651"  # C-Chain
       - "9652:9652"  # X-Chain
     volumes:
-      - ./data:/root/.avalanchego
+      - ./data:/root/.Flowgo
     command: [
       "--http-host=0.0.0.0",
       "--log-level=info",
@@ -20,16 +20,16 @@ services:
     ]
     restart: unless-stopped
 
-  avalanche-faucet:
-    image: avaplatform/avalanche-faucet:latest
-    container_name: avalanche-faucet
+  Flow-faucet:
+    image: avaplatform/Flow-faucet:latest
+    container_name: Flow-faucet
     ports:
       - "8080:8080"
     environment:
       - FAUCET_PRIVATE_KEY=your_private_key_here
-      - FAUCET_URL=http://avalanche-node:9650
+      - FAUCET_URL=http://Flow-node:9650
     depends_on:
-      - avalanche-node
+      - Flow-node
     restart: unless-stopped
 
 networks:

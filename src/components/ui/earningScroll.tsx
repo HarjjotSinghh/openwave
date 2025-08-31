@@ -117,7 +117,7 @@ export const EarningScroll = ({
               <span className="text-sm font-medium text-neutral-800 dark:text-neutral-100">
                 {item.amount}{" "}
                 <span className="text-neutral-500 dark:text-neutral-400">
-                  AVAX
+                  FLOW
                 </span>
               </span>
             </div>

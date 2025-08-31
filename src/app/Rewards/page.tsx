@@ -590,7 +590,7 @@ export default function Rewards() {
                                 Total Rewarded
                               </p>
                               <p className="text-xl lg:text-3xl font-bold">
-                                {totalRewarded.toFixed(4)} AVAX
+                                {totalRewarded.toFixed(4)} FLOW
                               </p>
                             </div>
                             <div className="h-8 w-8 lg:h-10 lg:w-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -609,7 +609,7 @@ export default function Rewards() {
                                 Paid
                               </p>
                               <p className="text-xl lg:text-3xl font-bold text-neutral-900 dark:text-white">
-                                {parseFloat(totalPaidRewards.toFixed(4))} AVAX
+                                {parseFloat(totalPaidRewards.toFixed(4))} FLOW
                               </p>
                             </div>
                             <div className="h-8 w-8 lg:h-10 lg:w-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
@@ -642,7 +642,7 @@ export default function Rewards() {
                                     }px`,
                                     minHeight: "6px",
                                   }}
-                                  title={`${monthMap[month] || 0} AVAX`}
+                                  title={`${monthMap[month] || 0} FLOW`}
                                 ></div>
                                 <span className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 block truncate">
                                   {isMobile ? month.slice(0, 3) : month}
@@ -743,7 +743,7 @@ export default function Rewards() {
                                       <div className="flex items-center justify-between">
                                         <span>Amount:</span>
                                         <span className="font-medium text-neutral-900 dark:text-white">
-                                          {reward.rewardAmount.toFixed(4)} AVAX
+                                          {reward.rewardAmount.toFixed(4)} FLOW
                                         </span>
                                       </div>
                                       <div className="flex items-center justify-between">
@@ -837,7 +837,7 @@ export default function Rewards() {
                                         </div>
                                       </td>
                                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900 dark:text-white">
-                                        {reward.rewardAmount.toFixed(4)} AVAX
+                                        {reward.rewardAmount.toFixed(4)} FLOW
                                       </td>
                                       <td className="px-6 py-4 whitespace-nowrap">
                                         <Badge variant="secondary">
@@ -938,8 +938,8 @@ export default function Rewards() {
                         <div className="p-4 md:p-8">
                           <div className="flex flex-wrap items-center text-2xl md:text-3xl font-bold">
                             <img
-                              src="https://build.avax.network/favicon.ico"
-                              alt="AVAX"
+                              src="https://build.FLOW.network/favicon.ico"
+                              alt="FLOW"
                               width={32}
                               height={32}
                               className="mr-2"
@@ -949,7 +949,7 @@ export default function Rewards() {
                                 parseFloat(totalPaidRewards.toFixed(4))}
                             </span>
                             <div className="text-lg md:text-xl text-neutral-400 dark:text-neutral-600 pl-2 my-auto">
-                              AVAX
+                              FLOW
                             </div>
                           </div>
                           <div className="text-lg text-neutral-600 dark:text-neutral-400"></div>
@@ -1055,8 +1055,8 @@ export default function Rewards() {
                                 className="flex flex-1 min-w-[80px] justify-center dark:hover:bg-neutral-800 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-neutral-100 bg-neutral-100 text-neutral-900"
                               >
                                 <img
-                                  src="https://build.avax.network/favicon.ico"
-                                  alt="AVAX"
+                                  src="https://build.FLOW.network/favicon.ico"
+                                  alt="FLOW"
                                   width={16}
                                   height={16}
                                   className="mr-1"
@@ -1068,8 +1068,8 @@ export default function Rewards() {
                                 className="flex flex-1 min-w-[80px] justify-center dark:hover:bg-neutral-800 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-neutral-100 bg-neutral-100 text-neutral-900"
                               >
                                 <img
-                                  src="https://build.avax.network/favicon.ico"
-                                  alt="AVAX"
+                                  src="https://build.FLOW.network/favicon.ico"
+                                  alt="FLOW"
                                   width={16}
                                   height={16}
                                   className="mr-1"
@@ -1081,8 +1081,8 @@ export default function Rewards() {
                                 className="flex flex-1 min-w-[80px] justify-center dark:hover:bg-neutral-800 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-neutral-100 bg-neutral-100 text-neutral-900"
                               >
                                 <img
-                                  src="https://build.avax.network/favicon.ico"
-                                  alt="AVAX"
+                                  src="https://build.FLOW.network/favicon.ico"
+                                  alt="FLOW"
                                   width={16}
                                   height={16}
                                   className="mr-1"

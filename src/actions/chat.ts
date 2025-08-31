@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { messages } from "@/db/schema";
+import { db } from "../db/index";
+import { messages } from "../db/schema";
 import { eq, and, or, desc, gt, lt } from "drizzle-orm";
 
 interface MessageData {
@@ -14,7 +14,7 @@ interface MessageData {
 export async function sendMessage({ from, text, timestamp, to }: MessageData) {
   try {
     const parsedTimestamp = new Date(timestamp);
-    await db.insert(messages).values({
+    await (db as any).insert(messages).values({
       sender_id: from,
       reciever_id: to,
       timestamp: parsedTimestamp,
@@ -59,7 +59,7 @@ export async function getMessages({
     }
 
     // Execute the query with pagination
-    const messagesData = await db
+    const messagesData = await (db as any)
       .select()
       .from(messages)
       .where(and(...whereConditions))

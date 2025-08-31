@@ -2,26 +2,26 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_vpc" "avalanche_vpc" {
+resource "aws_vpc" "Flow_vpc" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
-    Name = "avalanche-vpc"
+    Name = "Flow-vpc"
   }
 }
 
-resource "aws_subnet" "avalanche_subnet" {
-  vpc_id            = aws_vpc.avalanche_vpc.id
+resource "aws_subnet" "Flow_subnet" {
+  vpc_id            = aws_vpc.Flow_vpc.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
-    Name = "avalanche-subnet"
+    Name = "Flow-subnet"
   }
 }
 
-resource "aws_security_group" "avalanche_sg" {
-  vpc_id = aws_vpc.avalanche_vpc.id
+resource "aws_security_group" "Flow_sg" {
+  vpc_id = aws_vpc.Flow_vpc.id
 
   ingress {
     from_port   = 9650
@@ -45,17 +45,17 @@ resource "aws_security_group" "avalanche_sg" {
   }
 
   tags = {
-    Name = "avalanche-sg"
+    Name = "Flow-sg"
   }
 }
 
-resource "aws_instance" "avalanche_validator" {
+resource "aws_instance" "Flow_validator" {
   ami           = "ami-0c55b159cbfafe1f0" # Replace with a valid AMI ID
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.avalanche_subnet.id
-  security_groups = [aws_security_group.avalanche_sg.name]
+  subnet_id     = aws_subnet.Flow_subnet.id
+  security_groups = [aws_security_group.Flow_sg.name]
 
   tags = {
-    Name = "avalanche-validator"
+    Name = "Flow-validator"
   }
 }
