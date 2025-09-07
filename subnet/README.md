@@ -1,27 +1,27 @@
-# Next.js Flow Subnet Integration
+# Next.js AVAX Subnet Integration
 
-This project demonstrates how to create and manage an Flow subnet using a Next.js application. It provides a user-friendly interface for interacting with the Flow network, allowing users to create subnets and blockchains seamlessly.
+This project demonstrates how to create and manage an AVAX subnet using a Next.js application. It provides a user-friendly interface for interacting with the AVAX network, allowing users to create subnets and blockchains seamlessly.
 
 ## Project Structure
 
 The project is organized as follows:
 
 ```
-nextjs-Flow-subnet
+nextjs-AVAX-subnet
 ├── src
 │   ├── app
 │   │   ├── layout.tsx          # Layout component for the application
 │   │   ├── page.tsx            # Main entry point for the application
 │   │   └── api
-│   │       └── Flow
+│   │       └── AVAX
 │   │           ├── createSubnet.route.ts  # API route for creating a subnet
 │   │           └── createChain.route.ts   # API route for creating a blockchain
 │   ├── components
 │   │   ├── WalletConnect.tsx   # Component for wallet connection
 │   │   └── SubnetDashboard.tsx  # Component for displaying subnet information
 │   ├── lib
-│   │   ├── Flow
-│   │   │   ├── client.ts        # Flow client initialization
+│   │   ├── AVAX
+│   │   │   ├── client.ts        # AVAX client initialization
 │   │   │   └── txHelpers.ts     # Transaction helper functions
 │   │   └── hooks
 │   │       └── useWallet.ts     # Custom hook for wallet management
@@ -42,12 +42,12 @@ nextjs-Flow-subnet
 │   └── sign_tx.ts                # Script to sign transactions
 ├── infra
 │   ├── docker
-│   │   └── docker-compose.yml     # Docker configuration for Flow node
+│   │   └── docker-compose.yml     # Docker configuration for AVAX node
 │   └── terraform
 │       └── main.tf                # Terraform configuration for infrastructure
 ├── tools
 │   ├── go
-│   │   └── example_client.go      # Example client for Flow network
+│   │   └── example_client.go      # Example client for AVAX network
 │   └── README_SCRIPTS.md          # Documentation for available scripts
 ├── public
 ├── package.json                   # npm configuration file
@@ -62,14 +62,14 @@ nextjs-Flow-subnet
 
 - Node.js (version 14 or higher)
 - npm or yarn
-- Flow node (local or remote)
+- AVAX node (local or remote)
 
 ### Installation
 
 1. Clone the repository:
    ```
    git clone <repository-url>
-   cd nextjs-Flow-subnet
+   cd nextjs-AVAX-subnet
    ```
 
 2. Install dependencies:
@@ -87,7 +87,7 @@ The application will be available at `http://localhost:3000`.
 
 ### Creating a Subnet
 
-To create a new Flow subnet, navigate to the appropriate API route in your application. The backend will handle the subnet creation using the Flow SDK.
+To create a new AVAX subnet, navigate to the appropriate API route in your application. The backend will handle the subnet creation using the AVAX SDK.
 
 ### Creating a Blockchain
 
@@ -99,7 +99,7 @@ You can test the application by connecting your wallet and interacting with the 
 
 ## Resources
 
-- [Flow Documentation](https://docs.FLOW.network/)
+- [AVAX Documentation](https://docs.AVAX.network/)
 - [Next.js Documentation](https://nextjs.org/docs)
 
 ## Contributing

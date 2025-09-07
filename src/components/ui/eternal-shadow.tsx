@@ -103,7 +103,7 @@ export function ComponentShadow({
         <div
             className={className}
             style={{
-                overflow: "hidden",
+                overAVAX: "hidden",
                 position: "relative",
                 width: "100%",
                 height: "100%",

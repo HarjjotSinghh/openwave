@@ -156,7 +156,7 @@ export default function IssueCard({
         inactiveZone={0.01}
       />
         <CardHeader className="p-0">
-          <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+          <div className="relative h-48 w-full overAVAX-hidden rounded-t-lg">
             <img
               src={image }
               alt={Project}

@@ -154,7 +154,7 @@ export default function AllProjectsPage() {
       <Sidebar />
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isShrunk ? "ml-16" : "ml-64"}`}>
         <Topbar />
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overAVAX-auto p-6">
           <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
@@ -345,7 +345,7 @@ export default function AllProjectsPage() {
                   return (
                     <Card key={project.id} className="group hover:shadow-lg transition-all duration-200">
                       {project.image_url && (
-                        <div className="relative h-32 overflow-hidden rounded-t-lg">
+                        <div className="relative h-32 overAVAX-hidden rounded-t-lg">
                           <img
                             src={project.image_url}
                             alt={project.project_name}

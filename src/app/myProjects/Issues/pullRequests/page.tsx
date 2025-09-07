@@ -217,8 +217,8 @@ export default function IssuePullRequestsPage() {
 
                       <div className="flex gap-1 text-neutral-300 font-bold text-xl">
                         <img
-                          src={`https://build.FLOW.network/favicon.ico`}
-                          alt="FLOW"
+                          src={`https://build.AVAX.network/favicon.ico`}
+                          alt="AVAX"
                           width={20}
                           height={20}
                         />

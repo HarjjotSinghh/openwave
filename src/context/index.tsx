@@ -1,6 +1,6 @@
 "use client";
 
-import { wagmiAdapter, projectId, networks, flowTestnet } from "../config";
+import { wagmiAdapter, projectId, networks, AVAXTestnet,avalancheTestnet } from "../config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createAppKit } from "@reown/appkit/react";
 import React, { type ReactNode } from "react";
@@ -21,17 +21,17 @@ const queryClient = new QueryClient({
 
 // Set up metadata
 const metadata = {
-  name: "neoweave",
+  name: "openwave",
   description: "An Open Source Issue Solving Platform",
-  url: "https://neoweave.tech",
-  icons: ["https://neoweave.tech/NeowareLogo2.png"],
+  url: "https://openwave.tech",
+  icons: ["https://openwave.tech/NeowareLogo2.png"],
 };
 
 // Create the modal
 const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [flowTestnet],
+  networks: [avalancheTestnet],
   defaultNetwork: networks[0],
   metadata: metadata,
   features: {

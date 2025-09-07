@@ -177,8 +177,8 @@
 
 .no-visible-scrollbar {
     scrollbar-width: none;
-    -ms-overflow-style: none;
-    -webkit-overflow-scrolling: touch;
+    -ms-overAVAX-style: none;
+    -webkit-overAVAX-scrolling: touch;
 }
 
 .no-visible-scrollbar::-webkit-scrollbar {
@@ -223,7 +223,7 @@
     }
     
     .body2 {
-        overflow-y: auto;
+        overAVAX-y: auto;
         height: 100vh;
     }
 

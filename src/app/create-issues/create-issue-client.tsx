@@ -627,7 +627,7 @@ export default function CreateIssueClient({ session, managedProjects,userProfile
                                 htmlFor="rewardAmount"
                                 className="text-sm font-medium"
                               >
-                                Reward Amount (PHAROS) *
+                                Reward Amount (AVAX) *
                               </Label>
                               <Input
                                 id="rewardAmount"

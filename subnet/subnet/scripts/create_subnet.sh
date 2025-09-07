@@ -19,9 +19,9 @@ cat <<EOF > subnet/config/subnet-config.json
 }
 EOF
 
-# Create the subnet using the Flow CLI
+# Create the subnet using the AVAX CLI
 echo "Creating subnet..."
-Flow-cli create-subnet --config subnet/config/subnet-config.json
+AVAX-cli create-subnet --config subnet/config/subnet-config.json
 
 # Check if the subnet was created successfully
 if [ $? -eq 0 ]; then

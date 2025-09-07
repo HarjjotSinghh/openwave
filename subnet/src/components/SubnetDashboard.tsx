@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getSubnetInfo } from '../lib/Flow/client'; // Assuming this function fetches subnet info
+import { getSubnetInfo } from '../lib/AVAX/client'; // Assuming this function fetches subnet info
 
 const SubnetDashboard = () => {
     const [subnetInfo, setSubnetInfo] = useState(null);

@@ -214,7 +214,7 @@ export default function Page() {
                     </svg>
                   </div>
                 )}
-                <div className="flex-1 overflow-hidden">
+                <div className="flex-1 overAVAX-hidden">
                   <div className="font-medium truncate">{preview.title}</div>
                   <div className="text-xs text-muted-foreground">{preview.description}</div>
                 </div>
@@ -233,7 +233,7 @@ export default function Page() {
     ),
     hr: ({ ...props }: any) => <hr className="border-t border-primary/20 my-3" {...props} />,
     table: ({ ...props }: any) => (
-      <div className="overflow-x-auto my-2">
+      <div className="overAVAX-x-auto my-2">
         <table className="border-collapse table-auto w-full text-sm" {...props} />
       </div>
     ),
@@ -250,7 +250,7 @@ export default function Page() {
       }
 
       return (
-        <pre className="bg-secondary/30 p-3 rounded-md overflow-x-auto text-sm font-mono" {...props}>
+        <pre className="bg-secondary/30 p-3 rounded-md overAVAX-x-auto text-sm font-mono" {...props}>
           {children}
         </pre>
       )
@@ -345,8 +345,8 @@ export default function Page() {
                   </p>
                 </CardHeader>
 
-                <CardContent className="flex-1 p-2 sm:p-4 overflow-hidden">
-                  <div className="space-y-3 sm:space-y-4 mb-4 h-full overflow-y-auto pr-1 sm:pr-2">
+                <CardContent className="flex-1 p-2 sm:p-4 overAVAX-hidden">
+                  <div className="space-y-3 sm:space-y-4 mb-4 h-full overAVAX-y-auto pr-1 sm:pr-2">
                     {messages.length === 0 ? (
                       <div className="text-center p-4 sm:p-8 text-muted-foreground flex flex-col items-center gap-4">
                         <svg
@@ -368,7 +368,7 @@ export default function Page() {
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm max-w-md w-full">
                           <div className="bg-secondary/50 p-2 rounded-md">"How do I rebase my branch?"</div>
-                          <div className="bg-secondary/50 p-2 rounded-md">"Explain the git workflow"</div>
+                          <div className="bg-secondary/50 p-2 rounded-md">"Explain the git workAVAX"</div>
                           <div className="bg-secondary/50 p-2 rounded-md">"How to undo a commit?"</div>
                           <div className="bg-secondary/50 p-2 rounded-md">
                             "What's the difference between merge and rebase?"

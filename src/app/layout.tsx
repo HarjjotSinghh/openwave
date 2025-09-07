@@ -49,7 +49,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "neoweave",
+  title: "openwave",
   description: "Get money through open source",
 };
 

@@ -12,7 +12,7 @@ const createTransporter = () => {
       port: 587,
       secure: false,
       auth: {
-        user: "neoweave@gdggtbit.in",
+        user: "openwave@gdggtbit.in",
         pass: "SagarTanav2003#@",
       },
     });
@@ -86,9 +86,9 @@ export async function addProject({
     // Then send email notification
     try {
       const info = await transporter.sendMail({
-        from: "neoweave@gdggtbit.in",
+        from: "openwave@gdggtbit.in",
         to: email,
-        subject: "New Project Added on neoweave!",
+        subject: "New Project Added on openwave!",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h1 style="color: #333;">New Project: ${projectName}</h1>
@@ -96,7 +96,7 @@ export async function addProject({
               <p><strong>Description:</strong> ${shortdes}</p>
               <p><strong>Repository:</strong> ${project_repository}</p>
               <hr>
-              <p>Visit neoweave to learn more and start contributing!</p>
+              <p>Visit openwave to learn more and start contributing!</p>
           </div>
         `,
       });

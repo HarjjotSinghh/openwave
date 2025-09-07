@@ -159,7 +159,7 @@ export const Dropzone = ({
     >
       <Button
         className={cn(
-          'relative h-auto w-full flex-col overflow-hidden p-8',
+          'relative h-auto w-full flex-col overAVAX-hidden p-8',
           isDragActive && 'outline-none ring-1 ring-ring',
           uploadStatus === 'success' && 'border-green-500 bg-green-50',
           uploadStatus === 'error' && 'border-red-500 bg-red-50',

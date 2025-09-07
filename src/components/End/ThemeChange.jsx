@@ -126,7 +126,7 @@ const InfiniteScroller = () => {
   };
 
   return (
-    <div className="absolute z-20 top-[60vh] left-0 w-full overflow-hidden">
+    <div className="absolute z-20 top-[60vh] left-0 w-full overAVAX-hidden">
       <ul
         ref={scrollerRef}
         onMouseEnter={handleMouseEnter}
@@ -140,7 +140,7 @@ const InfiniteScroller = () => {
               key={i}
               className="md:text-[6vw] text-[15vw] font-semibold flex items-center justify-center gap-5"
             >
-              <p>neoweave is Built Different</p>
+              <p>openwave is Built Different</p>
               <PurpleSphere width="120px" height="110px" />
             </li>
           ))}
@@ -174,7 +174,7 @@ const ThemeChange = () => {
   };
 
   return (
-    <div className="bg-[#fffafa] w-full min-h-[169vh] overflow-x-hidden z-10 overflow-y-visible relative">
+    <div className="bg-[#fffafa] w-full min-h-[169vh] overAVAX-x-hidden z-10 overAVAX-y-visible relative">
       <div
         ref={(el) => (ballRefs.current[0] = el)}
         className={

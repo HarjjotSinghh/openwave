@@ -8,7 +8,7 @@ import Image from "next/image";
 import ShootingStarBorder from "../../components/border";
 import { Icon } from "@iconify/react";
 import { useAccount } from "wagmi";
-import { SignInPage } from "../../components/sign-in-flow-1";
+import { SignInPage } from "../../components/sign-in-AVAX-1";
 import { InfiniteMovingCards } from "../../components/ui/infinite-moving-cards";
 import { ThemeProvider } from "../../components/End/ThemeChangeContext";
 import { useRouter } from "next/navigation";
@@ -81,8 +81,8 @@ export default function Login() {
   const testimonials = [
     {
       key: "1",
-      repoName: "neoweaveWeb",
-      repoTitle: "neoweave Web Platform",
+      repoName: "openwaveWeb",
+      repoTitle: "openwave Web Platform",
       personName: "Alice Johnson",
       date: "2025-07-01",
       tags: ["security", "backend", "performance"],

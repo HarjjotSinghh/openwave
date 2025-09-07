@@ -133,7 +133,7 @@ export default function Topbar() {
   }, [router]);
 
   const handleSupportClick = useCallback(() => {
-    router.push("https://docs.neoweave.tech");
+    router.push("https://docs.openwave.tech");
     setVisible(false);
   }, [router]);
 
@@ -341,7 +341,7 @@ export default function Topbar() {
                           <div className="text-[14px] flex px-4 mt-1">
                             Balance:
                             <span>
-                              <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVCFLOW--600.png" className="w-5 h-5 rounded-full" />
+                              <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVCAVAX--600.png" className="w-5 h-5 rounded-full" />
                             </span>
                             {formattedBalance}
                           </div>
@@ -407,7 +407,7 @@ export default function Topbar() {
                 <div className="flex gap-1">
                   <img
                     src="/NeowareLogo2.png"
-                    alt="neoweave logo"
+                    alt="openwave logo"
                     width={24}
                     height={24}
                   />
@@ -415,7 +415,7 @@ export default function Topbar() {
                     style={{ fontFamily: "var(--font-cypher)" }}
                     className="text-xl"
                   >
-                    neoweave
+                    openwave
                   </span>
                 </div>
 
@@ -560,7 +560,7 @@ export default function Topbar() {
                             </div>
                           </Link>
 
-                          <Link href="/neoweaveChat">
+                          <Link href="/openwaveChat">
                             <div className="rounded-lg text-sm focus:bg-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#27272a] pl-1 pr-4 py-2 flex">
                               <div className="flex gap-1">
                                 <Icon
@@ -568,7 +568,7 @@ export default function Topbar() {
                                   width="24"
                                   height="24"
                                 />
-                                neoweave Chat
+                                openwave Chat
                               </div>
                             </div>
                           </Link>

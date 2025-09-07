@@ -191,7 +191,7 @@ export default function SearchModal() {
         </div>
 
         {/* Results Area */}
-        <div className="flex-grow overflow-y-auto  scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-700">
+        <div className="flex-grow overAVAX-y-auto  scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-700">
           
           
           {!isLoading && filteredRepos.length === 0 && searchTerm.trim() !== "" && (

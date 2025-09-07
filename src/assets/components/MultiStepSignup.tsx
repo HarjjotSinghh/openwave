@@ -442,7 +442,7 @@ export default function MultiStepSignup() {
               <div className="flex gap-1">
                 <img
                   src="/NeowareLogo2.png"
-                  alt="neoweave Logo"
+                  alt="openwave Logo"
                   width="24"
                   height="24"
                 />
@@ -450,7 +450,7 @@ export default function MultiStepSignup() {
                   className={`my-auto text-xl`}
                   style={{ fontFamily: "var(--font-cypher)" }}
                 >
-                  neoweave
+                  openwave
                 </h2>
               </div>
             </div>
@@ -518,8 +518,8 @@ export default function MultiStepSignup() {
             className="h-2 -mt-4 bg-neutral-200/50 dark:bg-neutral-700/50"
           />
           <div className="flex min-h-screen items-center justify-center ">
-            <div className="overflow-y-auto max-w-5xl custom-scrollbar w-full bg-neutral-50 dark:bg-neutral-900  backdrop-blur-sm ">
-              <div className="relative overflow-hidden">
+            <div className="overAVAX-y-auto max-w-5xl custom-scrollbar w-full bg-neutral-50 dark:bg-neutral-900  backdrop-blur-sm ">
+              <div className="relative overAVAX-hidden">
                 <div className="relative z-10">{/* Step Indicators */}</div>
               </div>
               <div className="p-8">
@@ -537,19 +537,19 @@ export default function MultiStepSignup() {
                           </h3>
                           <p className="text-neutral-500 text-sm max-w-60 mx-auto dark:text-neutral-400">
                             Please review and accept our terms to continue with
-                            your neoweave journey
+                            your openwave journey
                           </p>
                         </div>
                       </div>
-                      <div className="bg-neutral-100/50 rounded-xl p-6 border border-neutral-300/30 max-h-80 overflow-y-auto custom-scrollbar dark:bg-gradient-to-br dark:from-neutral-800/50 dark:to-neutral-800/50 dark:border-neutral-700/30">
+                      <div className="bg-neutral-100/50 rounded-xl p-6 border border-neutral-300/30 max-h-80 overAVAX-y-auto custom-scrollbar dark:bg-gradient-to-br dark:from-neutral-800/50 dark:to-neutral-800/50 dark:border-neutral-700/30">
                         <div className="text-sm text-neutral-700 space-y-6 dark:text-neutral-300">
                           <div>
                             <h4 className="font-bold text-neutral-900 text-lg mb-3 flex items-center gap-2 dark:text-white">
                               <div className="w-2 h-2 bg-neutral-700 rounded-full dark:bg-neutral-300" />
-                              neoweave Platform Agreement
+                              openwave Platform Agreement
                             </h4>
                             <p className="leading-relaxed">
-                              By joining neoweave, you agree to contribute to
+                              By joining openwave, you agree to contribute to
                               open-source projects and earn rewards based on
                               your contributions. This platform connects
                               developers with meaningful projects and provides
@@ -597,7 +597,7 @@ export default function MultiStepSignup() {
                             <p className="leading-relaxed">
                               By connecting your MetaMask wallet, you authorize
                               secure transactions for receiving rewards and
-                              participating in the neoweave ecosystem.
+                              participating in the openwave ecosystem.
                             </p>
                           </div>
                         </div>

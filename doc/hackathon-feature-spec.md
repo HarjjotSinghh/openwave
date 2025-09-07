@@ -154,4 +154,4 @@ interface IHackathonSplit {
 4. **Testing Strategy**
    - Unit tests for smart contracts
    - API integration tests
-   - E2E tests for critical flows
+   - E2E tests for critical AVAXs

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "chain": {
-    "name": "Flow Subnet",
+    "name": "AVAX Subnet",
     "id": 1,
     "vm": "SubnetEVM",
     "genesis": {

@@ -78,7 +78,7 @@ export const EarningScroll = ({
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 max-h-[300px] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,white_20%,white_80%,transparent)]",
+        "scroller relative z-20 max-h-[300px] overAVAX-hidden [mask-image:linear-gradient(to_bottom,transparent,white_20%,white_80%,transparent)]",
         className
       )}
     >
@@ -95,7 +95,7 @@ export const EarningScroll = ({
             className="flex items-center justify-between mb-4 p-2 rounded-lg hover:bg-neutral-100/50 dark:hover:bg-neutral-800/50 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-purple-500">
+              <div className="relative w-10 h-10 rounded-full overAVAX-hidden bg-gradient-to-br from-blue-400 to-purple-500">
                 <img
                   alt={item.personName}
                   loading="lazy"
@@ -117,7 +117,7 @@ export const EarningScroll = ({
               <span className="text-sm font-medium text-neutral-800 dark:text-neutral-100">
                 {item.amount}{" "}
                 <span className="text-neutral-500 dark:text-neutral-400">
-                  FLOW
+                  AVAX
                 </span>
               </span>
             </div>

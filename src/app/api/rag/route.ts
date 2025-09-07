@@ -158,7 +158,7 @@ export async function POST(req: Request) {
         .join("\n---\n") ?? "";
 
     // 4. Create the system prompt with the retrieved context.
-    const systemPrompt = `You are an expert assistant for neoweave, a platform connecting open-source projects with contributors.
+    const systemPrompt = `You are an expert assistant for openwave, a platform connecting open-source projects with contributors.
 Your task is to answer user questions based ONLY on the context provided below.
 
 CONTEXT:

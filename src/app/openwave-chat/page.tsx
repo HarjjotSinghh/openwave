@@ -445,7 +445,7 @@ console.log("selectedUser:", selectedUser)
   );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+    <div className="flex h-screen overAVAX-hidden bg-neutral-100 dark:bg-neutral-900">
       <Sidebar />
       <div
         className={cn(
@@ -477,7 +477,7 @@ console.log("selectedUser:", selectedUser)
   </div>
 )}
 
-        <main className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 flex flex-col overAVAX-hidden">
           {/* Connection Status Bar */}
           {connectionStatus !== "connected" && (
             <div className="bg-yellow-100 dark:bg-yellow-900 border-b border-yellow-200 dark:border-yellow-800 px-2 sm:px-4 py-2">
@@ -518,7 +518,7 @@ console.log("selectedUser:", selectedUser)
           )}
 
           {/* Main Chat Content */}
-          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 flex flex-col overAVAX-hidden">
             {!selectedUser ? (
               <div className="flex flex-col items-center justify-center flex-1 px-4">
                 <div
@@ -530,7 +530,7 @@ console.log("selectedUser:", selectedUser)
                 >
                   <img
                     src="/NeowareLogo2.png" // Replace with your actual fallback image path
-                    alt="neoweave"
+                    alt="openwave"
                     width={isMobile ? 100 : 100}
                     height={isMobile ? 100 : 100}
                   />
@@ -539,7 +539,7 @@ console.log("selectedUser:", selectedUser)
                   className={`dark:text-white text-black text-2xl text-center max-md:text-xl max-sm:text-lg`}
                   style={{ fontFamily: "var(--font-cypher)" }}
                 >
-                  neoweave chat
+                  openwave chat
                 </h1>
 
                 <p className="text-sm xs:text-base lg:text-sm text-neutral-600 dark:text-neutral-400 text-center px-2">
@@ -554,7 +554,7 @@ console.log("selectedUser:", selectedUser)
                 )}
               </div>
             ) : (
-              <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="flex-1 flex flex-col overAVAX-hidden">
                 {/* Chat header */}
                 <div className="flex-shrink-0 p-2 xs:p-3 sm:p-4 border-b border-neutral-200 dark:border-neutral-900 bg-white dark:bg-neutral-950">
                   <div className="flex items-center gap-2 xs:gap-3">
@@ -591,7 +591,7 @@ console.log("selectedUser:", selectedUser)
                 {/* Messages Container - Scrollable */}
                 <div
                   ref={messagesContainerRef}
-                  className="flex-1 overflow-y-auto bg-neutral-50 dark:bg-neutral-900"
+                  className="flex-1 overAVAX-y-auto bg-neutral-50 dark:bg-neutral-900"
                 >
                   <div className="p-2 xs:p-3 sm:p-4 space-y-2 xs:space-y-3 sm:space-y-4 min-h-full">
                     {/* Load More Messages Button/Loader */}

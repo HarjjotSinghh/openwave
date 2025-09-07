@@ -324,7 +324,7 @@ export default function ContributorApplicationForm({repo}:ContributorApplication
       />
       
       {/* Modal content */}
-      <div className="relative dark:bg-neutral-900 bg-white rounded-lg shadow-xl w-full max-w-[90vw] max-h-[90vh] overflow-y-auto">
+      <div className="relative dark:bg-neutral-900 bg-white rounded-lg shadow-xl w-full max-w-[90vw] max-h-[90vh] overAVAX-y-auto">
         <div className="p-6 pb-4">
           <div className="flex items-start justify-between gap-4">
             {/* Logo and Title */}

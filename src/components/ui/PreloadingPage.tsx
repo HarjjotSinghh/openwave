@@ -166,7 +166,7 @@ interface ParticleTextEffectProps {
   words?: string[];
 }
 
-const DEFAULT_WORDS = ["HELLO", "WELCOME TO", "neoweave"];
+const DEFAULT_WORDS = ["HELLO", "WELCOME TO", "openwave"];
 
 export function ParticleTextEffect({
   words = DEFAULT_WORDS,

@@ -113,10 +113,10 @@ const testimonials2 = [
   {
     key: "14",
     repoName: "LangChainify",
-    repoTitle: "LLM Workflow Orchestrator",
+    repoTitle: "LLM WorkAVAX Orchestrator",
     personName: "Sophia Lee",
     date: "2025-07-29",
-    tags: ["llm", "ai", "workflow"],
+    tags: ["llm", "ai", "workAVAX"],
   },
   {
     key: "15",
@@ -286,7 +286,7 @@ export default function Home({session,repoData}:upocommingData) {
  
 
   const Icons = {
-    neoweave: () => (
+    openwave: () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         version="1.1"
@@ -305,7 +305,7 @@ export default function Home({session,repoData}:upocommingData) {
         />
       </svg>
     ),
-    FLOW: () => (
+    AVAX: () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100"
@@ -572,7 +572,7 @@ export default function Home({session,repoData}:upocommingData) {
                       Hey {session?.user?.username}, ready to make an impact?
                     </div>
                     <div className="text-white py-2">
-                      Start contributing. Start earning. Let neoweave recommend
+                      Start contributing. Start earning. Let openwave recommend
                       your next challenge.
                     </div>
                     <div className="text-neutral-200">
@@ -585,7 +585,7 @@ export default function Home({session,repoData}:upocommingData) {
 
                 <div className="z-10 grid grid-cols-1 lg:grid-cols-2 sm:flex-row  py-4 gap-4 sm:gap-5">
                   <Link href="/Browse">
-                    <Card className="z-10  relative overflow-hidden">
+                    <Card className="z-10  relative overAVAX-hidden">
                       <CardHeader>
                         <CardTitle>
                           <h3 className="text-[14px] flex">
@@ -622,7 +622,7 @@ export default function Home({session,repoData}:upocommingData) {
                     </Card>
                   </Link>
                   <Link href="/GitBot">
-                    <Card className="z-10  relative  overflow-hidden">
+                    <Card className="z-10  relative  overAVAX-hidden">
                       <CardHeader>
                         <CardTitle>
                           <h3 className="text-[14px] flex">
@@ -805,7 +805,7 @@ export default function Home({session,repoData}:upocommingData) {
                               Get Paid for Your Work
                             </div>
                             <div className="text-[12px] text-neutral-400">
-                              in FLOW
+                              in AVAX
                             </div>
                           </div>
                         </div>

@@ -66,7 +66,7 @@ const PreloadingElem = () => {
       <div ref={waterWaveRef}>
         <WaterWaveText
           key={0}
-          text={"neoweave"}
+          text={"openwave"}
           waveCount={10}
           maxAmplitude={10}
           fillDuration={10}

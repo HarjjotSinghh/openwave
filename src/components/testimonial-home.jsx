@@ -6,35 +6,35 @@ const testimonials = [
   {
     company: "OpenDev Collective",
     quote:
-      "neoweave has completely changed how I contribute to open source. Now, my efforts are recognized and rewarded without any extra overhead.",
+      "openwave has completely changed how I contribute to open source. Now, my efforts are recognized and rewarded without any extra overhead.",
     author: "Aarav Mehta",
     role: "Full Stack Developer - OpenDev Collective",
   },
   {
     company: "ChainCrafters",
     quote:
-      "Managing bounties and tracking contributions used to be a pain. neoweave streamlined everything for us and helped grow our contributor base.",
+      "Managing bounties and tracking contributions used to be a pain. openwave streamlined everything for us and helped grow our contributor base.",
     author: "Priya Nair",
     role: "Lead Maintainer - ChainCrafters",
   },
   {
     company: "HackLabs",
     quote:
-      "Thanks to neoweave, I picked up a bug fix issue, submitted a PR, and got paid in crypto—all within a weekend. It’s the dream for student developers.",
+      "Thanks to openwave, I picked up a bug fix issue, submitted a PR, and got paid in crypto—all within a weekend. It’s the dream for student developers.",
     author: "Jessica L.",
     role: "Student Developer - HackLabs",
   },
   {
-    company: "neoweave",
+    company: "openwave",
     quote:
-      "neoweave adds a layer of incentive that motivates real contributions. It's helping open source become more sustainable, one bounty at a time.",
+      "openwave adds a layer of incentive that motivates real contributions. It's helping open source become more sustainable, one bounty at a time.",
     author: "Rahul Sinha",
-    role: "Developer Advocate - neoweave",
+    role: "Developer Advocate - openwave",
   },
   {
     company: "ZeroDAO",
     quote:
-      "We’ve funded dozens of meaningful PRs through neoweave. It’s eliminated the noise and given us a trusted way to reward valuable work.",
+      "We’ve funded dozens of meaningful PRs through openwave. It’s eliminated the noise and given us a trusted way to reward valuable work.",
     author: "Lucas M.",
     role: "Founder - ZeroDAO",
   },
@@ -79,7 +79,7 @@ export default function TestimonialCarousel() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className=" text-white rounded-[40px] p-4 md:p-16 relative overflow-hidden min-h-[400px] flex flex-col justify-between">
+      <div className=" text-white rounded-[40px] p-4 md:p-16 relative overAVAX-hidden min-h-[400px] flex flex-col justify-between">
         {/* Decorative top quote icon */}
         <svg
           className="hidden lg:absolute top-8 left-8 w-8 h-8 text-neutral-700"

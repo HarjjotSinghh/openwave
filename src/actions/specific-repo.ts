@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "neoweave@gdggtbit.in",
+    user: "openwave@gdggtbit.in",
     pass: process.env.EMAIL_PASSWORD,
   },
 });
@@ -51,7 +51,7 @@ export async function createSpecificRepo(projectData: ProjectData) {
     if (projectData.email) {
       try {
         await transporter.sendMail({
-          from: '"Neoweave" <neoweave@gdggtbit.in>',
+          from: '"openwave" <openwave@gdggtbit.in>',
           to: projectData.email,
           subject: "Project Added Successfully",
           text: `Your project ${projectData.projectName} has been added successfully.`,

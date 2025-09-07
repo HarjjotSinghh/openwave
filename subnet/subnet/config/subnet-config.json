@@ -1,7 +1,7 @@
 {
   "vm": "SubnetEVM",
   "subnetId": 1,
-  "tokenSymbol": "FLOW",
+  "tokenSymbol": "AVAX",
   "gasFee": {
     "lowDiskUse": true,
     "lowThroughput": true

@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  neoweave-app:
+  openwave-app:
     build:
       context: .
       dockerfile: Dockerfile

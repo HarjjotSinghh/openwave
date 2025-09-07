@@ -1,7 +1,7 @@
 {
-  "name": "nextjs-Flow-subnet",
+  "name": "nextjs-AVAX-subnet",
   "version": "1.0.0",
-  "description": "A Next.js application for creating and managing Flow subnets and blockchains.",
+  "description": "A Next.js application for creating and managing AVAX subnets and blockchains.",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -11,8 +11,8 @@
     "sign:tx": "ts-node scripts/sign_tx.ts"
   },
   "dependencies": {
-    "@avalabs/Flowjs": "^5.0.0",
-    "Flow": "^3.16.0",
+    "@avalabs/AVAXjs": "^5.0.0",
+    "AVAX": "^3.16.0",
     "axios": "^0.21.1",
     "next": "15.0.0",
     "react": "^19.1.1",

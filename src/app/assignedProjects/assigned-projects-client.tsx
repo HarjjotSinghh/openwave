@@ -345,15 +345,15 @@ export default function AssignedProjectsClient({
                           0
                         )
                         .toFixed(7)}{" "}
-                      <span className="text-sm lg:text-base">FLOW</span>
+                      <span className="text-sm lg:text-base">AVAX</span>
                     </p>
                   </div>
                   <div className="h-8 w-8 bg-white rounded-full flex items-center justify-center ">
                     <img
-                      src="https://build.FLOW.network/favicon.ico"
+                      src="https://build.AVAX.network/favicon.ico"
                       width={16}
                       height={16}
-                      alt="FLOW Icon"
+                      alt="AVAX Icon"
                       className="h-4 w-4"
                     />
                   </div>
@@ -611,10 +611,10 @@ export default function AssignedProjectsClient({
                           {/* Reward Amount */}
                           <div className="flex items-center gap-2 p-3 bg-neutral-50 dark:bg-neutral-950 rounded-lg">
                             <img
-                              src="https://build.FLOW.network/favicon.ico"
+                              src="https://build.AVAX.network/favicon.ico"
                               width={24}
                               height={24}
-                              alt="FLOW Icon"
+                              alt="AVAX Icon"
                               className="h-5 w-5 lg:h-6 lg:w-6"
                             />
                             <div className="min-w-0 flex-1">
@@ -622,7 +622,7 @@ export default function AssignedProjectsClient({
                                 Reward
                               </p>
                               <p className="text-sm lg:text-lg font-bold text-neutral-900 dark:text-neutral-100 truncate">
-                                {issue.issues.rewardAmount} FLOW
+                                {issue.issues.rewardAmount} AVAX
                               </p>
                             </div>
                           </div>

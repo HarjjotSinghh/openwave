@@ -135,14 +135,14 @@ const Footer = () => {
       { name: "Issues", href: "/Create-issues" },
     ],
     Resources: [
-      { name: "Docs", href: "https://docs.neoweave.tech" },
+      { name: "Docs", href: "https://docs.openwave.tech" },
       { name: "FAQs", href: "/faq" },
       { name: "Pricing", href: "/#pricing" },
     ],
     Company: [
-      { name: "About Us", href: "https://docs.neoweave.tech/about" },
+      { name: "About Us", href: "https://docs.openwave.tech/about" },
       { name: "LinkedIn", href: "https://www.linkedin.com/company/quarlatis" },
-      { name: "Twitter", href: "x.com/neoweave" },
+      { name: "Twitter", href: "x.com/openwave" },
     ],
     Developers: [
       { name: "Developer GitHubs", href: "#" },
@@ -169,7 +169,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="md:min-h-[73vh] min-h-[60vh] bg-[#fffafa] w-full relative select-none overflow-hidden z-20">
+    <div className="md:min-h-[73vh] min-h-[60vh] bg-[#fffafa] w-full relative select-none overAVAX-hidden z-20">
       <div className="w-full h-full">
         <div className="w-[90vw] md:h-[0.15vh] h-[0.2vh] bg-[#09090b] absolute top-[0.4px] left-[4.7vw]"></div>
       </div>
@@ -199,12 +199,12 @@ const Footer = () => {
             </div> */}
 
       {/* <div className='z-10 absolute md:bottom-[16vh] bottom-[3vh] leading-0 w-full'>
-                <h1 style={{ fontFamily: 'var(--font-cypher)' }} className='text-black text-[18vw] z-50 font-bold text-center w-full scale-y-150'>neoweave</h1>
+                <h1 style={{ fontFamily: 'var(--font-cypher)' }} className='text-black text-[18vw] z-50 font-bold text-center w-full scale-y-150'>openwave</h1>
             </div> */}
 
       <div className="absolute z-10 md:-bottom-[3vh] bottom-[3vh] leading-none w-full flex justify-center">
         <AnimatedText
-          text="neoweave"
+          text="openwave"
           el="h1"
           className="text-[#000000] text-[18vw] z-50 font-bold text-center scale-y-150"
           style={{ fontFamily: "var(--font-cypher), sans-serif" }}

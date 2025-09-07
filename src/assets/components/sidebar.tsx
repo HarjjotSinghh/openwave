@@ -92,7 +92,7 @@ export default function Sidebar() {
         style={{ transitionProperty: "width, padding" }}
       >
         <div className="flex flex-col h-full justify-between">
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overAVAX-y-auto">
             <div className="mb-4">
               {isShrunk ? (
                 <>
@@ -184,13 +184,13 @@ export default function Sidebar() {
                         </Canvas>
                       </div>
                     </Suspense>
-                    <div className="my-auto overflow-hidden">
+                    <div className="my-auto overAVAX-hidden">
                       <h1
                         ref={textRef}
                         className={`dark:text-white text-black text-2xl text-center  `}
                         style={{ fontFamily: "var(--font-cypher)" }}
                       >
-                        neoweave
+                        openwave
                       </h1>
                     </div>
                   </div>
@@ -291,7 +291,7 @@ export default function Sidebar() {
                   </div>
                 </Link>
 
-                <Link href="/neoweave-chat">
+                <Link href="/openwave-chat">
                   <div className="rounded-lg text-sm data-[active=true]:bg-neutral-400 gap-1 my-auto hover:bg-neutral-100 dark:hover:bg-[#27272a] px-2 py-2 flex">
                     <div className="flex gap-1">
                       <Icon
@@ -300,7 +300,7 @@ export default function Sidebar() {
                         height="24"
                       />
                       <div className="my-auto">
-                        {!isShrunk && "neoweave Chat"}
+                        {!isShrunk && "openwave Chat"}
                       </div>
                     </div>
                   </div>

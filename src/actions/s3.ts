@@ -49,7 +49,7 @@ export async function getS3UploadUrl(fileName: string, fileType: string) {
 
     // Create the command to put the object in the bucket
     const putObjectCommand = new PutObjectCommand({
-      Bucket: 'neoweave',
+      Bucket: 'openwave',
       Key: key,
       ContentType: fileType,
     });
@@ -58,7 +58,7 @@ export async function getS3UploadUrl(fileName: string, fileType: string) {
     const uploadUrl = await getSignedUrl(s3Client, putObjectCommand, { expiresIn: 3600 });
 
     // Generate the URL for accessing the file after upload
-    const fileUrl = `https://s3.tebi.io/neoweave/${key}`;
+    const fileUrl = `https://s3.tebi.io/openwave/${key}`;
 
     return {
       success: true,
@@ -78,7 +78,7 @@ export async function getS3DownloadUrl(key: string) {
     }
 
     const command = new GetObjectCommand({
-      Bucket: 'neoweave',
+      Bucket: 'openwave',
       Key: key,
     });
 

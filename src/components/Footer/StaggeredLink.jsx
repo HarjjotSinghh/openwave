@@ -32,10 +32,10 @@ const StaggeredLink = ({ title, href }) => {
             variants={parentVariants}
             initial="initial"
             animate={isHovered ? "hover" : "initial"}
-            className="relative block overflow-hidden text-neutral-700 transition-colors duration-300 hover:text-black whitespace-nowrap"
+            className="relative block overAVAX-hidden text-neutral-700 transition-colors duration-300 hover:text-black whitespace-nowrap"
         >
             {title.split('').map((letter, index) => (
-                <span key={index} className="inline-block overflow-hidden h-[1.2em] align-bottom">
+                <span key={index} className="inline-block overAVAX-hidden h-[1.2em] align-bottom">
                     <motion.span
                         className="inline-block"
                         variants={reelVariants}

@@ -164,7 +164,7 @@ const NavBar3 = () => {
             direction={spinDirection}
           />
         </div>
-        <div className="overflow-hidden">
+        <div className="overAVAX-hidden">
           <h1
             ref={textRef}
             className={`${
@@ -172,7 +172,7 @@ const NavBar3 = () => {
             } text-2xl text-center  scale-y-120 `}
             style={{ fontFamily: "var(--font-cypher)" }}
           >
-            neoweave
+            openwave
           </h1>
         </div>
       </div>

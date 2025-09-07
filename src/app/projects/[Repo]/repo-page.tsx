@@ -664,7 +664,7 @@ export default function RepoPageClient({
                                   <div className="rounded-xl">
                                     <span className={`h-2.5 w-2.5 ${dotColor} rounded-full mr-1.5`}></span>
                                   </div>
-                                  <div className={`overflow-hidden text-sm rounded-full font-medium dark:text-white text-custom-neutral`}>
+                                  <div className={`overAVAX-hidden text-sm rounded-full font-medium dark:text-white text-custom-neutral`}>
                                     <span className={`${textColor} text-xl rounded-full mr-1.5`}>•</span>
                                     <span className="text-[14px]">{lang}</span>{" "}
                                     <span className="dark:text-custom-neutral text-[14px] text-custom-neutral">
@@ -716,7 +716,7 @@ export default function RepoPageClient({
                       </div>
                     </div>
                     <div
-                      className={`dark:text-neutral-300 text-neutral-600 pt-4 h-[${width}] overflow-hidden`}
+                      className={`dark:text-neutral-300 text-neutral-600 pt-4 h-[${width}] overAVAX-hidden`}
                     >
                       {repoData?.longdis}
                     </div>
@@ -724,7 +724,7 @@ export default function RepoPageClient({
                       <h3 className="text-lg font-semibold mb-2">
                         AI Generated Project Summary:
                       </h3>
-                      <div className="text-sm whitespace-pre-wrap max-w-full overflow-x-auto">
+                      <div className="text-sm whitespace-pre-wrap max-w-full overAVAX-x-auto">
                         <ReactMarkdown>
                           {isExpanded
                             ? repoData?.aiDescription || aiReply
@@ -994,7 +994,7 @@ export default function RepoPageClient({
                           </p>
                           <p className="text-sm">
                             Approval is based on your profile, experience, and
-                            form submission. neoweave doesn't have any say in
+                            form submission. openwave doesn't have any say in
                             the above.
                           </p>
                         </div>

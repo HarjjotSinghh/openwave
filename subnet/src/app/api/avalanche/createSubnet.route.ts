@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Flow } from 'Flow';
-import { createSubnetTx } from '../../../lib/Flow/txHelpers';
-import { getFlowClient } from '../../../lib/Flow/client';
+import { AVAX } from 'AVAX';
+import { createSubnetTx } from '../../../lib/AVAX/txHelpers';
+import { getAVAXClient } from '../../../lib/AVAX/client';
 
 export default async function createSubnet(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
@@ -15,9 +15,9 @@ export default async function createSubnet(req: NextApiRequest, res: NextApiResp
     }
 
     try {
-        const Flow = getFlowClient();
-        const tx = createSubnetTx(Flow, subnetId, tokenSymbol, vmType, gasFeeConfig);
-        const txID = await Flow.buildAndSend(tx);
+        const AVAX = getAVAXClient();
+        const tx = createSubnetTx(AVAX, subnetId, tokenSymbol, vmType, gasFeeConfig);
+        const txID = await AVAX.buildAndSend(tx);
 
         return res.status(200).json({ txID });
     } catch (error) {
